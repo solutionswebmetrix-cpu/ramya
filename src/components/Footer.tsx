@@ -1,0 +1,134 @@
+import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp } from 'lucide-react';
+import Logo, { RamMark } from './Logo';
+import { scrollToId } from '@/lib/smoothScroll';
+import { pickImage } from '../lib/assetImages';
+
+const LINKS = [
+  { label: 'Home', id: 'home' },
+  { label: 'About', id: 'about' },
+  { label: 'Collections', id: 'collections' },
+  { label: 'Gallery', id: 'gallery' },
+  { label: 'Customization', id: 'customization' },
+  { label: 'Why Us', id: 'why-us' },
+  { label: 'Testimonials', id: 'testimonials' },
+  { label: 'Contact', id: 'contact' },
+];
+
+const COLLECTION_LINKS = ['Marble Murtis', 'Marble Temples', 'Ram Darbar', 'Radha Krishna', 'Meenakari Decor', 'Onyx Handicrafts'];
+
+export default function Footer() {
+  return (
+    <footer className="relative overflow-hidden marble-veined border-t border-gold-500/30 pt-20">
+      <div className="absolute inset-0">
+        <img src={pickImage(['marble vases', 'marble murtis'])} alt="Marble texture background" className="h-full w-full object-cover opacity-10" loading="lazy" />
+      </div>
+      {/* golden top border glow */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
+      <div className="pointer-events-none absolute left-1/2 top-0 h-32 w-[60vw] -translate-x-1/2 rounded-full opacity-20 blur-3xl" style={{ background: 'radial-gradient(circle, rgba(212,144,47,0.4), transparent 70%)' }} />
+
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <Logo />
+            <p className="mt-5 max-w-xs font-serif-lux text-lg italic leading-relaxed text-marble-600">
+              "Astha Ko Dijiye Murti Ka Roop"
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-marble-500">
+              Handcrafting premium marble idols, temples and handicrafts with devotion since 1989.
+            </p>
+          </div>
+
+          {/* Quick links */}
+          <div>
+            <h4 className="font-serif-lux text-lg font-semibold text-marble-900">Quick Links</h4>
+            <ul className="mt-5 space-y-3">
+              {LINKS.map((l) => (
+                <li key={l.id}>
+                  <button onClick={() => scrollToId(l.id)} className="text-sm text-marble-600 transition-colors hover:text-gold-700">
+                    {l.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Collections */}
+          <div>
+            <h4 className="font-serif-lux text-lg font-semibold text-marble-900">Collections</h4>
+            <ul className="mt-5 space-y-3">
+              {COLLECTION_LINKS.map((c) => (
+                <li key={c}>
+                  <button onClick={() => scrollToId('collections')} className="text-sm text-marble-600 transition-colors hover:text-gold-700">
+                    {c}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="font-serif-lux text-lg font-semibold text-marble-900">Contact</h4>
+            <ul className="mt-5 space-y-4 text-sm text-marble-600">
+              <li className="flex items-center gap-3">
+                <Phone className="h-4 w-4 text-gold-600" />
+                <a href="tel:+919557463257" className="hover:text-gold-700">+91 95574 63257</a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="h-4 w-4 text-gold-600" />
+                <a href="tel:+917733041922" className="hover:text-gold-700">+91 77330 41922</a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="h-4 w-4 text-gold-600" />
+                <a href="mailto:contact@ramyamarblemurti.in" className="hover:text-gold-700">contact@ramyamarblemurti.in</a>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold-600" />
+                <span>Makrana Road, Rajasthan, India</span>
+              </li>
+            </ul>
+
+            {/* social */}
+            <div className="mt-6 flex gap-3">
+              {[Facebook, Instagram, Youtube].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-marble-300 text-marble-600 transition-all hover:border-gold-500 hover:bg-gold-500/10 hover:text-gold-700"
+                  aria-label="Social link"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Thank you banner */}
+        <div className="mt-16 flex flex-col items-center gap-4 rounded-3xl border border-gold-500/30 bg-gradient-to-b from-white/60 to-marble-100/40 px-6 py-10 text-center">
+          <RamMark className="h-12 w-12" />
+          <p className="font-serif-lux text-2xl font-semibold text-marble-900 md:text-3xl">
+            Thank You for Choosing Us <span className="gold-text">Since 1989</span>
+          </p>
+          <p className="max-w-md text-sm text-marble-600">
+            Your faith is the stone from which we carve. We are honoured to be part of your devotion.
+          </p>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-marble-200 py-8 md:flex-row">
+          <p className="text-xs text-marble-500">
+            © {new Date().getFullYear()} Ramya Marble Murti. All rights reserved.
+          </p>
+          <button
+            onClick={() => scrollToId('home')}
+            className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-marble-600 transition-colors hover:text-gold-700"
+          >
+            Back to Top <ArrowUp className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      </div>
+    </footer>
+  );
+}
