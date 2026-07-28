@@ -63,7 +63,7 @@ export default function About() {
             />
             <Reveal delay={0.2}>
               <p className="mt-6 text-base leading-relaxed text-marble-600 md:text-lg">
-                For over three decades, Ramya Marble Murti has been shaping raw stone into
+                For over three decades, Ramya Marble Murti & Handicraft has been shaping raw stone into
                 objects of devotion. What began as a humble workshop has grown into one of
                 India's most respected ateliers for marble idols, temples and handicrafts —
                 yet every piece is still finished by hand, the same way it was in 1989.

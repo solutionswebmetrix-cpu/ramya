@@ -78,7 +78,7 @@ function TempleBells() {
 }
 
 export default function Hero() {
-  const brandText = 'RAMYA MARBLE MURTI & HANDICRAFT';
+  const brandWords = ['RAMYA', 'MARBLE', 'MURTI'];
   
   const textLines = [
     'Since 1989',
@@ -87,33 +87,58 @@ export default function Hero() {
   ];
 
   const [displayedBrandText, setDisplayedBrandText] = useState('');
-  const [brandCharIndex, setBrandCharIndex] = useState(0);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
   const [displayedLines, setDisplayedLines] = useState<string[]>(() => textLines.map(() => ''));
   const [currentLine, setCurrentLine] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
   const [showButtons, setShowButtons] = useState(false);
+  const [showTagline, setShowTagline] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
 
-  // Brand Name - Infinite Loop Animation
+  // Brand Name - typing each word in sequence with timed pauses
   useEffect(() => {
-    const interval = window.setInterval(() => {
-      setBrandCharIndex((prev) => {
-        const nextIndex = prev + 1;
-        
-        // If reached end of text, go back to start (loop)
-        if (nextIndex > brandText.length) {
-          setDisplayedBrandText('');
-          return 0;
-        }
-        
-        setDisplayedBrandText(brandText.slice(0, nextIndex));
-        return nextIndex;
-      });
-    }, 100); // 100ms per character
+    if (wordIndex >= brandWords.length) {
+      return;
+    }
 
-    return () => window.clearInterval(interval);
-  }, []);
+    const word = brandWords[wordIndex];
+    const delay = charIndex < word.length ? 70 : 500;
 
-  // Other text animations
+    const timeout = window.setTimeout(() => {
+      if (charIndex < word.length) {
+        setCharIndex((prev) => prev + 1);
+      } else {
+        setWordIndex((prev) => prev + 1);
+        setCharIndex(0);
+      }
+    }, delay);
+
+    return () => window.clearTimeout(timeout);
+  }, [wordIndex, charIndex]);
+
+  useEffect(() => {
+    const words = brandWords.slice(0, wordIndex);
+    const current = brandWords[wordIndex] ? brandWords[wordIndex].slice(0, charIndex) : '';
+    const combined = [...words, current].filter(Boolean).join(' ');
+    setDisplayedBrandText(combined);
+  }, [wordIndex, charIndex]);
+
+  useEffect(() => {
+    if (wordIndex !== brandWords.length) {
+      return;
+    }
+
+    const taglineTimer = window.setTimeout(() => setShowTagline(true), 500);
+    const descriptionTimer = window.setTimeout(() => setShowDescription(true), 1100);
+    const buttonsTimer = window.setTimeout(() => setShowButtons(true), 1600);
+
+    return () => {
+      window.clearTimeout(taglineTimer);
+      window.clearTimeout(descriptionTimer);
+      window.clearTimeout(buttonsTimer);
+    };
+  }, [wordIndex]);
+
   useEffect(() => {
     if (currentLine >= textLines.length) {
       return;
@@ -121,7 +146,6 @@ export default function Hero() {
 
     const line = textLines[currentLine];
 
-    // Line 0: "Since 1989" - Instant appearance
     if (currentLine === 0) {
       const timeout = window.setTimeout(() => {
         setDisplayedLines((prev) => {
@@ -130,42 +154,36 @@ export default function Hero() {
           return next;
         });
         setCurrentLine(1);
-      }, 500); // Wait 500ms before showing
+      }, 500);
 
       return () => window.clearTimeout(timeout);
     }
 
-    // Line 1: Tagline "Astha Ko Dijiye Murti Ka Roop" - Instant appearance
-    if (currentLine === 1) {
-      const timeout = window.setTimeout(() => {
-        setDisplayedLines((prev) => {
-          const next = [...prev];
-          next[1] = line;
-          return next;
-        });
-        setCurrentLine(2);
-      }, 3000); // Wait 3 seconds after brand name typing starts
-
-      return () => window.clearTimeout(timeout);
+    if (currentLine === 1 && showTagline) {
+      setDisplayedLines((prev) => {
+        const next = [...prev];
+        next[1] = line;
+        return next;
+      });
+      setCurrentLine(2);
+      return undefined;
     }
 
-    // Line 2: Description - Instant appearance
-    if (currentLine === 2) {
+    if (currentLine === 2 && showDescription) {
       const timeout = window.setTimeout(() => {
         setDisplayedLines((prev) => {
           const next = [...prev];
           next[2] = line;
           return next;
         });
-        setShowButtons(true);
         setCurrentLine(3);
-      }, 500); // Wait 500ms after tagline
+      }, 0);
 
       return () => window.clearTimeout(timeout);
     }
 
     return undefined;
-  }, [currentLine, textLines]);
+  }, [currentLine, showTagline, showDescription, textLines]);
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden vignette">
@@ -237,7 +255,7 @@ export default function Hero() {
             {/* Tagline with dividers */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: displayedLines[1] ? 1 : 0, y: displayedLines[1] ? 0 : -10 }}
+              animate={{ opacity: showTagline ? 1 : 0, y: showTagline ? 0 : -10 }}
               transition={{ duration: 0.4, delay: 0.2 }}
               className="mt-8 flex flex-col items-center gap-3 text-center lg:flex-row lg:items-center lg:text-left w-full"
             >
@@ -251,7 +269,7 @@ export default function Hero() {
             {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: displayedLines[2] ? 1 : 0, y: displayedLines[2] ? 0 : -10 }}
+              animate={{ opacity: showDescription ? 1 : 0, y: showDescription ? 0 : -10 }}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-8 max-w-2xl text-sm leading-relaxed text-marble-300 md:text-base text-center lg:text-left"
             >

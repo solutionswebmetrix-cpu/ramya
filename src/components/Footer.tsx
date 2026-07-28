@@ -133,7 +133,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-marble-200 py-8 md:flex-row">
           <p className="text-xs text-marble-500">
-            © {new Date().getFullYear()} Ramya Marble Murti. All rights reserved.
+            © {new Date().getFullYear()} Ramya Marble Murti & Handicraft. All rights reserved.
           </p>
           <Link
             to="/"

@@ -110,7 +110,7 @@ export default function Contact() {
               <div className="overflow-hidden rounded-3xl border border-gold-500/20 shadow-soft">
                 <img src={pickImage(['marble temple', 'our heritage'])} alt="Workshop and showroom setting" className="h-56 w-full object-cover" loading="lazy" />
                 <iframe
-                  title="Ramya Marble Murti location"
+                  title="Ramya Marble Murti & Handicraft location"
                   src={MAP_EMBED_URL}
                   width="100%"
                   height="260"

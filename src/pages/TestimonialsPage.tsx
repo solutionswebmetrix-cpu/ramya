@@ -3,7 +3,7 @@ import { Reveal, SectionHeading } from '../components/ui/Reveal';
 
 const TESTIMONIALS = [
   { name: 'Rajesh Sharma', place: 'Jaipur, Rajasthan', text: 'The Ram Darbar murti we ordered exceeded every expectation. The detail in the faces, the glow of the marble — it feels divinely alive in our home temple.', rating: 5 },
-  { name: 'Anita Patel', place: 'London, UK', text: 'Shipping a marble temple internationally felt daunting, but Ramya Marble Murti crated it perfectly. It arrived flawless. Truly world-class craftsmanship.', rating: 5 },
+  { name: 'Anita Patel', place: 'London, UK', text: 'Shipping a marble temple internationally felt daunting, but Ramya Marble Murti & Handicraft crated it perfectly. It arrived flawless. Truly world-class craftsmanship.', rating: 5 },
   { name: 'Vikram Singh', place: 'Delhi', text: 'I commissioned a custom Hanuman Ji in life size. The team understood the devotion behind it and delivered something breathtaking.', rating: 5 },
   { name: 'Meera Iyer', place: 'Bengaluru', text: 'The meenakari work on our decorative plates is museum quality. Guests cannot believe they are handmade.', rating: 5 },
 ];
