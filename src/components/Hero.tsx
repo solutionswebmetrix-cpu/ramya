@@ -78,30 +78,50 @@ function TempleBells() {
 }
 
 export default function Hero() {
+  const brandText = 'RAMYA MARBLE MURTI & HANDICRAFT';
+  
   const textLines = [
     'Since 1989',
-    'RAMYA',
-    'MARBLE',
-    'MURTI',
     'Astha Ko Dijiye Murti Ka Roop',
     'Handcrafting premium marble idols, temples, onyx and meenakari masterpieces for over three decades — where devotion meets artistry.',
   ];
 
+  const [displayedBrandText, setDisplayedBrandText] = useState('');
+  const [brandCharIndex, setBrandCharIndex] = useState(0);
   const [displayedLines, setDisplayedLines] = useState<string[]>(() => textLines.map(() => ''));
   const [currentLine, setCurrentLine] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [showButtons, setShowButtons] = useState(false);
 
+  // Brand Name - Infinite Loop Animation
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setBrandCharIndex((prev) => {
+        const nextIndex = prev + 1;
+        
+        // If reached end of text, go back to start (loop)
+        if (nextIndex > brandText.length) {
+          setDisplayedBrandText('');
+          return 0;
+        }
+        
+        setDisplayedBrandText(brandText.slice(0, nextIndex));
+        return nextIndex;
+      });
+    }, 100); // 100ms per character
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  // Other text animations
   useEffect(() => {
     if (currentLine >= textLines.length) {
       return;
     }
 
-    const typingLines = [1, 2, 3];
     const line = textLines[currentLine];
-    const isTypingLine = typingLines.includes(currentLine);
 
-    // Line 0: "Since 1989"
+    // Line 0: "Since 1989" - Instant appearance
     if (currentLine === 0) {
       const timeout = window.setTimeout(() => {
         setDisplayedLines((prev) => {
@@ -110,67 +130,42 @@ export default function Hero() {
           return next;
         });
         setCurrentLine(1);
-      }, 300);
+      }, 500); // Wait 500ms before showing
 
       return () => window.clearTimeout(timeout);
     }
 
-    // Lines 1, 2, 3: WORD-BY-WORD ANIMATION (RAMYA, MARBLE, MURTI)
-    if (isTypingLine) {
-      // Show entire word at once
-      if (charIndex === 0) {
-        const timeout = window.setTimeout(() => {
-          setDisplayedLines((prev) => {
-            const next = [...prev];
-            next[currentLine] = line;
-            return next;
-          });
-          setCharIndex(1);
-        }, 150);
-
-        return () => window.clearTimeout(timeout);
-      } else if (charIndex === 1) {
-        // Wait before moving to next word
-        const delay = currentLine === 3 ? 900 : 700;
-        const nextTimeout = window.setTimeout(() => {
-          setCurrentLine((value) => value + 1);
-          setCharIndex(0);
-        }, delay);
-        return () => window.clearTimeout(nextTimeout);
-      }
-    }
-
-    // Line 4: "Astha Ko Dijiye Murti Ka Roop"
-    if (currentLine === 4) {
+    // Line 1: Tagline "Astha Ko Dijiye Murti Ka Roop" - Instant appearance
+    if (currentLine === 1) {
       const timeout = window.setTimeout(() => {
         setDisplayedLines((prev) => {
           const next = [...prev];
-          next[4] = line;
+          next[1] = line;
           return next;
         });
-        setCurrentLine(5);
-      }, 700);
+        setCurrentLine(2);
+      }, 3000); // Wait 3 seconds after brand name typing starts
 
       return () => window.clearTimeout(timeout);
     }
 
-    // Line 5: Description text
-    if (currentLine === 5) {
+    // Line 2: Description - Instant appearance
+    if (currentLine === 2) {
       const timeout = window.setTimeout(() => {
         setDisplayedLines((prev) => {
           const next = [...prev];
-          next[5] = line;
+          next[2] = line;
           return next;
         });
         setShowButtons(true);
-        setCurrentLine(6);
-      }, 500);
+        setCurrentLine(3);
+      }, 500); // Wait 500ms after tagline
 
       return () => window.clearTimeout(timeout);
     }
 
     return undefined;
-  }, [charIndex, currentLine, textLines]);
+  }, [currentLine, textLines]);
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden vignette">
@@ -213,71 +208,54 @@ export default function Hero() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, ease: 'easeOut' }}
-          className="w-full max-w-[600px] lg:ml-[8vw]"
+          className="w-full max-w-[900px] lg:ml-[8vw]"
         >
-          <div className="flex flex-col items-center lg:items-start">
+          <div className="flex flex-col items-center lg:items-start gap-0">
             {/* Since 1989 */}
             <motion.span
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: displayedLines[0] ? 1 : 0, x: displayedLines[0] ? 0 : -10 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="section-eyebrow !text-gold-300"
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="section-eyebrow !text-gold-300 text-sm md:text-base"
             >
               {displayedLines[0]}
             </motion.span>
 
-            {/* RAMYA */}
+            {/* Brand Name - Character by Character Infinite Loop */}
             <motion.h1
               initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: displayedLines[1] ? 1 : 0, x: displayedLines[1] ? 0 : -10 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="mt-6 font-serif-lux text-6xl font-semibold leading-[0.95] text-gold-300 md:text-8xl lg:text-9xl"
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mt-4 font-serif-lux text-4xl font-semibold leading-[1.1] text-gold-300 md:text-5xl lg:text-7xl min-h-[90px] md:min-h-[120px]"
             >
-              <span className="block">{displayedLines[1]}</span>
-            </motion.h1>
-
-            {/* MARBLE */}
-            <motion.h1
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: displayedLines[2] ? 1 : 0, x: displayedLines[2] ? 0 : -10 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="font-serif-lux text-6xl font-semibold leading-[0.95] text-marble-50 md:text-8xl lg:text-9xl"
-            >
-              <span className="block gold-text-shimmer">{displayedLines[2]}</span>
-            </motion.h1>
-
-            {/* MURTI */}
-            <motion.h1
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: displayedLines[3] ? 1 : 0, x: displayedLines[3] ? 0 : -10 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="font-serif-lux text-6xl font-semibold leading-[0.95] text-gold-300 md:text-8xl lg:text-9xl"
-            >
-              <span className="block">{displayedLines[3]}</span>
+              <span className="block break-words">
+                {displayedBrandText}
+                <span className="animate-pulse ml-1">|</span>
+              </span>
             </motion.h1>
 
             {/* Tagline with dividers */}
             <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: displayedLines[4] ? 1 : 0, x: displayedLines[4] ? 0 : -10 }}
-              transition={{ duration: 0.4, delay: 1.2 }}
-              className="mt-8 flex flex-col items-center gap-4 text-center lg:flex-row lg:items-center lg:text-left"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: displayedLines[1] ? 1 : 0, y: displayedLines[1] ? 0 : -10 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="mt-8 flex flex-col items-center gap-3 text-center lg:flex-row lg:items-center lg:text-left w-full"
             >
-              <span className="h-px w-12 bg-gold-500/60" />
-              <p className="font-serif-lux text-xl italic text-marble-200 md:text-2xl">
-                {displayedLines[4]}
+              <span className="hidden lg:block h-px w-12 bg-gold-500/60" />
+              <p className="font-serif-lux text-lg italic text-marble-200 md:text-xl leading-tight">
+                {displayedLines[1]}
               </p>
-              <span className="h-px w-12 bg-gold-500/60" />
+              <span className="hidden lg:block h-px w-12 bg-gold-500/60" />
             </motion.div>
 
             {/* Description */}
             <motion.p
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: displayedLines[5] ? 1 : 0, x: displayedLines[5] ? 0 : -10 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              className="mt-8 max-w-xl text-sm leading-relaxed text-marble-300 md:text-base"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: displayedLines[2] ? 1 : 0, y: displayedLines[2] ? 0 : -10 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-8 max-w-2xl text-sm leading-relaxed text-marble-300 md:text-base text-center lg:text-left"
             >
-              {displayedLines[5]}
+              {displayedLines[2]}
             </motion.p>
 
             {/* CTA Buttons */}
@@ -285,7 +263,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: showButtons ? 1 : 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
+              className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start w-full"
             >
               <Link
                 to="/collections"
