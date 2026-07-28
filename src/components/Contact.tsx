@@ -4,9 +4,13 @@ import { Phone, Mail, MapPin, MessageCircle, Send, Check } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
 import { pickImage } from '../lib/assetImages';
 
-const PHONES = ['+91 95574 63257', '+91 77330 41922'];
-const EMAIL = 'contact@ramyamarblemurti.in';
-const ADDRESS = 'Ramya Marble Murti, Makrana Road, Rajasthan, India';
+const PHONES = ['+91 9557463257'];
+const EMAIL = 'Ramyamarblehandicraft@gmail.com';
+const ADDRESS = 'Pani Ki Tanki, Aasha Ke Paas, Rampur (Bansur), Kotputli, Rajasthan, India';
+const BUSINESS_NAME = 'Ramya Marble Murti & Handicraft';
+const CONTACT_PERSON = 'Praveen Gaur';
+const GOOGLE_MAPS_URL = 'https://www.google.com/maps/place/27%C2%B037\'05.0%22N+76%C2%B025\'36.4%22E/@27.6180499,76.4241924,17z/data=!3m1!4b1!4m4!3m3!8m2!3d27.6180499!4d76.4267673';
+const MAP_EMBED_URL = 'https://www.google.com/maps?q=27.6180499,76.4267673&output=embed';
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
@@ -37,7 +41,8 @@ export default function Contact() {
           <div className="space-y-6">
             <Reveal>
               <div className="glass-dark rounded-3xl p-7">
-                <h3 className="font-serif-lux text-2xl font-semibold text-marble-100">Reach Us Directly</h3>
+                <h3 className="font-serif-lux text-2xl font-semibold text-marble-100">{BUSINESS_NAME}</h3>
+                <p className="mt-2 text-sm text-gold-300">{CONTACT_PERSON}</p>
                 <div className="mt-6 space-y-5">
                   <div className="flex items-start gap-4">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold-500/30 bg-marble-950/50">
@@ -67,7 +72,23 @@ export default function Contact() {
                     </div>
                     <div>
                       <div className="text-xs uppercase tracking-[0.2em] text-marble-400">Address</div>
-                      <p className="font-serif-lux text-lg text-marble-100">{ADDRESS}</p>
+                      <a
+                        href={GOOGLE_MAPS_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block font-serif-lux text-lg text-marble-100 transition-colors hover:text-gold-300"
+                      >
+                        {ADDRESS}
+                      </a>
+                      <a
+                        href={GOOGLE_MAPS_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-3 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-gold-300 transition-colors hover:text-gold-200"
+                      >
+                        <MapPin className="h-4 w-4" />
+                        Get Directions
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -90,10 +111,11 @@ export default function Contact() {
                 <img src={pickImage(['marble temple', 'our heritage'])} alt="Workshop and showroom setting" className="h-56 w-full object-cover" loading="lazy" />
                 <iframe
                   title="Ramya Marble Murti location"
-                  src="https://www.google.com/maps?q=Makrana,Rajasthan,India&output=embed"
+                  src={MAP_EMBED_URL}
                   width="100%"
                   height="260"
                   loading="lazy"
+                  className="min-h-[260px] w-full"
                   style={{ border: 0, filter: 'grayscale(0.3) sepia(0.2)' }}
                   referrerPolicy="no-referrer-when-downgrade"
                 />

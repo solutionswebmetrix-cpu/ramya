@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Sparkles } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
-import { scrollToId } from '@/lib/smoothScroll';
 import { pickImage } from '../lib/assetImages';
 
 const STEPS = [
@@ -75,10 +75,10 @@ export default function Customization() {
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-8 ml-16"
                 >
-                  <button onClick={() => scrollToId('contact')} className="btn-gold flex items-center gap-2 rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em]">
+                  <Link to="/contact" className="btn-gold flex items-center gap-2 rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em]">
                     <Sparkles className="h-4 w-4" />
                     Request Quote
-                  </button>
+                  </Link>
                 </motion.div>
               )}
             </AnimatePresence>

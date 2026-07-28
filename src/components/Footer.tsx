@@ -1,25 +1,37 @@
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Logo, { RamMark } from './Logo';
-import { scrollToId } from '@/lib/smoothScroll';
 import { pickImage } from '../lib/assetImages';
 
 const LINKS = [
-  { label: 'Home', id: 'home' },
-  { label: 'About', id: 'about' },
-  { label: 'Collections', id: 'collections' },
-  { label: 'Gallery', id: 'gallery' },
-  { label: 'Customization', id: 'customization' },
-  { label: 'Why Us', id: 'why-us' },
-  { label: 'Testimonials', id: 'testimonials' },
-  { label: 'Contact', id: 'contact' },
+  { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Collections', to: '/collections' },
+  { label: 'Gallery', to: '/gallery' },
+  { label: 'Customization', to: '/customization' },
+  { label: 'Why Us', to: '/why-us' },
+  { label: 'Testimonials', to: '/testimonials' },
+  { label: 'Contact', to: '/contact' },
 ];
 
-const COLLECTION_LINKS = ['Marble Murtis', 'Marble Temples', 'Ram Darbar', 'Radha Krishna', 'Meenakari Decor', 'Onyx Handicrafts'];
+const COLLECTION_LINKS = [
+  { label: 'Marble Murtis', to: '/collections/murtis' },
+  { label: 'Marble Temples', to: '/collections/temples' },
+  { label: 'Meenakari Decor', to: '/collections/meenakari' },
+  { label: 'Onyx Handicrafts', to: '/collections/onyx' },
+  { label: 'Decor', to: '/collections/decor' },
+];
+
+const SOCIAL_LINKS = [
+  { label: 'Facebook', href: 'https://www.facebook.com/', Icon: Facebook },
+  { label: 'Instagram', href: 'https://www.instagram.com/', Icon: Instagram },
+  { label: 'YouTube', href: 'https://www.youtube.com/', Icon: Youtube },
+];
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden marble-veined border-t border-gold-500/30 pt-20">
-      <div className="absolute inset-0">
+    <footer className="relative z-[60] isolate overflow-hidden marble-veined border-t border-gold-500/30 pt-20">
+      <div className="pointer-events-none absolute inset-0">
         <img src={pickImage(['marble vases', 'marble murtis'])} alt="Marble texture background" className="h-full w-full object-cover opacity-10" loading="lazy" />
       </div>
       {/* golden top border glow */}
@@ -44,10 +56,10 @@ export default function Footer() {
             <h4 className="font-serif-lux text-lg font-semibold text-marble-900">Quick Links</h4>
             <ul className="mt-5 space-y-3">
               {LINKS.map((l) => (
-                <li key={l.id}>
-                  <button onClick={() => scrollToId(l.id)} className="text-sm text-marble-600 transition-colors hover:text-gold-700">
+                <li key={l.label}>
+                  <Link to={l.to} className="relative z-[61] pointer-events-auto text-sm text-marble-600 transition-colors hover:text-gold-700">
                     {l.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -58,10 +70,10 @@ export default function Footer() {
             <h4 className="font-serif-lux text-lg font-semibold text-marble-900">Collections</h4>
             <ul className="mt-5 space-y-3">
               {COLLECTION_LINKS.map((c) => (
-                <li key={c}>
-                  <button onClick={() => scrollToId('collections')} className="text-sm text-marble-600 transition-colors hover:text-gold-700">
-                    {c}
-                  </button>
+                <li key={c.label}>
+                  <Link to={c.to} className="relative z-[61] pointer-events-auto text-sm text-marble-600 transition-colors hover:text-gold-700">
+                    {c.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -91,12 +103,14 @@ export default function Footer() {
 
             {/* social */}
             <div className="mt-6 flex gap-3">
-              {[Facebook, Instagram, Youtube].map((Icon, i) => (
+              {SOCIAL_LINKS.map(({ label, href, Icon }) => (
                 <a
-                  key={i}
-                  href="#"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-marble-300 text-marble-600 transition-all hover:border-gold-500 hover:bg-gold-500/10 hover:text-gold-700"
-                  aria-label="Social link"
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-[61] pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full border border-marble-300 text-marble-600 transition-all hover:border-gold-500 hover:bg-gold-500/10 hover:text-gold-700"
+                  aria-label={label}
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -121,12 +135,12 @@ export default function Footer() {
           <p className="text-xs text-marble-500">
             © {new Date().getFullYear()} Ramya Marble Murti. All rights reserved.
           </p>
-          <button
-            onClick={() => scrollToId('home')}
-            className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-marble-600 transition-colors hover:text-gold-700"
+          <Link
+            to="/"
+            className="relative z-[61] pointer-events-auto flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-marble-600 transition-colors hover:text-gold-700"
           >
             Back to Top <ArrowUp className="h-3.5 w-3.5" />
-          </button>
+          </Link>
         </div>
       </div>
     </footer>

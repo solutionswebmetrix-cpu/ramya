@@ -1,8 +1,8 @@
 import { forwardRef, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, MessageCircle, X } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
-import { scrollToId } from '@/lib/smoothScroll';
 import { getAllImages, pickImage } from '../lib/assetImages';
 
 type Item = {
@@ -89,12 +89,12 @@ const TiltCard = forwardRef<HTMLDivElement, { item: Item; onQuickView: () => voi
             >
               <Eye className="h-3.5 w-3.5" /> Quick View
             </button>
-            <button
-              onClick={() => scrollToId('contact')}
+            <Link
+              to="/contact"
               className="flex items-center gap-1.5 rounded-full bg-gold-500 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-marble-900 transition-colors hover:bg-gold-400"
             >
               <MessageCircle className="h-3.5 w-3.5" /> Enquire
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -195,9 +195,9 @@ export default function Collections() {
                   Each piece is handcrafted to order. Enquire for pricing, sizes and customization.
                 </p>
                 <div className="mt-6 flex gap-3">
-                  <button onClick={() => { setActive(null); scrollToId('contact'); }} className="btn-gold rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em]">
+                  <Link to="/contact" onClick={() => setActive(null)} className="btn-gold rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em]">
                     Enquire Now
-                  </button>
+                  </Link>
                   <button onClick={() => setActive(null)} className="rounded-full border border-marble-300 px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-marble-600 hover:border-gold-500">
                     Close
                   </button>

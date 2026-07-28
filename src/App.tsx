@@ -1,28 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useLenis } from './lib/smoothScroll';
 import Preloader from './components/Preloader';
 import CursorGlow from './components/CursorGlow';
 import GoldParticles from './components/GoldParticles';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Features from './components/Features';
-import Collections from './components/Collections';
-import ProductShowcase3D from './components/ProductShowcase3D';
-import WhyChooseUs from './components/WhyChooseUs';
-import Customization from './components/Customization';
-import WorkProcess from './components/WorkProcess';
-import Gallery from './components/Gallery';
-import VideoSection from './components/VideoSection';
-import Testimonials from './components/Testimonials';
-import CounterSection from './components/CounterSection';
-import FAQ from './components/FAQ';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import CollectionsPage from './pages/CollectionsPage';
+import CollectionCategoryPage from './pages/CollectionCategoryPage';
+import GalleryPage from './pages/GalleryPage';
+import CustomizationPage from './pages/CustomizationPage';
+import WhyUsPage from './pages/WhyUsPage';
+import TestimonialsPage from './pages/TestimonialsPage';
+import ContactPage from './pages/ContactPage';
 
-export default function App() {
+function AppRoutes() {
   const [loaded, setLoaded] = useState(false);
+  const location = useLocation();
+
   useLenis();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+  }, [location.pathname]);
 
   return (
     <>
@@ -31,22 +33,27 @@ export default function App() {
       <GoldParticles density={70} />
       <Navbar />
       <main>
-        <Hero />
-        <About />
-        <Features />
-        <Collections />
-        <ProductShowcase3D />
-        <WhyChooseUs />
-        <Customization />
-        <WorkProcess />
-        <Gallery />
-        <VideoSection />
-        <Testimonials />
-        <CounterSection />
-        <FAQ />
-        <Contact />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/collections" element={<CollectionsPage />} />
+          <Route path="/collections/:category" element={<CollectionCategoryPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/customization" element={<CustomizationPage />} />
+          <Route path="/why-us" element={<WhyUsPage />} />
+          <Route path="/testimonials" element={<TestimonialsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
       </main>
       <Footer />
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
