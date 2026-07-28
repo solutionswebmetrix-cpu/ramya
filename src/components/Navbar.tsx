@@ -49,7 +49,9 @@ export default function Navbar() {
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
           <Link to="/" onClick={() => setOpen(false)} aria-label="Ramya Marble Murti & Handicraft home" className="flex items-center">
-            <LogoImage />
+            <div className="h-18 w-auto md:h-18 lg:h-25">
+              <LogoImage />
+            </div>
           </Link>
 
           {/* Center menu (desktop) */}

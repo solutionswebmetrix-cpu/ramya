@@ -9,8 +9,7 @@ const EMAIL = 'Ramyamarblehandicraft@gmail.com';
 const ADDRESS = 'Pani Ki Tanki, Aasha Ke Paas, Rampur (Bansur), Kotputli, Rajasthan, India';
 const BUSINESS_NAME = 'Ramya Marble Murti & Handicraft';
 const CONTACT_PERSON = 'Praveen Gaur';
-const GOOGLE_MAPS_URL = 'https://www.google.com/maps/place/27%C2%B037\'05.0%22N+76%C2%B025\'36.4%22E/@27.6180499,76.4241924,17z/data=!3m1!4b1!4m4!3m3!8m2!3d27.6180499!4d76.4267673';
-const MAP_EMBED_URL = 'https://www.google.com/maps?q=27.6180499,76.4267673&output=embed';
+const MAP_QUERY = encodeURIComponent(ADDRESS);
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
@@ -73,21 +72,12 @@ export default function Contact() {
                     <div>
                       <div className="text-xs uppercase tracking-[0.2em] text-marble-400">Address</div>
                       <a
-                        href={GOOGLE_MAPS_URL}
+                        href={`https://www.google.com/maps/search/?api=1&query=${MAP_QUERY}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block font-serif-lux text-lg text-marble-100 transition-colors hover:text-gold-300"
                       >
                         {ADDRESS}
-                      </a>
-                      <a
-                        href={GOOGLE_MAPS_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-gold-300 transition-colors hover:text-gold-200"
-                      >
-                        <MapPin className="h-4 w-4" />
-                        Get Directions
                       </a>
                     </div>
                   </div>
@@ -111,11 +101,10 @@ export default function Contact() {
                 <img src={pickImage(['marble temple', 'our heritage'])} alt="Workshop and showroom setting" className="h-56 w-full object-cover" loading="lazy" />
                 <iframe
                   title="Ramya Marble Murti & Handicraft location"
-                  src={MAP_EMBED_URL}
+                  src={`https://www.google.com/maps?q=${MAP_QUERY}&output=embed`}
                   width="100%"
                   height="260"
                   loading="lazy"
-                  className="min-h-[260px] w-full"
                   style={{ border: 0, filter: 'grayscale(0.3) sepia(0.2)' }}
                   referrerPolicy="no-referrer-when-downgrade"
                 />

@@ -1,6 +1,7 @@
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Logo, { RamMark } from './Logo';
+import LogoImage from './LogoImage';
+import { RamMark } from './Logo';
 import { pickImage } from '../lib/assetImages';
 
 const LINKS = [
@@ -42,13 +43,24 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Logo />
-            <p className="mt-5 max-w-xs font-serif-lux text-lg italic leading-relaxed text-marble-600">
-              "Astha Ko Dijiye Murti Ka Roop"
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-marble-500">
-              Handcrafting premium marble idols, temples and handicrafts with devotion since 1989.
-            </p>
+            <div className="flex items-start gap-4">
+              <div className="flex h-35 w-35 items-center justify-center rounded-2xl bg-white/10 p-3 shadow-soft md:h-32 md:w-32">
+                <div className="scale-[1.5] origin-center">
+                  <LogoImage />
+                </div>
+              </div>
+              <div>
+                <div className="font-serif-lux text-lg font-semibold uppercase tracking-[0.2em] text-marble-900">
+                  Ramya Marble Murti & Handicraft
+                </div>
+                <p className="mt-3 max-w-xs font-serif-lux text-lg italic leading-relaxed text-marble-600">
+                  "Astha Ko Dijiye Murti Ka Roop"
+                </p>
+                <p className="mt-4 text-sm leading-relaxed text-marble-500">
+                  Handcrafting premium marble idols, temples and handicrafts with devotion since 1989.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Quick links */}
@@ -87,17 +99,17 @@ export default function Footer() {
                 <Phone className="h-4 w-4 text-gold-600" />
                 <a href="tel:+919557463257" className="hover:text-gold-700">+91 95574 63257</a>
               </li>
-              <li className="flex items-center gap-3">
+              {/* <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 text-gold-600" />
-                <a href="tel:+917733041922" className="hover:text-gold-700">+91 77330 41922</a>
-              </li>
+                <a href="tel:+917733041922" className="hover:text-gold-700">+91 9557463257</a>
+              </li> */}
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 text-gold-600" />
-                <a href="mailto:contact@ramyamarblemurti.in" className="hover:text-gold-700">contact@ramyamarblemurti.in</a>
+                <a href="mailto:contact@ramyamarblemurti.in" className="hover:text-gold-700">Ramyamarblehandicraft@gmail.com</a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold-600" />
-                <span>Makrana Road, Rajasthan, India</span>
+                <span>Pani Ki Tanki, Aasha Ke Paas, Rampur (Bansur), Kotputli, Rajasthan, India</span>
               </li>
             </ul>
 

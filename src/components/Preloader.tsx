@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import LogoImage from './LogoImage';
 
 /**
  * Luxury preloader: a raw marble block is "carved" into a Ram bow emblem,
@@ -75,6 +76,15 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
           />
 
           <div className="relative z-10 flex flex-col items-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.8, ease: 'easeInOut' }}
+              className="relative mb-10 flex h-32 w-32 items-center justify-center rounded-3xl bg-marble-950/70 p-4 shadow-soft md:h-36 md:w-36"
+            >
+              <LogoImage />
+            </motion.div>
             {/* Carving animation: marble block morphing into Ram bow emblem */}
             <div className="relative mb-10 h-32 w-32">
               {/* Raw marble block */}
