@@ -44,8 +44,8 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-start gap-4">
-              <div className="flex h-35 w-35 items-center justify-center rounded-2xl bg-white/10 p-3 shadow-soft md:h-32 md:w-32">
-                <div className="scale-[1.5] origin-center">
+              <div className="flex h-[100px] w-[100px] shrink-0 items-center justify-center rounded-2xl bg-white/10 p-3 shadow-soft">
+                <div className="flex h-[100px] w-[100px] items-center justify-center">
                   <LogoImage />
                 </div>
               </div>
@@ -133,7 +133,7 @@ export default function Footer() {
 
         {/* Thank you banner */}
         <div className="mt-16 flex flex-col items-center gap-4 rounded-3xl border border-gold-500/30 bg-gradient-to-b from-white/60 to-marble-100/40 px-6 py-10 text-center">
-          <RamMark className="h-12 w-12" />
+          <RamMark className="h-[100px] w-[100px]" />
           <p className="font-serif-lux text-2xl font-semibold text-marble-900 md:text-3xl">
             Thank You for Choosing Us <span className="gold-text">Since 1989</span>
           </p>

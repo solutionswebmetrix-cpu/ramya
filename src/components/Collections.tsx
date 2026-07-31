@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, MessageCircle, X } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
-import { getAllImages, pickImage } from '../lib/assetImages';
+import { getAllImages, getFolderImages } from '../lib/assetImages';
+import { getCollectionImageCategory } from '../data/collections';
 
 type Item = {
   name: string;
@@ -12,23 +13,38 @@ type Item = {
   desc: string;
 };
 
+const collectionAssets = getFolderImages('collections');
+const usedImages = new Set<string>();
+
+function getUniqueCollectionImage(category: string) {
+  const categoryAssets = collectionAssets.filter((src) => getCollectionImageCategory(src) === category.toLowerCase());
+  const available = categoryAssets.filter((src) => !usedImages.has(src));
+  const candidate = available[0] ?? categoryAssets[0] ?? collectionAssets.find((src) => !usedImages.has(src)) ?? '';
+
+  if (candidate) {
+    usedImages.add(candidate);
+  }
+
+  return candidate;
+}
+
 const COLLECTIONS: Item[] = [
-  { name: 'Marble Pooja Mandir', cat: 'Temples', img: pickImage(['marble pooja mandir']), desc: 'Carved home temples with domes and pillars.' },
-  { name: 'Ram Darbar Murti', cat: 'Murtis', img: pickImage(['ram darbar murti']), desc: 'Ram, Lakshman, Sita and Hanuman in divine assembly.' },
-  { name: 'Radha Krishna', cat: 'Murtis', img: pickImage(['radha krishna']), desc: 'The eternal union in flowing marble form.' },
-  { name: 'Buddha in Marble', cat: 'Murtis', img: pickImage(['buddha in marble', 'buddha']), desc: 'Serene Buddha busts radiating stillness.' },
-  { name: 'Ganesh Idol', cat: 'Murtis', img: pickImage(['ganesh idol', 'ganesh']), desc: 'Vighnaharta in detailed Makrana marble.' },
-  { name: 'Hanuman Ji', cat: 'Murtis', img: pickImage(['murtis hanuman ji', 'hanuman']), desc: 'Bhakti personified, carved with devotion.' },
-  { name: 'Marble Temple', cat: 'Temples', img: pickImage(['marble temple']), desc: 'Grand standalone temples for homes and ashrams.' },
-  { name: 'Meenakari Decor', cat: 'Meenakari', img: pickImage(['meenakari decor', 'meenakari']), desc: 'Hand-painted meenakari on marble plates and panels.' },
-  { name: 'Marble Lamps', cat: 'Decor', img: pickImage(['marble lamps']), desc: 'Carved oil lamps to light the sanctum.' },
-  { name: 'Marble Vases', cat: 'Decor', img: pickImage(['marble vases']), desc: 'Elegant urns and vases in veined marble.' },
-  { name: 'Onyx Bowls', cat: 'Onyx', img: pickImage(['onyx bowls']), desc: 'Translucent onyx bowls that glow with light.' },
-  { name: 'Onyx Chess Set', cat: 'Onyx', img: pickImage(['onyx chess set']), desc: 'Hand-turned chess pieces in onyx and marble.' },
-  { name: 'Onyx Goblets', cat: 'Onyx', img: pickImage(['onyx goblets']), desc: 'Royal goblets carved from a single stone.' },
-  { name: 'Decorative Plates', cat: 'Decor', img: pickImage(['decorative plates']), desc: 'Wall plates with meenakari and relief carving.' },
-  { name: 'Planters', cat: 'Decor', img: pickImage(['planters']), desc: 'Marble planters for sacred and living spaces.' },
-  { name: 'Marble Murtis', cat: 'Murtis', img: pickImage(['marble murtis']), desc: 'A full pantheon of deities, custom-sized.' },
+  { name: 'Marble Pooja Mandir', cat: 'Temples', img: getUniqueCollectionImage('Temples'), desc: 'Carved home temples with domes and pillars.' },
+  { name: 'Ram Darbar Murti', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Ram, Lakshman, Sita and Hanuman in divine assembly.' },
+  { name: 'Radha Krishna', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'The eternal union in flowing marble form.' },
+  { name: 'Buddha in Marble', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Serene Buddha busts radiating stillness.' },
+  { name: 'Ganesh Idol', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Vighnaharta in detailed Makrana marble.' },
+  { name: 'Hanuman Ji', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Bhakti personified, carved with devotion.' },
+  { name: 'Marble Temple', cat: 'Temples', img: getUniqueCollectionImage('Temples'), desc: 'Grand standalone temples for homes and ashrams.' },
+  { name: 'Meenakari Decor', cat: 'Meenakari', img: getUniqueCollectionImage('Meenakari'), desc: 'Hand-painted meenakari on marble plates and panels.' },
+  { name: 'Marble Lamps', cat: 'Decor', img: getUniqueCollectionImage('Decor'), desc: 'Carved oil lamps to light the sanctum.' },
+  { name: 'Marble Vases', cat: 'Decor', img: getUniqueCollectionImage('Decor'), desc: 'Elegant urns and vases in veined marble.' },
+  { name: 'Onyx Bowls', cat: 'Onyx', img: getUniqueCollectionImage('Onyx'), desc: 'Translucent onyx bowls that glow with light.' },
+  { name: 'Onyx Chess Set', cat: 'Onyx', img: getUniqueCollectionImage('Onyx'), desc: 'Hand-turned chess pieces in onyx and marble.' },
+  { name: 'Onyx Goblets', cat: 'Onyx', img: getUniqueCollectionImage('Onyx'), desc: 'Royal goblets carved from a single stone.' },
+  { name: 'Decorative Plates', cat: 'Decor', img: getUniqueCollectionImage('Decor'), desc: 'Wall plates with meenakari and relief carving.' },
+  { name: 'Planters', cat: 'Decor', img: getUniqueCollectionImage('Decor'), desc: 'Marble planters for sacred and living spaces.' },
+  { name: 'Marble Murtis', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'A full pantheon of deities, custom-sized.' },
 ];
 
 const FILTERS = ['All', 'Murtis', 'Temples', 'Meenakari', 'Onyx', 'Decor'];

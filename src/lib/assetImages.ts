@@ -1,4 +1,20 @@
-const assetModules = import.meta.glob('../assets/*.{png,jpg,jpeg,webp}', {
+type AssetEntry = {
+  src: string;
+  path: string;
+  name: string;
+};
+
+const rootAssetModules = import.meta.glob('../assets/*.{png,jpg,jpeg,webp}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+const collectionAssetModules = import.meta.glob('../assets/collections/*.{png,jpg,jpeg,webp}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+const galleryAssetModules = import.meta.glob('../assets/gallery/*.{png,jpg,jpeg,webp}', {
   eager: true,
   import: 'default',
 }) as Record<string, string>;
@@ -10,7 +26,22 @@ const normalize = (value: string) =>
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 
-const allAssets = Object.values(assetModules);
+const assetEntries: AssetEntry[] = [
+  ...Object.entries(collectionAssetModules),
+  ...Object.entries(galleryAssetModules),
+  ...Object.entries(rootAssetModules),
+]
+  .map(([path, src]) => ({
+    src,
+    path,
+    name: path.split('/').pop() ?? '',
+  }))
+  .filter((entry, index, list) => list.findIndex((candidate) => candidate.src === entry.src) === index)
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const allAssets = assetEntries.map((entry) => entry.src);
+const collectionAssets = Object.values(collectionAssetModules);
+const galleryAssets = Object.values(galleryAssetModules);
 
 export function pickImage(search: string | string[]) {
   const keywords = (Array.isArray(search) ? search : [search])
@@ -47,4 +78,38 @@ export function pickImage(search: string | string[]) {
 
 export function getAllImages() {
   return allAssets;
+}
+
+export function getFolderImages(folder: string) {
+  const targetFolder = folder.toLowerCase();
+
+  if (targetFolder === 'collections') {
+    return collectionAssets;
+  }
+
+  if (targetFolder === 'gallery') {
+    return galleryAssets;
+  }
+
+  return assetEntries
+    .filter((entry) => entry.path.toLowerCase().includes(`/assets/${targetFolder}/`))
+    .map((entry) => entry.src);
+}
+
+export function formatAssetTitle(src: string) {
+  const rawName = src.split('/').pop() ?? 'Collection piece';
+  const decodedName = (() => {
+    try {
+      return decodeURIComponent(rawName);
+    } catch {
+      return rawName;
+    }
+  })();
+
+  return decodedName
+    .replace(/\.[^.]+$/, '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/%20/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }

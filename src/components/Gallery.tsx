@@ -2,15 +2,48 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, ZoomIn } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
-import { getAllImages } from '../lib/assetImages';
+import { getFolderImages } from '../lib/assetImages';
 
 type Tile = { src: string; alt: string; tall?: boolean; video?: boolean };
 
-const TILES: Tile[] = getAllImages().map((src, index) => ({
+const galleryAssets = getFolderImages('gallery');
+const collectionAssets = getFolderImages('collections');
+
+const preferredGallery = [
+  'Marble Krishna and Radha Shrine.webp',
+  'Gilded White Marble Ganesha Statue.webp',
+  'Marble Mandir with Deities and Sages.webp',
+  'Majestic Marble Durga on Lion.webp',
+  'Marble Hanuman Statue with Golden Crown.webp',
+  'White Marble Lord Shiva with Trident and Drum.webp',
+  'White Marble Radha Krishna Under Ornate Arch.webp',
+  'Marble Deity Shrine with Golden Details.webp',
+  'Golden Ganesha Shrine Statue.webp',
+  'White Marble Goddess on Lion.webp',
+  'Marble Shiva.webp',
+  'Marble Pavilion Under Blue Skies.webp',
+  'Ornate White Marble Deity Shrine.webp',
+  'White Stone Temple Spire Against Blue Sky.webp',
+  'Ganesha Idol in Ornate Splendor.webp',
+];
+
+const galleryCandidates = [
+  ...preferredGallery
+    .map((name) => {
+      const match = [...galleryAssets, ...collectionAssets].find((src) => src.split('/').pop()?.toLowerCase() === name.toLowerCase());
+      return match ?? '';
+    })
+    .filter(Boolean),
+  ...[...galleryAssets, ...collectionAssets].filter((src) => !preferredGallery.some((name) => src.split('/').pop()?.toLowerCase() === name.toLowerCase())),
+];
+
+const uniqueGalleryAssets = Array.from(new Set(galleryCandidates)).slice(0, 18);
+
+const TILES: Tile[] = uniqueGalleryAssets.map((src, index) => ({
   src,
   alt: `Marble artwork ${index + 1}`,
   tall: index % 4 === 0,
-  video: index % 6 === 0,
+  video: false,
 }));
 
 export default function Gallery() {
