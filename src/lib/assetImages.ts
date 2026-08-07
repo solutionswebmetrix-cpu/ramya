@@ -161,18 +161,8 @@ export function formatAssetTitle(src: string) {
   const normalized = withoutExtension
     .replace(/[-_]+/g, ' ')
     .replace(/%20/g, ' ')
-    .replace(/[()]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 
-  const words = normalized.split(' ').filter(Boolean);
-  const cleanedWords = [...words];
-
-  while (cleanedWords.length > 1 && isRandomSuffixToken(cleanedWords[cleanedWords.length - 1])) {
-    cleanedWords.pop();
-  }
-
-  const cleanedTitle = cleanedWords.join(' ');
-
-  return toTitleCase(cleanedTitle || 'Collection Piece');
+  return normalized || 'Collection Piece';
 }

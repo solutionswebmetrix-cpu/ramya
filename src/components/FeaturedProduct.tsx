@@ -5,6 +5,10 @@ import { FEATURED_PRODUCT } from '../data/collections';
 export default function FeaturedProduct() {
   if (!FEATURED_PRODUCT) return null;
 
+  const title = FEATURED_PRODUCT.name || 'Marble Lord Rama Wall Clock';
+  const category = 'Handicraft';
+  const description = 'Premium handcrafted marble wall clock featuring Lord Rama. Crafted from Makrana Marble, Vietnam Marble, and Rajnagar Marble. Customization available on demand.';
+
   return (
     <Reveal>
       <section className="relative -mt-6 mb-12 mx-auto max-w-7xl px-5 md:px-8">
@@ -17,7 +21,7 @@ export default function FeaturedProduct() {
             <div className="relative overflow-hidden rounded-[1.5rem] bg-marble-50 p-4 md:p-6 flex items-center justify-center" style={{ minHeight: 550 }}>
               <img
                 src={FEATURED_PRODUCT.image}
-                alt={FEATURED_PRODUCT.name}
+                alt={title}
                 loading="eager"
                 className="h-[600px] w-full max-w-full object-contain transition-transform duration-700 group-hover:scale-105"
                 style={{ objectFit: 'contain' }}
@@ -30,26 +34,10 @@ export default function FeaturedProduct() {
               <span className="rounded-full bg-gold-500/20 px-3 py-1 text-sm font-semibold uppercase tracking-[0.12em] text-gold-200 backdrop-blur-sm">⭐ Featured Product</span>
             </div>
 
-            <h2 className="font-serif-lux text-3xl font-semibold text-marble-900">Marble Lord Rama Wall Clock</h2>
-            <h3 className="mt-1 text-sm uppercase tracking-[0.18em] text-marble-600">Premium Marble Handicraft Collection</h3>
+            <h2 className="font-serif-lux text-3xl font-semibold text-marble-900">{title}</h2>
+            <h3 className="mt-1 text-sm uppercase tracking-[0.18em] text-marble-600">{category}</h3>
 
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-marble-600">A handcrafted luxury marble wall clock featuring Lord Rama, crafted with exquisite detailing and premium marble. Perfect for homes, temples, hotels, offices, and gifting.</p>
-
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <div>
-                <h4 className="text-xs uppercase tracking-[0.18em] text-marble-600">Material</h4>
-                <ul className="mt-2 list-disc pl-5 text-sm text-marble-700">
-                  <li>Makrana Marble</li>
-                  <li>Vietnam Marble</li>
-                  <li>Rajnagar Marble</li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="text-xs uppercase tracking-[0.18em] text-marble-600">Availability</h4>
-                <div className="mt-1 text-sm font-semibold text-marble-900">Customized sizes available on demand.</div>
-              </div>
-            </div>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-marble-600">{description}</p>
 
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/contact" className="rounded-full bg-gold-500 px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900 shadow-md hover:bg-gold-400">

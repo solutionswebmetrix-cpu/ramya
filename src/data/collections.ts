@@ -28,9 +28,9 @@ const FEATURED_IMAGE = collectionImages.find((src) => (src.split('/').pop() ?? '
 
 export const FEATURED_PRODUCT: CollectionItem | null = FEATURED_IMAGE
   ? {
-      name: 'Marble Lord Rama Wall Clock',
+      name: formatAssetTitle(FEATURED_IMAGE),
       description:
-        'Premium handcrafted marble wall clock featuring Lord Rama. Designed with luxurious gold detailing, Roman numerals, and elegant marble craftsmanship. Suitable for homes, temples, hotels, offices, and gifting.',
+        'Premium handcrafted marble wall clock featuring Lord Rama with elegant craftsmanship. Available in Makrana Marble, Vietnam Marble, and Rajnagar Marble. Customization available on demand.',
       image: FEATURED_IMAGE,
       category: 'handicraft',
       marbleType: 'Makrana Marble • Vietnam Marble • Rajnagar Marble',
