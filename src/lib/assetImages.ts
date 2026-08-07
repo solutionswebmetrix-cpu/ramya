@@ -159,7 +159,8 @@ export function formatAssetTitle(src: string) {
 
   const withoutExtension = decodedName.replace(/\.[^.]+$/, '');
   const normalized = withoutExtension
-    .replace(/[-_]+/g, ' ')
+    .replace(/_/g, ' ')
+    .replace(/-/g, ' ')
     .replace(/%20/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();

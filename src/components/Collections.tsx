@@ -1,129 +1,84 @@
-import { forwardRef, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Eye, MessageCircle, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { MessageCircle } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
-import { formatAssetTitle, getAllImages, getFolderImages } from '../lib/assetImages';
-import { getCollectionImageCategory, FEATURED_PRODUCT } from '../data/collections';
+import { getCollectionItemsByCategory, getProductDetailRoute, type CollectionItem } from '../data/collections';
 
-type Item = {
-  name: string;
-  cat: string;
-  img: string;
-  desc: string;
-};
+function getHomeShowcaseItems() {
+  const murtiItems = getCollectionItemsByCategory('murtis');
+  const templeItems = getCollectionItemsByCategory('temples');
+  const handicraftItems = getCollectionItemsByCategory('handicraft');
 
-const collectionAssets = getFolderImages('collections');
-const usedImages = new Set<string>();
+  const pickByName = (source: CollectionItem[], names: string[]) =>
+    names
+      .map((name) => source.find((item) => item.name === name))
+      .filter((item): item is CollectionItem => Boolean(item));
 
-function getUniqueCollectionImage(category: string) {
-  const categoryAssets = collectionAssets.filter((src) => getCollectionImageCategory(src) === category.toLowerCase());
-  const available = categoryAssets.filter((src) => !usedImages.has(src));
-  const candidate = available[0] ?? categoryAssets[0] ?? collectionAssets.find((src) => !usedImages.has(src)) ?? '';
+  const selected = [
+    ...pickByName(
+      murtiItems.filter((item) => item.subcategory === 'Marble Murti'),
+      [
+        'Blessing Saint with Floral Garland',
+        'Ganesha Idol in Ornate Splendor',
+        'Marble Ganesha in the Stone Workshop',
+        'Marble Goddess Lakshmi Idol',
+      ],
+    ),
+    ...pickByName(murtiItems.filter((item) => item.subcategory === 'Bust'), ['Ornate White Marble Deity Bust', 'Marble Statesman in the Stone Yard bust']),
+    ...pickByName(murtiItems.filter((item) => item.subcategory === 'Statue'), ['Brightly Painted Namaste Statue in Stone Workshop', 'Military Statue in Sculpture Workshop']),
+    ...pickByName(templeItems, ['Marble Mandir with Deities and Sages', 'White Marble Mandir with Floral Inlay', 'Marble Pavilion Under Blue Skies']),
+    ...pickByName(handicraftItems, ['Marble Peacock Decorative Wall Clock', 'Marble Decorative Lantern']),
+  ];
 
-  if (candidate) {
-    usedImages.add(candidate);
-  }
-
-  return candidate;
+  return selected.filter((item, index, array) => array.findIndex((candidate) => candidate.image === item.image) === index);
 }
 
-const COLLECTIONS: Item[] = [
-  { cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Marble murtis carved with devotion and intricate expression.' },
-  { cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Serene deities and busts in premium marble finishes.' },
-  { cat: 'Temples', img: getUniqueCollectionImage('Temples'), desc: 'Elegant marble temples with domes, pillars and sanctums.' },
-  { cat: 'Temples', img: getUniqueCollectionImage('Temples'), desc: 'Sanctuary designs fashioned for residential and prayer spaces.' },
-  { cat: 'Handicraft', img: getUniqueCollectionImage('Handicraft'), desc: 'Marble handicraft pieces that bring luxury to everyday rituals.' },
-  { cat: 'Handicraft', img: getUniqueCollectionImage('Handicraft'), desc: 'Decorative clocks, trays and puja accessories in fine marble.' },
-  { cat: 'Handicraft', img: getUniqueCollectionImage('Handicraft'), desc: 'Custom marble gift pieces for sacred gifting and decor.' },
-].map((item) => ({ ...item, name: formatAssetTitle(item.img) }));
-
-const FILTERS = ['All', 'Murtis', 'Temples', 'Handicraft'];
-
-const TiltCard = forwardRef<HTMLDivElement, { item: Item; onQuickView: () => void; featured?: boolean }>(({ item, onQuickView, featured }, ref) => {
-  const tiltRef = useRef<HTMLDivElement>(null);
-  const onMove = (e: React.MouseEvent) => {
-    const el = tiltRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(1000px) rotateY(${px * 8}deg) rotateX(${py * -8}deg)`;
-  };
-  const onLeave = () => {
-    if (tiltRef.current) tiltRef.current.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
-  };
+function ProductCard({ item, index }: { item: CollectionItem; index: number }) {
+  const navigate = useNavigate();
+  const productRoute = getProductDetailRoute(item.category, item.name);
 
   return (
     <motion.div
-      ref={ref}
-      layout
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, delay: index * 0.04 }}
+      onClick={() => navigate(productRoute)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          navigate(productRoute);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      className="group cursor-pointer overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/90 shadow-soft"
     >
-      <div
-        ref={tiltRef}
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-        className={`tilt-card group relative overflow-hidden rounded-2xl bg-marble-900 ${featured ? 'shadow-[0_30px_90px_rgba(212,144,47,0.14)] scale-[1.02]' : 'shadow-soft'}`}
-        style={{ transformStyle: 'preserve-3d' }}
-      >
-        <div className="relative aspect-[3/4] overflow-hidden">
-          <img
-            src={item.img}
-            alt={item.name}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-          />
-          {/* gradient + reflection */}
-          <div className="absolute inset-0 bg-gradient-to-t from-marble-950/85 via-marble-900/20 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-white/10 to-transparent opacity-50" />
+      <div className="overflow-hidden bg-marble-50">
+        <img src={item.image} alt={item.name} className="h-72 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+      </div>
+      <div className="flex h-full flex-col p-6">
+        <h3 className="font-serif-lux text-xl font-semibold text-marble-900">{item.name}</h3>
+        <div className="mt-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">
+          <span>{item.category === 'murtis' ? 'Marble Murti' : item.category === 'temples' ? 'Temple' : 'Handicraft'}</span>
         </div>
-
-        {/* hover overlay actions */}
-        <div className="absolute inset-0 flex flex-col justify-end p-5">
-          {featured && (
-            <div className="absolute right-4 top-4 z-20">
-              <span className="rounded-full bg-gold-500/20 px-3 py-1 text-[0.6rem] uppercase tracking-[0.18em] text-gold-200 backdrop-blur-sm">Featured</span>
-            </div>
-          )}
-          <span className="mb-2 w-fit rounded-full bg-gold-500/20 px-3 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-gold-200 backdrop-blur-sm">
-            {item.cat}
-          </span>
-          <h3 className="font-serif-lux text-xl font-semibold text-marble-50">{item.name}</h3>
-
-          <div className="mt-4 flex gap-2 opacity-0 transition-all duration-500 group-hover:opacity-100" style={{ transform: 'translateZ(40px)' }}>
-            <button
-              onClick={onQuickView}
-              className="flex items-center gap-1.5 rounded-full bg-white/15 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-marble-50 backdrop-blur-md transition-colors hover:bg-white/30"
-            >
-              <Eye className="h-3.5 w-3.5" /> Quick View
-            </button>
-            <Link
-              to="/contact"
-              className="flex items-center gap-1.5 rounded-full bg-gold-500 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-marble-900 transition-colors hover:bg-gold-400"
-            >
-              <MessageCircle className="h-3.5 w-3.5" /> Enquire
-            </Link>
-          </div>
-        </div>
-
-        {/* gold corner */}
-        <div className="pointer-events-none absolute left-3 top-3 h-10 w-10 rounded-tl-lg border-l border-t border-gold-400/40 transition-all duration-500 group-hover:border-gold-300" />
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            navigate('/contact');
+          }}
+          className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900 transition-colors hover:bg-gold-400"
+        >
+          <MessageCircle className="h-3.5 w-3.5" /> Inquiry Now
+        </button>
       </div>
     </motion.div>
   );
-});
-
-TiltCard.displayName = 'TiltCard';
+}
 
 export default function Collections() {
-  const [filter, setFilter] = useState('All');
-  const [active, setActive] = useState<Item | null>(null);
-
-  const items = filter === 'All' ? COLLECTIONS : COLLECTIONS.filter((c) => c.cat === filter);
+  const homeShowcaseItems = getHomeShowcaseItems();
 
   return (
     <section id="collections" className="marble-veined relative overflow-hidden py-24 md:py-32">
@@ -131,102 +86,30 @@ export default function Collections() {
         <SectionHeading
           eyebrow="Our Collections"
           title={<>A Pantheon in <span className="gold-text">Stone</span></>}
-          intro="From marble murtis and temples to distinctive handicrafts — every category is a curated gallery of devotion."
+          intro="Marble murtis, temple pieces and handcrafted decor are now grouped by the new product structure."
         />
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {getAllImages().slice(0, 3).map((src, index) => (
-            <motion.div
-              key={src}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/70 shadow-soft"
-            >
-              <img src={src} alt="Luxury marble collection detail" className="h-56 w-full object-cover" loading="lazy" />
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Filters */}
-        <Reveal>
-          <div className="mt-12 flex flex-wrap justify-center gap-3">
-            {FILTERS.map((f) => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`rounded-full px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] transition-all duration-300 ${
-                  filter === f
-                    ? 'bg-marble-900 text-marble-50 shadow-soft'
-                    : 'border border-marble-300 text-marble-600 hover:border-gold-500 hover:text-gold-700'
-                }`}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-        </Reveal>
-
-        {/* Grid */}
-        <motion.div layout className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          <AnimatePresence mode="popLayout">
-            {items.map((item) => (
-              <TiltCard
-                key={item.name}
-                item={item}
-                onQuickView={() => setActive(item)}
-                featured={!!FEATURED_PRODUCT && (item.name === FEATURED_PRODUCT.name || item.img === FEATURED_PRODUCT.image)}
-              />
-            ))}
-          </AnimatePresence>
-        </motion.div>
-      </div>
-
-      {/* Quick view modal */}
-      <AnimatePresence>
-        {active && (
-          <motion.div
-            className="fixed inset-0 z-[80] flex items-center justify-center p-5"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div className="absolute inset-0 bg-marble-950/70 backdrop-blur-md" onClick={() => setActive(null)} />
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 grid w-full max-w-3xl overflow-hidden rounded-3xl bg-marble-50 shadow-2xl md:grid-cols-2"
-            >
-              <div className="relative aspect-square md:aspect-auto">
-                <img src={active.img} alt={active.name} className="h-full w-full object-cover" />
-              </div>
-              <div className="flex flex-col justify-center p-8">
-                <span className="section-eyebrow">{active.cat}</span>
-                <h3 className="mt-3 font-serif-lux text-3xl font-semibold text-marble-900">{active.name}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-marble-600">{active.desc}</p>
-                <div className="lux-divider my-6" />
-                <p className="text-sm text-marble-500">
-                  Each piece is handcrafted to order. Enquire for pricing, sizes and customization.
-                </p>
-                <div className="mt-6 flex gap-3">
-                  <Link to="/contact" onClick={() => setActive(null)} className="btn-gold rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em]">
-                    Enquire Now
-                  </Link>
-                  <button onClick={() => setActive(null)} className="rounded-full border border-marble-300 px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-marble-600 hover:border-gold-500">
-                    Close
-                  </button>
+        <div className="mt-14">
+          <Reveal>
+            <div className="overflow-hidden rounded-[2rem] border border-marble-200 bg-white/80 shadow-soft backdrop-blur-sm">
+              <div className="border-b border-marble-200/80 p-6 md:p-8">
+                <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <span className="section-eyebrow">Featured Home Showcase</span>
+                    <h3 className="mt-3 font-serif-lux text-2xl font-semibold text-marble-900">A curated selection of unique products from every category.</h3>
+                    <p className="mt-3 max-w-2xl text-sm leading-relaxed text-marble-600">Only 13 carefully chosen images are shown here so the home page stays focused and uncluttered.</p>
+                  </div>
                 </div>
               </div>
-              <button onClick={() => setActive(null)} className="absolute right-4 top-4 text-marble-400 hover:text-marble-900" aria-label="Close">
-                <X className="h-6 w-6" />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="grid gap-6 p-6 md:grid-cols-2 md:p-8 xl:grid-cols-3">
+                {homeShowcaseItems.map((item, itemIndex) => (
+                  <ProductCard key={item.image} item={item} index={itemIndex} />
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
     </section>
   );
 }
