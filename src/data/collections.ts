@@ -1,6 +1,6 @@
 import { formatAssetTitle, getFolderImages } from '../lib/assetImages';
 
-export type CollectionCategorySlug = 'murtis' | 'temples' | 'meenakari' | 'onyx' | 'decor';
+export type CollectionCategorySlug = 'murtis' | 'temples' | 'handicraft';
 
 export type CollectionCategory = {
   slug: CollectionCategorySlug;
@@ -8,6 +8,7 @@ export type CollectionCategory = {
   description: string;
   image: string;
   blurb: string;
+  productInfo: string[];
 };
 
 export type CollectionItem = {
@@ -15,9 +16,27 @@ export type CollectionItem = {
   description: string;
   image: string;
   category: CollectionCategorySlug;
+  marbleType: string;
+  availableSize: string;
 };
 
 const collectionImages = getFolderImages('collections');
+
+// Identify the featured product image (must match existing asset file)
+const FEATURED_IMAGE_FILENAME = 'Marble Lord Rama Wall Clock.webp'.toLowerCase();
+const FEATURED_IMAGE = collectionImages.find((src) => (src.split('/').pop() ?? '').toLowerCase() === FEATURED_IMAGE_FILENAME) ?? '';
+
+export const FEATURED_PRODUCT: CollectionItem | null = FEATURED_IMAGE
+  ? {
+      name: 'Marble Lord Rama Wall Clock',
+      description:
+        'Premium handcrafted marble wall clock featuring Lord Rama. Designed with luxurious gold detailing, Roman numerals, and elegant marble craftsmanship. Suitable for homes, temples, hotels, offices, and gifting.',
+      image: FEATURED_IMAGE,
+      category: 'handicraft',
+      marbleType: 'Makrana Marble • Vietnam Marble • Rajnagar Marble',
+      availableSize: 'Standard and custom handicraft sizes available on request.',
+    }
+  : null;
 
 function getCategoryImages(category: CollectionCategorySlug) {
   return collectionImages.filter((src) => getCollectionImageCategory(src) === category);
@@ -26,77 +45,129 @@ function getCategoryImages(category: CollectionCategorySlug) {
 export const COLLECTION_CATEGORIES: CollectionCategory[] = [
   {
     slug: 'murtis',
-    title: 'Murtis',
-    description: 'Sacred marble idols crafted with graceful detail and devotional presence.',
+    title: 'Murti',
+    description: 'Sacred marble murtis, busts and statues carved with devotion and precision.',
     image: getCategoryImages('murtis')[0] ?? '',
-    blurb: 'Divine forms for homes, temples and personal shrines.',
+    blurb: 'A curated selection of divine marble figures for homes, shrines and temples.',
+    productInfo: [
+      'Marble Murtis: Available from 12 inches to 36 inches. Larger sizes are available on customer demand.',
+      'Marble Busts: Available from 2 feet to 3 feet. Larger/custom sizes are available on demand.',
+      'Marble Statues: Available from 2 feet to 3 feet. Larger/custom sizes are available on demand. In Vietnam Marble, statues below 3 feet are not manufactured.',
+      'Available in Makrana Marble, Vietnam Marble and Rajnagar Marble.',
+    ],
   },
   {
     slug: 'temples',
-    title: 'Temples',
-    description: 'Elegant marble temple architecture with intricate domes, pillars and sanctums.',
+    title: 'Temple',
+    description: 'Luxurious marble temples carved with ornate pillars, domes and sacred detailing.',
     image: getCategoryImages('temples')[0] ?? '',
-    blurb: 'Statement sanctuaries that bring timeless grandeur to any space.',
+    blurb: 'Grand marble sanctuaries tailored to your space and devotional needs.',
+    productInfo: [
+      'Marble Temples: Starting size 2 feet.',
+      'Larger sizes are made completely on customer demand.',
+      'Available in Makrana Marble, Vietnam Marble and Rajnagar Marble.',
+    ],
   },
   {
-    slug: 'meenakari',
-    title: 'Meenakari',
-    description: 'Hand-finished meenakari accents that bring vivid colour and royal heritage.',
-    image: getCategoryImages('meenakari')[0] ?? '',
-    blurb: 'Richly embellished decor pieces made for cherished interiors.',
-  },
-  {
-    slug: 'onyx',
-    title: 'Onyx',
-    description: 'Translucent onyx pieces with luminous depth and refined luxury.',
-    image: getCategoryImages('onyx')[0] ?? '',
-    blurb: 'Softly glowing stonework for collectors and statement spaces.',
-  },
-  {
-    slug: 'decor',
-    title: 'Decor',
-    description: 'Marble lamps, vases, planters and decorative objects for elevated living.',
-    image: getCategoryImages('decor')[0] ?? '',
-    blurb: 'Everyday elegance shaped in stone.',
+    slug: 'handicraft',
+    title: 'Handicraft',
+    description: 'Fine marble handicraft pieces that blend artistry with luxury and craftsmanship.',
+    image: getCategoryImages('handicraft')[0] ?? '',
+    blurb: 'Marble handicraft products designed for elegant interiors and meaningful gifting.',
+    productInfo: [
+      'Display all marble handicraft products.',
+      'Available in Makrana Marble, Vietnam Marble and Rajnagar Marble.',
+    ],
   },
 ];
 
-export function getCollectionImageCategory(src: string): CollectionCategorySlug {
-  const normalized = src.toLowerCase();
+import { getAssetPath } from '../lib/assetImages';
 
-  if (/(murti|ganesh|hanuman|buddha|krishna|radha|shiv|durga|kali|deity|idol|statue|sage|saint|ram)/.test(normalized)) {
+export function getCollectionImageCategory(src: string): CollectionCategorySlug {
+  const normalizedSrc = src.toLowerCase();
+  const assetPath = getAssetPath(src).toLowerCase();
+  const filename = normalizedSrc.split('/').pop() ?? '';
+
+  if (assetPath.includes('/assets/collections/murti/') || assetPath.includes('/collections/murti/')) {
     return 'murtis';
   }
 
-  if (/(temple|mandir|pavilion|spire|altar|shrine|niche)/.test(normalized)) {
+  if (assetPath.includes('/assets/collections/temple/') || assetPath.includes('/collections/temple/')) {
     return 'temples';
   }
 
-  if (/(meenakari)/.test(normalized)) {
-    return 'meenakari';
+  if (assetPath.includes('/assets/collections/handicraft/') || assetPath.includes('/collections/handicraft/')) {
+    return 'handicraft';
   }
 
-  if (/(onyx|goblet|bowl|chess)/.test(normalized)) {
-    return 'onyx';
+  if (/(temple|mandir|pavilion|spire|altar|shrine|niche)/.test(filename)) {
+    return 'temples';
   }
 
-  if (/(decor|lamp|vase|planter|plate|plates|gift|handicraft|elephant|horse)/.test(normalized)) {
-    return 'decor';
+  if (/(handicraft|clock|box|lamp|holder|tray|thali|diya|planter|plate|plates|gift|chowki|storage|incense|mughal|peacock|pen|decorative|serving)/.test(filename)) {
+    return 'handicraft';
   }
 
-  return 'decor';
+  if (/(murti|ganesh|hanuman|buddha|krishna|radha|shiv|durga|kali|deity|idol|statue|sage|saint|ram|vishwakarma|goddess|lord)/.test(filename)) {
+    return 'murtis';
+  }
+
+  return 'handicraft';
+}
+
+function getItemMarbleType() {
+  return 'Makrana Marble • Vietnam Marble • Rajnagar Marble';
+}
+
+function getItemAvailableSize(category: CollectionCategorySlug, name: string) {
+  const normalized = name.toLowerCase();
+
+  if (category === 'temples') {
+    return 'Starting size 2 feet. Larger sizes on demand.';
+  }
+
+  if (category === 'handicraft') {
+    return 'Standard and custom handicraft sizes available on request.';
+  }
+
+  if (category === 'murtis') {
+    if (/(bust|portrait)/.test(normalized)) {
+      return '2 to 3 feet. Larger/custom sizes available on demand.';
+    }
+
+    if (/(statue)/.test(normalized)) {
+      return '2 to 3 feet. Larger/custom sizes available on demand.';
+    }
+
+    return '12 to 36 inches. Larger sizes are available on demand.';
+  }
+
+  return 'Custom sizes available on demand.';
 }
 
 function formatImageName(src: string) {
   return formatAssetTitle(src);
 }
 
-export const COLLECTION_ITEMS: CollectionItem[] = collectionImages.map((image) => ({
-  name: formatImageName(image),
-  description: 'Handcrafted marble artwork from the collection archive.',
-  image,
-  category: getCollectionImageCategory(image),
-}));
+export const COLLECTION_ITEMS: CollectionItem[] = [
+  // Place the featured product first when available (do not duplicate)
+  ...(FEATURED_PRODUCT ? [FEATURED_PRODUCT] : []),
+  ...collectionImages
+    .filter((image) => image !== FEATURED_IMAGE)
+    .map((image) => {
+      const name = formatImageName(image);
+      const category = getCollectionImageCategory(image);
+
+      return {
+        name,
+        description: 'Handcrafted marble artwork from the collection archive.',
+        image,
+        category,
+        marbleType: getItemMarbleType(),
+        availableSize: getItemAvailableSize(category, name),
+      } as CollectionItem;
+    }),
+];
 
 export function getCollectionCategory(slug: string) {
   return COLLECTION_CATEGORIES.find((item) => item.slug === slug);

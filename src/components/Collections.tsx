@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, MessageCircle, X } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
-import { getAllImages, getFolderImages } from '../lib/assetImages';
-import { getCollectionImageCategory } from '../data/collections';
+import { formatAssetTitle, getAllImages, getFolderImages } from '../lib/assetImages';
+import { getCollectionImageCategory, FEATURED_PRODUCT } from '../data/collections';
 
 type Item = {
   name: string;
@@ -29,27 +29,18 @@ function getUniqueCollectionImage(category: string) {
 }
 
 const COLLECTIONS: Item[] = [
-  { name: 'Marble Pooja Mandir', cat: 'Temples', img: getUniqueCollectionImage('Temples'), desc: 'Carved home temples with domes and pillars.' },
-  { name: 'Ram Darbar Murti', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Ram, Lakshman, Sita and Hanuman in divine assembly.' },
-  { name: 'Radha Krishna', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'The eternal union in flowing marble form.' },
-  { name: 'Buddha in Marble', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Serene Buddha busts radiating stillness.' },
-  { name: 'Ganesh Idol', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Vighnaharta in detailed Makrana marble.' },
-  { name: 'Hanuman Ji', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Bhakti personified, carved with devotion.' },
-  { name: 'Marble Temple', cat: 'Temples', img: getUniqueCollectionImage('Temples'), desc: 'Grand standalone temples for homes and ashrams.' },
-  { name: 'Meenakari Decor', cat: 'Meenakari', img: getUniqueCollectionImage('Meenakari'), desc: 'Hand-painted meenakari on marble plates and panels.' },
-  { name: 'Marble Lamps', cat: 'Decor', img: getUniqueCollectionImage('Decor'), desc: 'Carved oil lamps to light the sanctum.' },
-  { name: 'Marble Vases', cat: 'Decor', img: getUniqueCollectionImage('Decor'), desc: 'Elegant urns and vases in veined marble.' },
-  { name: 'Onyx Bowls', cat: 'Onyx', img: getUniqueCollectionImage('Onyx'), desc: 'Translucent onyx bowls that glow with light.' },
-  { name: 'Onyx Chess Set', cat: 'Onyx', img: getUniqueCollectionImage('Onyx'), desc: 'Hand-turned chess pieces in onyx and marble.' },
-  { name: 'Onyx Goblets', cat: 'Onyx', img: getUniqueCollectionImage('Onyx'), desc: 'Royal goblets carved from a single stone.' },
-  { name: 'Decorative Plates', cat: 'Decor', img: getUniqueCollectionImage('Decor'), desc: 'Wall plates with meenakari and relief carving.' },
-  { name: 'Planters', cat: 'Decor', img: getUniqueCollectionImage('Decor'), desc: 'Marble planters for sacred and living spaces.' },
-  { name: 'Marble Murtis', cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'A full pantheon of deities, custom-sized.' },
-];
+  { cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Marble murtis carved with devotion and intricate expression.' },
+  { cat: 'Murtis', img: getUniqueCollectionImage('Murtis'), desc: 'Serene deities and busts in premium marble finishes.' },
+  { cat: 'Temples', img: getUniqueCollectionImage('Temples'), desc: 'Elegant marble temples with domes, pillars and sanctums.' },
+  { cat: 'Temples', img: getUniqueCollectionImage('Temples'), desc: 'Sanctuary designs fashioned for residential and prayer spaces.' },
+  { cat: 'Handicraft', img: getUniqueCollectionImage('Handicraft'), desc: 'Marble handicraft pieces that bring luxury to everyday rituals.' },
+  { cat: 'Handicraft', img: getUniqueCollectionImage('Handicraft'), desc: 'Decorative clocks, trays and puja accessories in fine marble.' },
+  { cat: 'Handicraft', img: getUniqueCollectionImage('Handicraft'), desc: 'Custom marble gift pieces for sacred gifting and decor.' },
+].map((item) => ({ ...item, name: formatAssetTitle(item.img) }));
 
-const FILTERS = ['All', 'Murtis', 'Temples', 'Meenakari', 'Onyx', 'Decor'];
+const FILTERS = ['All', 'Murtis', 'Temples', 'Handicraft'];
 
-const TiltCard = forwardRef<HTMLDivElement, { item: Item; onQuickView: () => void }>(({ item, onQuickView }, ref) => {
+const TiltCard = forwardRef<HTMLDivElement, { item: Item; onQuickView: () => void; featured?: boolean }>(({ item, onQuickView, featured }, ref) => {
   const tiltRef = useRef<HTMLDivElement>(null);
   const onMove = (e: React.MouseEvent) => {
     const el = tiltRef.current;
@@ -76,7 +67,7 @@ const TiltCard = forwardRef<HTMLDivElement, { item: Item; onQuickView: () => voi
         ref={tiltRef}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
-        className="tilt-card group relative overflow-hidden rounded-2xl bg-marble-900 shadow-soft"
+        className={`tilt-card group relative overflow-hidden rounded-2xl bg-marble-900 ${featured ? 'shadow-[0_30px_90px_rgba(212,144,47,0.14)] scale-[1.02]' : 'shadow-soft'}`}
         style={{ transformStyle: 'preserve-3d' }}
       >
         <div className="relative aspect-[3/4] overflow-hidden">
@@ -93,6 +84,11 @@ const TiltCard = forwardRef<HTMLDivElement, { item: Item; onQuickView: () => voi
 
         {/* hover overlay actions */}
         <div className="absolute inset-0 flex flex-col justify-end p-5">
+          {featured && (
+            <div className="absolute right-4 top-4 z-20">
+              <span className="rounded-full bg-gold-500/20 px-3 py-1 text-[0.6rem] uppercase tracking-[0.18em] text-gold-200 backdrop-blur-sm">Featured</span>
+            </div>
+          )}
           <span className="mb-2 w-fit rounded-full bg-gold-500/20 px-3 py-1 text-[0.6rem] uppercase tracking-[0.25em] text-gold-200 backdrop-blur-sm">
             {item.cat}
           </span>
@@ -135,7 +131,7 @@ export default function Collections() {
         <SectionHeading
           eyebrow="Our Collections"
           title={<>A Pantheon in <span className="gold-text">Stone</span></>}
-          intro="From marble murtis and temples to onyx and meenakari — every category is a curated gallery of devotion."
+          intro="From marble murtis and temples to distinctive handicrafts — every category is a curated gallery of devotion."
         />
 
         <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -176,7 +172,12 @@ export default function Collections() {
         <motion.div layout className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <AnimatePresence mode="popLayout">
             {items.map((item) => (
-              <TiltCard key={item.name} item={item} onQuickView={() => setActive(item)} />
+              <TiltCard
+                key={item.name}
+                item={item}
+                onQuickView={() => setActive(item)}
+                featured={!!FEATURED_PRODUCT && (item.name === FEATURED_PRODUCT.name || item.img === FEATURED_PRODUCT.image)}
+              />
             ))}
           </AnimatePresence>
         </motion.div>

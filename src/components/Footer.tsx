@@ -18,9 +18,7 @@ const LINKS = [
 const COLLECTION_LINKS = [
   { label: 'Marble Murtis', to: '/collections/murtis' },
   { label: 'Marble Temples', to: '/collections/temples' },
-  { label: 'Meenakari Decor', to: '/collections/meenakari' },
-  { label: 'Onyx Handicrafts', to: '/collections/onyx' },
-  { label: 'Decor', to: '/collections/decor' },
+  { label: 'Marble Handicraft', to: '/collections/handicraft' },
 ];
 
 const SOCIAL_LINKS = [

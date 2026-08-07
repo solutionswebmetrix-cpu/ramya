@@ -4,6 +4,7 @@ import About from '../components/About';
 import Features from '../components/Features';
 import Collections from '../components/Collections';
 import ProductShowcase3D from '../components/ProductShowcase3D';
+import FeaturedProduct from '../components/FeaturedProduct';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
@@ -11,6 +12,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <FeaturedProduct />
       <About />
       <Features />
       <Collections />

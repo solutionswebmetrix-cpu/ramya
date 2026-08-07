@@ -18,9 +18,7 @@ const NAV = [
 const COLLECTION_LINKS = [
   { label: 'Murtis', to: '/collections/murtis' },
   { label: 'Temples', to: '/collections/temples' },
-  { label: 'Meenakari', to: '/collections/meenakari' },
-  { label: 'Onyx', to: '/collections/onyx' },
-  { label: 'Decor', to: '/collections/decor' },
+  { label: 'Handicraft', to: '/collections/handicraft' },
 ];
 
 export default function Navbar() {

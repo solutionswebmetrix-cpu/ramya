@@ -9,7 +9,7 @@ const rootAssetModules = import.meta.glob('../assets/*.{png,jpg,jpeg,webp}', {
   import: 'default',
 }) as Record<string, string>;
 
-const collectionAssetModules = import.meta.glob('../assets/collections/*.{png,jpg,jpeg,webp}', {
+const collectionAssetModules = import.meta.glob('../assets/collections/**/*.{png,jpg,jpeg,webp}', {
   eager: true,
   import: 'default',
 }) as Record<string, string>;
@@ -26,6 +26,38 @@ const normalize = (value: string) =>
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 
+function isRandomSuffixToken(token: string) {
+  if (!token) return false;
+
+  const upperCount = (token.match(/[A-Z]/g) ?? []).length;
+  const lowerCount = (token.match(/[a-z]/g) ?? []).length;
+
+  if (/[0-9]/.test(token)) {
+    return true;
+  }
+
+  if (upperCount >= 2 && lowerCount >= 2 && token.length >= 6) {
+    return true;
+  }
+
+  return false;
+}
+
+function toTitleCase(value: string) {
+  return value
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => {
+      const normalized = word.toLowerCase();
+      if (normalized.length <= 3) {
+        return normalized;
+      }
+
+      return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+    })
+    .join(' ');
+}
+
 const assetEntries: AssetEntry[] = [
   ...Object.entries(collectionAssetModules),
   ...Object.entries(galleryAssetModules),
@@ -40,8 +72,27 @@ const assetEntries: AssetEntry[] = [
   .sort((a, b) => a.name.localeCompare(b.name));
 
 const allAssets = assetEntries.map((entry) => entry.src);
+const assetPathMap = new Map(allAssets.map((src, index) => [src, assetEntries[index].path]));
 const collectionAssets = Object.values(collectionAssetModules);
 const galleryAssets = Object.values(galleryAssetModules);
+
+export function getAssetPath(src: string) {
+  return assetPathMap.get(src) ?? '';
+}
+
+export function getFolderImageEntries(folder: string) {
+  const targetFolder = folder.toLowerCase();
+
+  if (targetFolder === 'collections') {
+    return assetEntries.filter((entry) => entry.path.toLowerCase().includes('/assets/collections/'));
+  }
+
+  if (targetFolder === 'gallery') {
+    return assetEntries.filter((entry) => entry.path.toLowerCase().includes('/assets/gallery/'));
+  }
+
+  return assetEntries.filter((entry) => entry.path.toLowerCase().includes(`/assets/${targetFolder}/`));
+}
 
 export function pickImage(search: string | string[]) {
   const keywords = (Array.isArray(search) ? search : [search])
@@ -97,7 +148,7 @@ export function getFolderImages(folder: string) {
 }
 
 export function formatAssetTitle(src: string) {
-  const rawName = src.split('/').pop() ?? 'Collection piece';
+  const rawName = (src.split('/').pop() ?? 'Collection piece').split('?')[0];
   const decodedName = (() => {
     try {
       return decodeURIComponent(rawName);
@@ -106,10 +157,22 @@ export function formatAssetTitle(src: string) {
     }
   })();
 
-  return decodedName
-    .replace(/\.[^.]+$/, '')
+  const withoutExtension = decodedName.replace(/\.[^.]+$/, '');
+  const normalized = withoutExtension
     .replace(/[-_]+/g, ' ')
     .replace(/%20/g, ' ')
+    .replace(/[()]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+
+  const words = normalized.split(' ').filter(Boolean);
+  const cleanedWords = [...words];
+
+  while (cleanedWords.length > 1 && isRandomSuffixToken(cleanedWords[cleanedWords.length - 1])) {
+    cleanedWords.pop();
+  }
+
+  const cleanedTitle = cleanedWords.join(' ');
+
+  return toTitleCase(cleanedTitle || 'Collection Piece');
 }
