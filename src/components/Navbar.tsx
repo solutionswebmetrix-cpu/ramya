@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, Phone, Search } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getProductRoute, searchProducts } from '../data/collections';
 import LogoImage from './LogoImage';
 
 const NAV = [
@@ -37,6 +38,14 @@ export default function Navbar() {
   const [marbleMurtiOpen, setMarbleMurtiOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
   const [mobileMarbleMurtiOpen, setMobileMarbleMurtiOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    return searchProducts(searchQuery).slice(0, 10);
+  }, [searchQuery]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -209,14 +218,71 @@ export default function Navbar() {
             })}
           </ul>
 
-          <div className="hidden xl:block">
-            <Link
-              to="/contact"
-              className="btn-gold relative z-[71] pointer-events-auto flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em]"
+          <div className="hidden xl:block relative">
+            <button
+              type="button"
+              onClick={() => setSearchOpen((value) => !value)}
+              className={`relative z-[71] inline-flex h-12 w-12 items-center justify-center rounded-full border border-marble-200 bg-white/90 text-marble-700 transition-colors hover:border-gold-500 hover:text-gold-700 ${scrolled ? 'shadow-sm' : ''}`}
+              aria-label="Search products"
             >
-              <Phone className="h-3.5 w-3.5" />
-              Contact
-            </Link>
+              <Search className="h-5 w-5" />
+            </button>
+
+            <AnimatePresence>
+              {searchOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  className="absolute right-0 top-full z-50 mt-3 w-[28rem] rounded-[1.5rem] border border-marble-200 bg-white/95 p-4 shadow-soft"
+                >
+                  <div className="flex items-center gap-3 rounded-full border border-marble-200 bg-marble-50 px-4 py-2">
+                    <Search className="h-4 w-4 text-marble-500" />
+                    <input
+                      type="search"
+                      value={searchQuery}
+                      onChange={(event) => setSearchQuery(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                          event.preventDefault();
+                          setSearchOpen(false);
+                          navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                        }
+                      }}
+                      autoFocus
+                      placeholder="Search products"
+                      className="w-full bg-transparent text-sm text-marble-900 outline-none placeholder:text-marble-400"
+                    />
+                  </div>
+
+                  <div className="mt-4 max-h-72 overflow-auto">
+                    {searchResults.length > 0 ? (
+                      <ul className="space-y-2">
+                        {searchResults.map((item) => (
+                          <Link
+                            key={item.id}
+                            to={getProductRoute(item)}
+                            onClick={() => {
+                              setSearchOpen(false);
+                              setSearchQuery('');
+                            }}
+                            className="block rounded-[1.25rem] px-4 py-3 transition hover:bg-marble-50"
+                          >
+                            <p className="font-medium text-marble-900">{item.name}</p>
+                            <p className="mt-1 text-xs uppercase tracking-[0.2em] text-marble-500">
+                              {item.category === 'murtis' ? 'Marble Murti' : item.category === 'temples' ? 'Temple' : 'Handicraft'}
+                            </p>
+                          </Link>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-sm text-marble-500">Type any product name to see matching results.</p>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <button

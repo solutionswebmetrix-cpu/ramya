@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
-import { getCollectionItemsByCategory, getProductDetailRoute, type CollectionItem } from '../data/collections';
+import { getCollectionItemsByCategory, getProductRoute, type CollectionItem } from '../data/collections';
 
 function getHomeShowcaseItems() {
   const murtiItems = getCollectionItemsByCategory('murtis');
@@ -35,7 +35,7 @@ function getHomeShowcaseItems() {
 
 function ProductCard({ item, index }: { item: CollectionItem; index: number }) {
   const navigate = useNavigate();
-  const productRoute = getProductDetailRoute(item.category, item.name);
+  const productRoute = getProductRoute(item);
 
   return (
     <motion.div

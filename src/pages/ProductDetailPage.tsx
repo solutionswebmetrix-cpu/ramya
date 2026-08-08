@@ -1,19 +1,31 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Phone, MessageCircle, PackageCheck, Sparkles } from 'lucide-react';
-import { getCollectionItemByRoute, getCollectionItemsByCategory, getProductDetailRoute, type CollectionItem } from '../data/collections';
+import { getCategoryLabel, getCollectionItemsByCategory, getProductById, getProductRoute, type CollectionItem } from '../data/collections';
 
-function getCategoryLabel(category: string) {
-  if (category === 'marble-murti') return 'Marble Murti';
-  if (category === 'temple') return 'Temple';
-  if (category === 'handicraft') return 'Handicraft';
-  return 'Collection';
-}
-
-function getCategoryInfo(category: string) {
+function getCategoryInfo(category: string, subcategory?: string) {
   const normalized = category.toLowerCase();
+  const normalizedSubcategory = subcategory?.toLowerCase();
 
-  if (normalized === 'marble-murti') {
+  if (normalized === 'murtis') {
+    if (normalizedSubcategory === 'bust') {
+      return {
+        sizes: ['2 Feet to 3 Feet'],
+        marble: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+        note: 'Custom sizes available on demand.',
+        label: 'Bust',
+      };
+    }
+
+    if (normalizedSubcategory === 'statue') {
+      return {
+        sizes: ['2 Feet to 3 Feet'],
+        marble: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+        note: 'Vietnam Marble statues are available only from 3 Feet onwards.',
+        label: 'Statue',
+      };
+    }
+
     return {
       sizes: ['12 Inches to 36 Inches'],
       marble: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
@@ -22,25 +34,7 @@ function getCategoryInfo(category: string) {
     };
   }
 
-  if (normalized === 'bust') {
-    return {
-      sizes: ['2 Feet to 3 Feet'],
-      marble: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
-      note: 'Custom sizes available on demand.',
-      label: 'Bust',
-    };
-  }
-
-  if (normalized === 'statue') {
-    return {
-      sizes: ['2 Feet to 3 Feet'],
-      marble: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
-      note: 'Vietnam Marble statues are available only from 3 Feet onwards.',
-      label: 'Statue',
-    };
-  }
-
-  if (normalized === 'temple') {
+  if (normalized === 'temples') {
     return {
       sizes: ['Starts from 2 Feet'],
       marble: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
@@ -67,17 +61,16 @@ function getCategoryInfo(category: string) {
 }
 
 export default function ProductDetailPage() {
-  const { category, productName } = useParams<{ category: string; productName: string }>();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const { category, productName, productId } = useParams<{ category?: string; productName?: string; productId?: string }>();
 
-  const product = category && productName ? getCollectionItemByRoute(category, productName) : undefined;
-  const categoryInfo = category ? getCategoryInfo(category) : undefined;
+  const product = productId ? getProductById(productId) : category && productName ? getProductById(productName) : undefined;
+  const categoryInfo = product ? getCategoryInfo(product.category, product.subcategory) : undefined;
 
   const relatedProducts = useMemo(() => {
-    if (!category) return [] as CollectionItem[];
-    const items = getCollectionItemsByCategory(category);
-    return items.filter((item) => item.image !== product?.image).slice(0, 4);
-  }, [category, product?.image]);
+    if (!product) return [] as CollectionItem[];
+    const items = getCollectionItemsByCategory(product.category);
+    return items.filter((item) => item.id !== product.id).slice(0, 4);
+  }, [product]);
 
   if (!product || !categoryInfo) {
     return (
@@ -89,8 +82,7 @@ export default function ProductDetailPage() {
     );
   }
 
-  const images = [product.image, ...relatedProducts.map((item) => item.image)].filter((image, index, list) => list.indexOf(image) === index).slice(0, 5);
-  const mainImage = selectedImage ?? images[0] ?? product.image;
+  const mainImage = product.image;
 
   return (
     <section className="min-h-screen bg-marble-50 px-5 py-24 md:px-8">
@@ -110,28 +102,34 @@ export default function ProductDetailPage() {
               />
             </div>
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-4">
-              {images.map((image) => (
-                <button
-                  key={image}
-                  type="button"
-                  onClick={() => setSelectedImage(image)}
-                  className={`overflow-hidden rounded-[1rem] border ${mainImage === image ? 'border-gold-500 shadow-sm' : 'border-marble-200'} bg-white p-2 transition-all`}
-                >
-                  <img src={image} alt={product.name} className="h-20 w-full object-contain" loading="lazy" />
-                </button>
-              ))}
-            </div>
           </div>
 
           <div className="lg:sticky lg:top-24 h-fit rounded-[2rem] border border-marble-200 bg-white/90 p-7 shadow-soft md:p-8">
-            <span className="section-eyebrow">{getCategoryLabel(category ?? '')}</span>
+            <span className="section-eyebrow">{getCategoryLabel(product.category)}</span>
             <h1 className="mt-3 font-serif-lux text-3xl font-semibold text-marble-900">{product.name}</h1>
 
             <div className="mt-6 space-y-4 text-sm text-marble-600">
               <div>
                 <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Category</p>
-                <p className="mt-2 text-marble-900">{categoryInfo.label}</p>
+                <p className="mt-2 text-marble-900">{getCategoryLabel(product.category)}</p>
+              </div>
+              {product.subcategory ? (
+                <div>
+                  <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Subcategory</p>
+                  <p className="mt-2 text-marble-900">{product.subcategory}</p>
+                </div>
+              ) : null}
+              <div>
+                <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Size</p>
+                <p className="mt-2 text-marble-900">{product.size}</p>
+              </div>
+              <div>
+                <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Marble</p>
+                <p className="mt-2 text-marble-900">{product.marble}</p>
+              </div>
+              <div>
+                <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Description</p>
+                <p className="mt-2 leading-relaxed">{product.description}</p>
               </div>
               <div>
                 <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Available Sizes</p>
@@ -161,8 +159,8 @@ export default function ProductDetailPage() {
               ) : null}
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="rounded-[1rem] border border-marble-200 bg-marble-50 p-4">
-                  <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Price</p>
-                  <p className="mt-2 text-marble-900">Contact for Price</p>
+                  <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Customization</p>
+                  <p className="mt-2 text-marble-900">Available</p>
                 </div>
                 <div className="rounded-[1rem] border border-marble-200 bg-marble-50 p-4">
                   <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Availability</p>
@@ -217,11 +215,11 @@ export default function ProductDetailPage() {
           <h2 className="font-serif-lux text-2xl font-semibold text-marble-900">Related Products</h2>
           <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {relatedProducts.map((item) => (
-              <Link key={item.image} to={getProductDetailRoute(item.category, item.name)} className="overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/90 shadow-soft transition-transform hover:-translate-y-1">
+              <Link key={item.image} to={getProductRoute(item)} className="overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/90 shadow-soft transition-transform hover:-translate-y-1">
                 <img src={item.image} alt={item.name} className="h-56 w-full object-contain p-3" loading="lazy" />
                 <div className="p-5">
                   <h3 className="font-serif-lux text-lg font-semibold text-marble-900">{item.name}</h3>
-                  <p className="mt-2 text-sm text-marble-600">{item.category === 'murtis' ? 'Marble Murti' : item.category === 'temples' ? 'Temple' : 'Handicraft'}</p>
+                  <p className="mt-2 text-sm text-marble-600">{getCategoryLabel(item.category)}</p>
                 </div>
               </Link>
             ))}

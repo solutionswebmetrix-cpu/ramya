@@ -31,7 +31,7 @@ export function getCategoryRouteSlug(category: CollectionCategorySlug | string) 
 }
 
 export function getProductDetailRoute(category: CollectionCategorySlug | string, name: string) {
-  return `/product/${getCategoryRouteSlug(category)}/${slugifyProductName(name)}`;
+  return `/product/${slugifyProductName(name)}`;
 }
 
 export type CollectionCategory = {
@@ -44,15 +44,19 @@ export type CollectionCategory = {
 };
 
 export type CollectionItem = {
+  id: string;
   name: string;
   description: string;
   image: string;
+  images?: string[];
   category: CollectionCategorySlug;
+  subcategory?: CollectionSubcategory;
+  size: string;
+  marble: string;
   marbleType: string;
   availableSize: string;
   sizeDetails: string[];
   marbleDetails: string[];
-  subcategory?: CollectionSubcategory;
 };
 
 const collectionImages = getFolderImages('collections');
@@ -217,19 +221,98 @@ export const COLLECTION_ITEMS: CollectionItem[] = relevantCollectionImages.map((
   const category = getCollectionImageCategory(image);
 
   const subcategory = getCollectionSubcategory(image);
+  const name = formatAssetTitle(image);
+  const size = getItemAvailableSize(category, subcategory);
+  const marble = getItemMarbleType();
 
   return {
-    name: formatAssetTitle(image),
+    id: slugifyProductName(name),
+    name,
     description: 'Handcrafted marble artwork from the collection archive.',
     image,
+    images: [image],
     category,
-    marbleType: getItemMarbleType(),
-    availableSize: getItemAvailableSize(category, subcategory),
+    subcategory,
+    size,
+    marble,
+    marbleType: marble,
+    availableSize: size,
     sizeDetails: getItemSizeDetails(category, subcategory),
     marbleDetails: getItemMarbleDetails(),
-    subcategory,
   } as CollectionItem;
 });
+
+export const PRODUCTS = COLLECTION_ITEMS;
+
+export function getProductRoute(product: CollectionItem | string) {
+  const id = typeof product === 'string' ? product : product.id;
+  return `/product/${id}`;
+}
+
+export function getProductById(productId: string | undefined) {
+  if (!productId) return undefined;
+  const normalizedId = productId.toLowerCase();
+  return COLLECTION_ITEMS.find((item) => item.id === normalizedId);
+}
+
+const SEARCH_SYNONYMS: Record<string, string[]> = {
+  mandir: ['temples', 'temple'],
+  temple: ['temples', 'temple'],
+  handicraft: ['handicraft'],
+  bust: ['bust'],
+  statue: ['statue'],
+  murti: ['murtis', 'marble murti', 'murti'],
+  marble: ['marble'],
+};
+
+export function getCategoryLabel(category: CollectionCategorySlug) {
+  if (category === 'murtis') return 'Marble Murti';
+  if (category === 'temples') return 'Temple';
+  if (category === 'handicraft') return 'Handicraft';
+  return 'Collection';
+}
+
+function normalizeSearchValue(value: string) {
+  return value.trim().toLowerCase();
+}
+
+function matchesSearchTerm(item: CollectionItem, term: string) {
+  const normalizedTerm = normalizeSearchValue(term);
+  const itemText = [
+    item.name,
+    item.description,
+    item.category,
+    item.subcategory ?? '',
+    item.size,
+    item.marble,
+    item.marbleType,
+    item.marbleDetails.join(' '),
+  ]
+    .join(' ')
+    .toLowerCase();
+
+  if (itemText.includes(normalizedTerm)) {
+    return true;
+  }
+
+  const synonyms = SEARCH_SYNONYMS[normalizedTerm];
+  if (synonyms) {
+    const categoryLabel = getCategoryLabel(item.category).toLowerCase();
+    return synonyms.some((synonym) => categoryLabel.includes(synonym) || (item.subcategory?.toLowerCase() ?? '').includes(synonym));
+  }
+
+  return false;
+}
+
+export function searchProducts(query: string) {
+  const normalizedQuery = normalizeSearchValue(query);
+  if (!normalizedQuery) {
+    return COLLECTION_ITEMS;
+  }
+
+  const terms = normalizedQuery.split(/\s+/).filter(Boolean);
+  return COLLECTION_ITEMS.filter((item) => terms.every((term) => matchesSearchTerm(item, term)));
+}
 
 function normalizeCategorySlug(slug: string): CollectionCategorySlug | undefined {
   const normalized = slug.toLowerCase();

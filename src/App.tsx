@@ -16,6 +16,7 @@ import WhyUsPage from './pages/WhyUsPage';
 import TestimonialsPage from './pages/TestimonialsPage';
 import ContactPage from './pages/ContactPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import SearchResultsPage from './pages/SearchResultsPage';
 
 function AppRoutes() {
   const [loaded, setLoaded] = useState(false);
@@ -39,7 +40,9 @@ function AppRoutes() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/collections" element={<CollectionsPage />} />
           <Route path="/collections/:category/:subcategory?" element={<CollectionCategoryPage />} />
+          <Route path="/product/:productId" element={<ProductDetailPage />} />
           <Route path="/product/:category/:productName" element={<ProductDetailPage />} />
+          <Route path="/search" element={<SearchResultsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/customization" element={<CustomizationPage />} />
           <Route path="/why-us" element={<WhyUsPage />} />

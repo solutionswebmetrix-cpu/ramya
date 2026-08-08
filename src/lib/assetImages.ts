@@ -26,38 +26,6 @@ const normalize = (value: string) =>
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 
-function isRandomSuffixToken(token: string) {
-  if (!token) return false;
-
-  const upperCount = (token.match(/[A-Z]/g) ?? []).length;
-  const lowerCount = (token.match(/[a-z]/g) ?? []).length;
-
-  if (/[0-9]/.test(token)) {
-    return true;
-  }
-
-  if (upperCount >= 2 && lowerCount >= 2 && token.length >= 6) {
-    return true;
-  }
-
-  return false;
-}
-
-function toTitleCase(value: string) {
-  return value
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((word) => {
-      const normalized = word.toLowerCase();
-      if (normalized.length <= 3) {
-        return normalized;
-      }
-
-      return normalized.charAt(0).toUpperCase() + normalized.slice(1);
-    })
-    .join(' ');
-}
-
 const assetEntries: AssetEntry[] = [
   ...Object.entries(collectionAssetModules),
   ...Object.entries(galleryAssetModules),
@@ -147,8 +115,10 @@ export function getFolderImages(folder: string) {
     .map((entry) => entry.src);
 }
 
-export function formatAssetTitle(src: string) {
-  const rawName = (src.split('/').pop() ?? 'Collection piece').split('?')[0];
+export function formatAssetTitle(srcOrPath: string) {
+  const assetPath = getAssetPath(srcOrPath);
+  const pathToUse = assetPath || srcOrPath;
+  const rawName = (pathToUse.split('/').pop() ?? 'Collection piece').split('?')[0];
   const decodedName = (() => {
     try {
       return decodeURIComponent(rawName);

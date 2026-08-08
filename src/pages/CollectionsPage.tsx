@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Reveal, SectionHeading } from '../components/ui/Reveal';
-import { COLLECTION_CATEGORIES, getCollectionItemsByCategory } from '../data/collections';
+import { COLLECTION_CATEGORIES, getCollectionItemsByCategory, getProductRoute } from '../data/collections';
 
 const subcategories = [
   { key: 'marble-murti', title: 'Marble Murti' },
@@ -13,6 +13,8 @@ export default function CollectionsPage() {
     ...category,
     items: getCollectionItemsByCategory(category.slug),
   }));
+
+  const navigate = useNavigate();
 
   return (
     <section className="relative overflow-hidden bg-marble-50 py-24 md:py-32">
@@ -63,15 +65,20 @@ export default function CollectionsPage() {
                             </div>
                             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                               {products.map((item) => (
-                                <div key={item.image} className="group overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 shadow-sm">
+                                <button
+                                  key={item.id}
+                                  type="button"
+                                  onClick={() => navigate(getProductRoute(item))}
+                                  className="group flex w-full cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 shadow-sm transition-transform duration-200 hover:-translate-y-1"
+                                >
                                   <div className="h-[300px] w-full overflow-hidden bg-white">
                                     <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
                                   </div>
-                                  <div className="p-5">
+                                  <div className="p-5 text-left">
                                     <h5 className="font-serif-lux text-lg font-semibold text-marble-900">{item.name}</h5>
-                                    <Link to="/contact" className="mt-4 inline-flex rounded-full bg-gold-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900">Inquiry Now</Link>
+                                    <p className="mt-4 inline-flex rounded-full bg-gold-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900">View Details</p>
                                   </div>
-                                </div>
+                                </button>
                               ))}
                             </div>
                           </div>
@@ -82,15 +89,20 @@ export default function CollectionsPage() {
                 ) : (
                   <div className="grid gap-4 p-6 md:grid-cols-2 md:p-8 xl:grid-cols-3">
                     {category.items.map((item) => (
-                      <div key={item.image} className="group overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 shadow-sm">
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => navigate(getProductRoute(item))}
+                        className="group flex w-full cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 shadow-sm transition-transform duration-200 hover:-translate-y-1"
+                      >
                         <div className="h-[300px] w-full overflow-hidden bg-white">
                           <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
                         </div>
-                        <div className="p-5">
+                        <div className="p-5 text-left">
                           <h5 className="font-serif-lux text-lg font-semibold text-marble-900">{item.name}</h5>
-                          <Link to="/contact" className="mt-4 inline-flex rounded-full bg-gold-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900">Inquiry Now</Link>
+                          <p className="mt-4 inline-flex rounded-full bg-gold-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900">View Details</p>
                         </div>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 )}

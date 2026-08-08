@@ -1,6 +1,6 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { SectionHeading, Reveal } from '../components/ui/Reveal';
-import { getCollectionCategory, getCollectionItemsByCategory } from '../data/collections';
+import { getCollectionCategory, getCollectionItemsByCategory, getProductRoute } from '../data/collections';
 
 const subcategories = [
   { key: 'marble-murti', title: 'Marble Murti' },
@@ -11,6 +11,7 @@ const subcategories = [
 export default function CollectionCategoryPage() {
   const { category, subcategory } = useParams<{ category: string; subcategory?: string }>();
   const categoryInfo = category ? getCollectionCategory(category) : undefined;
+  const navigate = useNavigate();
   let items = category ? getCollectionItemsByCategory(category) : [];
 
   if (category === 'marble-murti' && subcategory) {
@@ -73,8 +74,19 @@ export default function CollectionCategoryPage() {
                   </div>
                   <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
                     {products.map((item, index) => (
-                      <Reveal key={`${item.image}-${index}`} delay={index * 0.04}>
-                        <div className="group flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-marble-200 bg-white/80 shadow-soft transition-transform duration-500 hover:-translate-y-1">
+                      <Reveal key={item.id} delay={index * 0.04}>
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => navigate(getProductRoute(item))}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                              event.preventDefault();
+                              navigate(getProductRoute(item));
+                            }
+                          }}
+                          className="group flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-marble-200 bg-white/80 shadow-soft transition-transform duration-500 hover:-translate-y-1"
+                        >
                           <div className="h-[320px] w-full overflow-hidden bg-white">
                             <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
                           </div>
@@ -99,7 +111,11 @@ export default function CollectionCategoryPage() {
                                 </ul>
                               </div>
                             </div>
-                            <Link to="/contact" className="mt-auto inline-flex rounded-full bg-gold-500 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900 transition-colors hover:bg-gold-400">
+                            <Link
+                              to="/contact"
+                              onClick={(event) => event.stopPropagation()}
+                              className="mt-auto inline-flex rounded-full bg-gold-500 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900 transition-colors hover:bg-gold-400"
+                            >
                               Inquiry Now
                             </Link>
                           </div>
@@ -114,8 +130,19 @@ export default function CollectionCategoryPage() {
         ) : (
           <div className="mt-14 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {items.map((item, index) => (
-              <Reveal key={`${item.image}-${index}`} delay={index * 0.04}>
-                <div className="group flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-marble-200 bg-white/80 shadow-soft transition-transform duration-500 hover:-translate-y-1">
+              <Reveal key={item.id} delay={index * 0.04}>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => navigate(getProductRoute(item))}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      navigate(getProductRoute(item));
+                    }
+                  }}
+                  className="group flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-marble-200 bg-white/80 shadow-soft transition-transform duration-500 hover:-translate-y-1"
+                >
                   <div className="h-[320px] w-full overflow-hidden bg-white">
                     <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
                   </div>
@@ -140,7 +167,11 @@ export default function CollectionCategoryPage() {
                         </ul>
                       </div>
                     </div>
-                    <Link to="/contact" className="mt-auto inline-flex rounded-full bg-gold-500 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900 transition-colors hover:bg-gold-400">
+                    <Link
+                      to="/contact"
+                      onClick={(event) => event.stopPropagation()}
+                      className="mt-auto inline-flex rounded-full bg-gold-500 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900 transition-colors hover:bg-gold-400"
+                    >
                       Inquiry Now
                     </Link>
                   </div>
