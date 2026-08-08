@@ -1,7 +1,7 @@
 import { formatAssetTitle, getAssetPath, getFolderImages } from '../lib/assetImages';
 
 export type CollectionCategorySlug = 'murtis' | 'temples' | 'handicraft';
-export type CollectionSubcategory = 'Marble Murti' | 'Bust' | 'Statue';
+export type CollectionSubcategory = 'Marble Murti' | 'Bust' | 'Statue' | 'Handicraft';
 
 export function slugifyProductName(value: string) {
   return value
@@ -218,17 +218,24 @@ function getItemMarbleDetails() {
 }
 
 export const COLLECTION_ITEMS: CollectionItem[] = relevantCollectionImages.map((image) => {
-  const category = getCollectionImageCategory(image);
+  const defaultCategory = getCollectionImageCategory(image);
 
-  const subcategory = getCollectionSubcategory(image);
+  const defaultSubcategory = getCollectionSubcategory(image);
   const name = formatAssetTitle(image);
-  const size = getItemAvailableSize(category, subcategory);
-  const marble = getItemMarbleType();
+  const isWallClock = name === 'Marble Lord Rama Wall Clock';
+  const category = isWallClock ? 'handicraft' : defaultCategory;
+  const subcategory = isWallClock ? 'Handicraft' : defaultSubcategory;
+  const size = isWallClock ? '' : getItemAvailableSize(category, subcategory);
+  const marble = isWallClock ? 'Marble' : getItemMarbleType();
+  const description =
+    isWallClock
+      ? 'Handcrafted marble handicraft artwork from the collection archive.'
+      : 'Handcrafted marble artwork from the collection archive.';
 
   return {
     id: slugifyProductName(name),
     name,
-    description: 'Handcrafted marble artwork from the collection archive.',
+    description,
     image,
     images: [image],
     category,
@@ -237,8 +244,8 @@ export const COLLECTION_ITEMS: CollectionItem[] = relevantCollectionImages.map((
     marble,
     marbleType: marble,
     availableSize: size,
-    sizeDetails: getItemSizeDetails(category, subcategory),
-    marbleDetails: getItemMarbleDetails(),
+    sizeDetails: isWallClock ? [] : getItemSizeDetails(category, subcategory),
+    marbleDetails: isWallClock ? ['Marble'] : getItemMarbleDetails(),
   } as CollectionItem;
 });
 

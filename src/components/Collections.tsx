@@ -14,7 +14,13 @@ function getHomeShowcaseItems() {
       .map((name) => source.find((item) => item.name === name))
       .filter((item): item is CollectionItem => Boolean(item));
 
+  const featuredItem = pickByName(
+    [...murtiItems, ...templeItems, ...handicraftItems],
+    ['Marble Lord Rama Wall Clock'],
+  );
+
   const selected = [
+    ...featuredItem,
     ...pickByName(
       murtiItems.filter((item) => item.subcategory === 'Marble Murti'),
       [
@@ -55,7 +61,12 @@ function ProductCard({ item, index }: { item: CollectionItem; index: number }) {
       className="group cursor-pointer overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/90 shadow-soft"
     >
       <div className="overflow-hidden bg-marble-50">
-        <img src={item.image} alt={item.name} className="h-72 w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+        <img
+          src={item.image}
+          alt={item.name}
+          className={`h-72 w-full transition duration-700 group-hover:scale-105 ${item.name === 'Marble Lord Rama Wall Clock' ? 'object-contain' : 'object-cover'}`}
+          loading="lazy"
+        />
       </div>
       <div className="flex h-full flex-col p-6">
         <h3 className="font-serif-lux text-xl font-semibold text-marble-900">{item.name}</h3>

@@ -64,6 +64,7 @@ export default function ProductDetailPage() {
   const { category, productName, productId } = useParams<{ category?: string; productName?: string; productId?: string }>();
 
   const product = productId ? getProductById(productId) : category && productName ? getProductById(productName) : undefined;
+  const isWallClock = product?.name === 'Marble Lord Rama Wall Clock';
   const categoryInfo = product ? getCategoryInfo(product.category, product.subcategory) : undefined;
 
   const relatedProducts = useMemo(() => {
@@ -119,10 +120,14 @@ export default function ProductDetailPage() {
                   <p className="mt-2 text-marble-900">{product.subcategory}</p>
                 </div>
               ) : null}
-              <div>
-                <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Size</p>
-                <p className="mt-2 text-marble-900">{product.size}</p>
-              </div>
+              {!isWallClock ? (
+                <>
+                  <div>
+                    <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Size</p>
+                    <p className="mt-2 text-marble-900">{product.size}</p>
+                  </div>
+                </>
+              ) : null}
               <div>
                 <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Marble</p>
                 <p className="mt-2 text-marble-900">{product.marble}</p>
@@ -131,14 +136,16 @@ export default function ProductDetailPage() {
                 <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Description</p>
                 <p className="mt-2 leading-relaxed">{product.description}</p>
               </div>
-              <div>
-                <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Available Sizes</p>
-                <ul className="mt-2 space-y-1">
-                  {categoryInfo.sizes.map((size) => (
-                    <li key={size}>• {size}</li>
-                  ))}
-                </ul>
-              </div>
+              {!isWallClock ? (
+                <div>
+                  <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Available Sizes</p>
+                  <ul className="mt-2 space-y-1">
+                    {categoryInfo.sizes.map((size) => (
+                      <li key={size}>• {size}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
               <div>
                 <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Available Marble</p>
                 <ul className="mt-2 space-y-1">
@@ -151,7 +158,7 @@ export default function ProductDetailPage() {
                 <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Description</p>
                 <p className="mt-2 leading-relaxed">{product.description}</p>
               </div>
-              {categoryInfo.note ? (
+              {!isWallClock && categoryInfo.note ? (
                 <div className="rounded-[1rem] border border-gold-200 bg-gold-50/70 p-4 text-sm text-marble-700">
                   <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Note</p>
                   <p className="mt-2 leading-relaxed">{categoryInfo.note}</p>
