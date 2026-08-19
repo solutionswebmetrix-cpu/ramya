@@ -72,10 +72,13 @@ export default function CollectionsPage() {
                                   className="group flex w-full cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 shadow-sm transition-transform duration-200 hover:-translate-y-1"
                                 >
                                   <div className="h-[300px] w-full overflow-hidden bg-white">
-                                    <img src={item.image} alt={item.name} className="h-full w-full object-contain" loading="lazy" decoding="async" />
+                                    <img src={item.image} alt={item.name} className="h-full w-full object-contain p-2" loading="lazy" decoding="async" />
                                   </div>
                                   <div className="p-5 text-left">
                                     <h5 className="font-serif-lux text-lg font-semibold text-marble-900">{item.name}</h5>
+                                    {item.price ? (
+                                      <div className="mt-2 font-serif-lux text-2xl font-semibold gold-text">{item.price}</div>
+                                    ) : null}
                                     <p className="mt-4 inline-flex rounded-full bg-gold-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900">View Details</p>
                                   </div>
                                 </button>
@@ -96,10 +99,13 @@ export default function CollectionsPage() {
                         className="group flex w-full cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 shadow-sm transition-transform duration-200 hover:-translate-y-1"
                       >
                         <div className="h-[300px] w-full overflow-hidden bg-white">
-                          <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" decoding="async" />
+                          <img src={item.image} alt={item.name} className="h-full w-full object-contain p-2" loading="lazy" decoding="async" />
                         </div>
                         <div className="p-5 text-left">
                           <h5 className="font-serif-lux text-lg font-semibold text-marble-900">{item.name}</h5>
+                          {item.price ? (
+                            <div className="mt-2 font-serif-lux text-2xl font-semibold gold-text">{item.price}</div>
+                          ) : null}
                           <p className="mt-4 inline-flex rounded-full bg-gold-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900">View Details</p>
                         </div>
                       </button>

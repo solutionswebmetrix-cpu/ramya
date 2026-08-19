@@ -4,17 +4,25 @@ export type CollectionCategory = 'marble-murti' | 'temple' | 'handicraft';
 
 export type CollectionSubcategory = 'Marble Murti' | 'Bust' | 'Statue' | 'Temple' | 'Handicraft';
 
+export type ProductVariant = {
+  name: string;
+  label?: string;
+};
+
 export type CollectionItem = {
   id: string;
   name: string;
   category: CollectionCategory;
   subcategory?: CollectionSubcategory;
   image: string;
+  gallery?: string[];
   description: string;
   marbleType: string;
   size: string;
   sizeDetails: string[];
   marbleDetails: string[];
+  price?: string;
+  variants?: ProductVariant[];
 };
 
 export type CategoryInfo = {
@@ -71,6 +79,261 @@ const slugifyName = (name: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
+const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
+  {
+    id: slugifyName('Durga Mata Murti'),
+    name: 'Durga Mata Murti',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Durga Devi Murti'),
+    description: 'Sacred hand-carved Durga Mata Murti sculpted from premium Raj Nagar marble with intricate detailing and long-lasting polish finish.',
+    marbleType: 'Raj Nagar Marble',
+    size: '2.5 Feet',
+    sizeDetails: ['2.5 Feet'],
+    marbleDetails: ['Raj Nagar Marble', 'Makrana Marble', 'Vietnam Marble'],
+    price: '₹60,000',
+    variants: [
+      { name: 'Ivory Durga Murti — Colour', label: 'Colour' },
+      { name: 'Ivory Durga Murti — Without Colour', label: 'Without Colour' },
+    ],
+    gallery: [pickImage('Durga Devi Murti'), pickImage('Ivory Durga Murti')],
+  },
+  {
+    id: slugifyName('Ivory Durga Murti — Colour'),
+    name: 'Ivory Durga Murti — Colour',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Ivory Durga Murti'),
+    description: 'Ivory finish Durga Mata Murti with hand-painted colour ornamentation; sculpted from Raj Nagar marble.',
+    marbleType: 'Raj Nagar Marble',
+    size: '2.5 Feet',
+    sizeDetails: ['2.5 Feet'],
+    marbleDetails: ['Raj Nagar Marble', 'Makrana Marble', 'Vietnam Marble'],
+    price: '₹60,000',
+  },
+  {
+    id: slugifyName('Ivory Durga Murti — Without Colour'),
+    name: 'Ivory Durga Murti — Without Colour',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Ivory Durga Murti'),
+    description: 'Ivory finish Durga Mata Murti with natural marble polish and no paint; sculpted from Raj Nagar marble.',
+    marbleType: 'Raj Nagar Marble',
+    size: '2.5 Feet',
+    sizeDetails: ['2.5 Feet'],
+    marbleDetails: ['Raj Nagar Marble', 'Makrana Marble', 'Vietnam Marble'],
+    price: '₹60,000',
+  },
+  {
+    id: slugifyName('Ornate Black Stone Krishna Murti'),
+    name: 'Ornate Black Stone Krishna Murti',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Ornate Black Stone Krishna Murti'),
+    description: 'Ornately sculpted Krishna Murti in polished black stone with divine proportions and rich detailing.',
+    marbleType: 'Black Stone',
+    size: '2.5 Feet',
+    sizeDetails: ['2.5 Feet'],
+    marbleDetails: ['Black Stone', 'Makrana Marble', 'Rajnagar Marble'],
+    price: '₹50,000',
+  },
+  {
+    id: slugifyName('Polished Black Stone Krishna Murti'),
+    name: 'Polished Black Stone Krishna Murti',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Polished Black Stone Krishna Murti'),
+    description: 'Highly polished black stone Krishna Murti with a glossy finish, chiselled with devotion and precision.',
+    marbleType: 'Black Stone',
+    size: '2.5 Feet',
+    sizeDetails: ['2.5 Feet'],
+    marbleDetails: ['Black Stone', 'Makrana Marble', 'Rajnagar Marble'],
+    price: '₹50,000',
+  },
+  {
+    id: slugifyName('Marble Mother Handicraft'),
+    name: 'Marble Mother Handicraft',
+    category: 'handicraft',
+    subcategory: 'Handicraft',
+    image: pickImage('Marble Mother Handicraft'),
+    description: 'Handcrafted decorative marble Mother figurine in premium Makrana marble with a smooth hand polish.',
+    marbleType: 'Makrana Marble',
+    size: '9 Inches / 1 Foot',
+    sizeDetails: ['9 Inches', '1 Foot'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹10,000',
+  },
+  {
+    id: slugifyName('Khatu Shyam Ji'),
+    name: 'Khatu Shyam Ji',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Khatu Shaym Jii Murti'),
+    description: 'Sacred Khatu Shyam Ji Murti hand-carved from Raj Nagar marble with precise facial features and a divine glow.',
+    marbleType: 'Raj Nagar Marble',
+    size: '1 Foot',
+    sizeDetails: ['1 Foot'],
+    marbleDetails: ['Raj Nagar Marble', 'Makrana Marble', 'Vietnam Marble'],
+    price: '₹10,000',
+  },
+  {
+    id: slugifyName('Jugal Jodi'),
+    name: 'Jugal Jodi',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Jugal jodi'),
+    description: 'Traditional Jugal Jodi (Radha Krishna pair) murti handcrafted in Makrana marble with graceful poses and delicate ornamentation.',
+    marbleType: 'Makrana Marble',
+    size: '1.25 Feet',
+    sizeDetails: ['1.25 Feet'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹15,000',
+  },
+  {
+    id: slugifyName('Mahatma Statue'),
+    name: 'Mahatma Statue',
+    category: 'marble-murti',
+    subcategory: 'Statue',
+    image: pickImage('Mahatma statue'),
+    description: 'Commemorative Mahatma statue hand-sculpted from Makrana marble, ideal for public spaces, offices and memorials.',
+    marbleType: 'Makrana Marble',
+    size: '1.5 Feet',
+    sizeDetails: ['1.5 Feet', '2 Feet to 3 Feet'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹25,000',
+  },
+  {
+    id: slugifyName('Shiv Parivar'),
+    name: 'Shiv Parivar',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Shiv Parivar'),
+    description: 'Hand-carved Shiv Parivar murti set in premium Makrana marble depicting Shiva, Parvati, Ganesha and Kartikeya.',
+    marbleType: 'Makrana Marble',
+    size: '1.5 Feet',
+    sizeDetails: ['1.5 Feet'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹75,000',
+  },
+  {
+    id: slugifyName('Ganesh Murti'),
+    name: 'Ganesh Murti',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Ganesh Murti'),
+    description: 'Sacred hand-carved Ganesh Murti in Makrana marble with a serene face, decorative ornamentation and a lasting polish.',
+    marbleType: 'Makrana Marble',
+    size: '1 Foot',
+    sizeDetails: ['1 Foot'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹18,000',
+  },
+  {
+    id: slugifyName('Buddha Statue'),
+    name: 'Buddha Statue',
+    category: 'marble-murti',
+    subcategory: 'Statue',
+    image: pickImage('Budh statue'),
+    description: 'Meditative Buddha statue handcrafted in Makrana marble with a peaceful meditative posture and polished finish.',
+    marbleType: 'Makrana Marble',
+    size: '1.5 Feet',
+    sizeDetails: ['1.5 Feet', '2 Feet to 3 Feet'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹15,000',
+  },
+  {
+    id: slugifyName('Brahma Ji'),
+    name: 'Brahma Ji',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Bramahm Jii'),
+    description: 'Divine Brahma Ji murti hand-sculpted from premium Vietnam marble with four faces, ceremonial attire and fine detailing.',
+    marbleType: 'Vietnam Marble',
+    size: '1.5 Feet',
+    sizeDetails: ['1.5 Feet'],
+    marbleDetails: ['Vietnam Marble', 'Makrana Marble', 'Rajnagar Marble'],
+    price: '₹35,000',
+  },
+  {
+    id: slugifyName('Bengali Durga'),
+    name: 'Bengali Durga',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Bangali durga'),
+    description: 'Traditional Bengali-style Durga Maa murti hand-carved in Makrana marble with a fierce yet graceful expression.',
+    marbleType: 'Makrana Marble',
+    size: '1.5 Feet',
+    sizeDetails: ['1.5 Feet'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹25,000',
+  },
+  {
+    id: slugifyName('Sher Jodi'),
+    name: 'Sher Jodi',
+    category: 'marble-murti',
+    subcategory: 'Statue',
+    image: pickImage('Sher jodi'),
+    description: 'Pair of hand-carved marble lion statues (Sher Jodi) in Raj Nagar marble, typically placed at mandir entrances and gates.',
+    marbleType: 'Raj Nagar Marble',
+    size: '1 Foot',
+    sizeDetails: ['1 Foot', '2 Feet to 3 Feet'],
+    marbleDetails: ['Raj Nagar Marble', 'Makrana Marble', 'Vietnam Marble'],
+    price: '₹15,000',
+  },
+  {
+    id: slugifyName('Mohan Ram Baba'),
+    name: 'Mohan Ram Baba',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Mohan ram baba'),
+    description: 'Blessed Mohan Ram Baba murti hand-sculpted in Makrana marble with a serene face and devotional posture.',
+    marbleType: 'Makrana Marble',
+    size: '1 Foot',
+    sizeDetails: ['1 Foot'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹15,000',
+  },
+  {
+    id: slugifyName('Lossy Saffron Monk Bust'),
+    name: 'Lossy Saffron Monk Bust',
+    category: 'marble-murti',
+    subcategory: 'Bust',
+    image: pickImage('lossy Saffron Monk Bust'),
+    description: 'Hand-carved portrait bust of a Saffron Monk in Makrana marble, offering a meditative expression and refined contours.',
+    marbleType: 'Makrana Marble',
+    size: '1 Foot',
+    sizeDetails: ['1 Foot', '2 Feet to 3 Feet'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹15,000',
+  },
+  {
+    id: slugifyName('Dutt Bhagwan'),
+    name: 'Dutt Bhagwan',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Dutt Bhagwan'),
+    description: 'Sacred Dutt Bhagwan murti hand-carved in Makrana marble with traditional attire and a blessing mudra.',
+    marbleType: 'Makrana Marble',
+    size: '1.5 Feet',
+    sizeDetails: ['1.5 Feet'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹25,000',
+  },
+  {
+    id: slugifyName('Shani Dev'),
+    name: 'Shani Dev',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Shani dev'),
+    description: 'Revered Shani Dev murti sculpted in black stone with traditional iconography, a divine aura and lasting polish.',
+    marbleType: 'Black Stone',
+    size: '1 Foot',
+    sizeDetails: ['1 Foot'],
+    marbleDetails: ['Black Stone', 'Makrana Marble', 'Rajnagar Marble'],
+    price: '₹12,000',
+  },
+];
+
 const BUST_PRODUCT_NAMES = [
   'Ornate White Marble Deity Bust',
   'Marble Statesman in the Stone Yard bust',
@@ -87,6 +350,8 @@ const STATUE_PRODUCT_NAMES = [
   'Painted General in the Sculpture Studio',
   'Statue Workshop Portrait with Hindi Plaque',
 ] as const;
+
+const EXPLICIT_NAME_SET = new Set(EXPLICIT_NEW_PRODUCTS.map((p) => p.name));
 
 const buildMurtiItems = (): CollectionItem[] => {
   const names: Array<{ name: string; subcategory: CollectionSubcategory }> = [
@@ -121,7 +386,6 @@ const buildMurtiItems = (): CollectionItem[] => {
     { name: 'Marble Hanuman with Sacred Mountain', subcategory: 'Marble Murti' },
     { name: 'Marble Krishna and Radha Shrine Display', subcategory: 'Marble Murti' },
     { name: 'Marble Krishna and Radha Shrine', subcategory: 'Marble Murti' },
-    { name: 'Marble Lord Rama Wall Clock', subcategory: 'Marble Murti' },
     { name: 'Marble Panchamukhi Hanuman Statue', subcategory: 'Marble Murti' },
     { name: 'Marble Radha Krishna Statue', subcategory: 'Marble Murti' },
     { name: 'Marble Saraswati with Veena', subcategory: 'Marble Murti' },
@@ -154,24 +418,26 @@ const buildMurtiItems = (): CollectionItem[] => {
     ...STATUE_PRODUCT_NAMES.map((name) => ({ name, subcategory: 'Statue' as const })),
   ];
 
-  return names.map(({ name, subcategory }) => {
-    const sizeDetails = subcategory === 'Bust' || subcategory === 'Statue' ? ['2 Feet to 3 Feet'] : ['12 Inches to 36 Inches'];
-    const marbleDetails = ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'];
-    const size = subcategory === 'Bust' || subcategory === 'Statue' ? '2 Feet to 3 Feet' : '12 Inches to 36 Inches';
+  return names
+    .filter(({ name }) => !EXPLICIT_NAME_SET.has(name))
+    .map(({ name, subcategory }) => {
+      const sizeDetails = subcategory === 'Bust' || subcategory === 'Statue' ? ['2 Feet to 3 Feet'] : ['12 Inches to 36 Inches'];
+      const marbleDetails = ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'];
+      const size = subcategory === 'Bust' || subcategory === 'Statue' ? '2 Feet to 3 Feet' : '12 Inches to 36 Inches';
 
-    return {
-      id: slugifyName(name),
-      name,
-      category: 'marble-murti' as CollectionCategory,
-      subcategory,
-      image: pickImage(name),
-      description: `${subcategory} sculpted from premium marble with fine detailing and long-lasting polish finish.`,
-      marbleType: 'Makrana Marble',
-      size,
-      sizeDetails,
-      marbleDetails,
-    };
-  });
+      return {
+        id: slugifyName(name),
+        name,
+        category: 'marble-murti' as CollectionCategory,
+        subcategory,
+        image: pickImage(name),
+        description: `${subcategory} sculpted from premium marble with fine detailing and long-lasting polish finish.`,
+        marbleType: 'Makrana Marble',
+        size,
+        sizeDetails,
+        marbleDetails,
+      };
+    });
 };
 
 const buildTempleItems = (): CollectionItem[] => {
@@ -234,6 +500,7 @@ const buildHandicraftItems = (): CollectionItem[] => {
     'Marble Lions in a Sunlit Sculpture Yard',
     'Marble Lions in the Sculpture Yard',
     'Marble Lord Ganesha Idol on Decorative Chowki',
+    'Marble Lord Rama Wall Clock',
     'Marble Mughal Couple Flower',
     'Marble Peacock Decorative Wall Clock',
     'Marble Peacock Jewelry Box',
@@ -253,21 +520,24 @@ const buildHandicraftItems = (): CollectionItem[] => {
     'White Quatrefoil Lattice Panel on Dusty Floor',
   ];
 
-  return names.map((name) => ({
-    id: slugifyName(name),
-    name,
-    category: 'handicraft' as CollectionCategory,
-    subcategory: 'Handicraft' as CollectionSubcategory,
-    image: pickImage(name),
-    description: 'Handcrafted marble decorative article with polished finish; ideal for pooja, gifting and home decor.',
-    marbleType: 'Makrana Marble',
-    size: 'Available on demand',
-    sizeDetails: ['Available on demand'],
-    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
-  }));
+  return names
+    .filter((name) => !EXPLICIT_NAME_SET.has(name))
+    .map((name) => ({
+      id: slugifyName(name),
+      name,
+      category: 'handicraft' as CollectionCategory,
+      subcategory: 'Handicraft' as CollectionSubcategory,
+      image: pickImage(name),
+      description: 'Handcrafted marble decorative article with polished finish; ideal for pooja, gifting and home decor.',
+      marbleType: 'Makrana Marble',
+      size: 'Available on demand',
+      sizeDetails: ['Available on demand'],
+      marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    }));
 };
 
 export const COLLECTION_ITEMS: CollectionItem[] = [
+  ...EXPLICIT_NEW_PRODUCTS,
   ...buildMurtiItems(),
   ...buildTempleItems(),
   ...buildHandicraftItems(),

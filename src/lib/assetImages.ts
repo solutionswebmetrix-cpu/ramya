@@ -8,6 +8,32 @@ type AssetEntry = {
 };
 
 const ASSET_RELATIVE_PATHS: string[] = [
+  'Bangali durga.png',
+  'Bramahm Jii.png',
+  'Budh statue.png',
+  'Bust Marble Statesman in the Stone Yard bust.webp',
+  'Dutt Bhagwan.png',
+  'Durga Devi Murti.png',
+  'Ganesh Murti.png',
+  'Ivory Durga Murti.png',
+  'Jugal jodi.png',
+  'Khatu Shaym Jii Murti.png',
+  'lossy Saffron Monk Bust.png',
+  'Mahatma statue.png',
+  'Marble Mother Handicraft.png',
+  'Mohan ram baba.png',
+  'Ornate Black Stone Krishna Murti.png',
+  'Ornate Painted Hindu Mandir Shrine.png',
+  'Ornate Painted Marble Mandir Shrine.png',
+  'Ornate Marble Hindu Mandir Shrine.png',
+  'Ornate Ram Sita Lakshman Shrine Diorama.png',
+  'Ornate White Marble Hindu Mandir Shrine.png',
+  'Polished Black Stone Krishna Murti.png',
+  'Shani dev.png',
+  'Sher jodi.png',
+  'Shiv Parivar.png',
+  'Vishnu and Lakshmi Murti.png',
+  'White Marble Temple Altar Cutout.png',
   'collections/handicraft/Carved White Lattice Panel in Workshop.webp',
   'collections/handicraft/Decorative Marble Incense Holder.webp',
   'collections/handicraft/Decorative Marble Kalash.webp',
@@ -255,7 +281,7 @@ function pickWidthForPath(relativePath: string): CloudinaryWidth | undefined {
   if (lower.includes('/logo/')) {
     return 300;
   }
-  return 600;
+  return 1200;
 }
 
 function toPublicId(relativePath: string): string {

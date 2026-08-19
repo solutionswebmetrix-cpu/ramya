@@ -64,20 +64,23 @@ function ProductCard({ item, index }: { item: CollectionItem; index: number }) {
       tabIndex={0}
       className="group cursor-pointer overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/90 shadow-soft"
     >
-      <div className="overflow-hidden bg-marble-50">
+      <div className="bg-marble-50">
         <img
           src={item.image}
           alt={item.name}
-          className="h-72 w-full object-contain"
+          className="h-72 w-full object-contain p-3"
           loading="lazy"
           decoding="async"
         />
       </div>
       <div className="flex h-full flex-col p-6">
         <h3 className="font-serif-lux text-xl font-semibold text-marble-900">{item.name}</h3>
-        <div className="mt-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">
+        <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">
           <span>{item.subcategory ?? (item.category === 'marble-murti' ? 'Marble Murti' : item.category === 'temple' ? 'Temple' : 'Handicraft')}</span>
         </div>
+        {item.price ? (
+          <div className="mt-4 font-serif-lux text-2xl font-semibold gold-text">{item.price}</div>
+        ) : null}
         <button
           type="button"
           onClick={(event) => {

@@ -88,10 +88,13 @@ export default function CollectionCategoryPage() {
                           className="group flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-marble-200 bg-white/80 shadow-soft transition-transform duration-500 hover:-translate-y-1"
                         >
                           <div className="h-[320px] w-full overflow-hidden bg-white">
-                            <img src={item.image} alt={item.name} className="h-full w-full object-contain" loading="lazy" decoding="async" />
+                            <img src={item.image} alt={item.name} className="h-full w-full object-contain p-3" loading="lazy" decoding="async" />
                           </div>
                           <div className="flex flex-1 flex-col p-7">
                             <h4 className="font-serif-lux text-2xl font-semibold text-marble-900">{item.name}</h4>
+                            {item.price ? (
+                              <div className="mt-3 font-serif-lux text-2xl font-semibold gold-text">{item.price}</div>
+                            ) : null}
                             <div className="mt-4 space-y-2 text-sm text-marble-600">
                               <p className="leading-relaxed">{item.description}</p>
                               <div>
@@ -144,10 +147,13 @@ export default function CollectionCategoryPage() {
                   className="group flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-marble-200 bg-white/80 shadow-soft transition-transform duration-500 hover:-translate-y-1"
                 >
                   <div className="h-[320px] w-full overflow-hidden bg-white">
-                    <img src={item.image} alt={item.name} className="h-full w-full object-contain" loading="lazy" decoding="async" />
+                    <img src={item.image} alt={item.name} className="h-full w-full object-contain p-3" loading="lazy" decoding="async" />
                   </div>
                   <div className="flex flex-1 flex-col p-7">
                     <h3 className="font-serif-lux text-2xl font-semibold text-marble-900">{item.name}</h3>
+                    {item.price ? (
+                      <div className="mt-3 font-serif-lux text-2xl font-semibold gold-text">{item.price}</div>
+                    ) : null}
                     <div className="mt-4 space-y-2 text-sm text-marble-600">
                       <p className="leading-relaxed">{item.description}</p>
                       <div>

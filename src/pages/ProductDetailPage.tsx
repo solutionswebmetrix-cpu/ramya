@@ -109,6 +109,9 @@ export default function ProductDetailPage() {
           <div className="lg:sticky lg:top-24 h-fit rounded-[2rem] border border-marble-200 bg-white/90 p-7 shadow-soft md:p-8">
             <span className="section-eyebrow">{getCategoryLabel(product.category)}</span>
             <h1 className="mt-3 font-serif-lux text-3xl font-semibold text-marble-900">{product.name}</h1>
+            {product.price ? (
+              <div className="mt-5 font-serif-lux text-4xl font-semibold gold-text">{product.price}</div>
+            ) : null}
 
             <div className="mt-6 space-y-4 text-sm text-marble-600">
               <div>
@@ -137,6 +140,18 @@ export default function ProductDetailPage() {
                 <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Description</p>
                 <p className="mt-2 leading-relaxed">{product.description}</p>
               </div>
+              {product.variants && product.variants.length > 0 ? (
+                <div>
+                  <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Available Variants</p>
+                  <ul className="mt-2 space-y-1">
+                    {product.variants.map((variant) => (
+                      <li key={variant.name} className="rounded-lg border border-marble-200 bg-marble-50 px-3 py-2 text-marble-900">
+                        {variant.label ? (<><span className="font-semibold">{variant.label}:</span> </>) : null}{variant.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
               {!isWallClock ? (
                 <div>
                   <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Available Sizes</p>
@@ -154,10 +169,6 @@ export default function ProductDetailPage() {
                     <li key={marble}>• {marble}</li>
                   ))}
                 </ul>
-              </div>
-              <div>
-                <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Description</p>
-                <p className="mt-2 leading-relaxed">{product.description}</p>
               </div>
               {!isWallClock && categoryInfo.note ? (
                 <div className="rounded-[1rem] border border-gold-200 bg-gold-50/70 p-4 text-sm text-marble-700">
@@ -181,8 +192,8 @@ export default function ProductDetailPage() {
                   <p className="mt-2 text-marble-900">Pan India</p>
                 </div>
                 <div className="rounded-[1rem] border border-marble-200 bg-marble-50 p-4">
-                  <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Customization</p>
-                  <p className="mt-2 text-marble-900">Available</p>
+                  <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Delivery</p>
+                  <p className="mt-2 text-marble-900">Worldwide Shipping Available</p>
                 </div>
               </div>
             </div>
@@ -224,10 +235,15 @@ export default function ProductDetailPage() {
           <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {relatedProducts.map((item) => (
               <Link key={item.image} to={getProductRoute(item)} className="overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/90 shadow-soft transition-transform hover:-translate-y-1">
-                <img src={item.image} alt={item.name} className="h-56 w-full object-contain p-3" loading="lazy" decoding="async" />
+                <div className="bg-white">
+                  <img src={item.image} alt={item.name} className="h-56 w-full object-contain p-3" loading="lazy" decoding="async" />
+                </div>
                 <div className="p-5">
                   <h3 className="font-serif-lux text-lg font-semibold text-marble-900">{item.name}</h3>
                   <p className="mt-2 text-sm text-marble-600">{getCategoryLabel(item.category)}</p>
+                  {item.price ? (
+                    <div className="mt-2 font-serif-lux text-xl font-semibold gold-text">{item.price}</div>
+                  ) : null}
                 </div>
               </Link>
             ))}

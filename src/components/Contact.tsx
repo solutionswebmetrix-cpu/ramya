@@ -5,6 +5,7 @@ import { SectionHeading, Reveal } from './ui/Reveal';
 import { pickImage } from '../lib/assetImages';
 
 const PHONES = ['+91 9557463257'];
+const SALES_HEAD = { name: 'Ritik Sharma', phone: '+91 77330 41922' };
 const EMAIL = 'Ramyamarblehandicraft@gmail.com';
 const ADDRESS = 'Pani Ki Tanki, Aasha Ke Paas, Rampur (Bansur), Kotputli, Rajasthan, India';
 const BUSINESS_NAME = 'Ramya Marble Murti & Handicraft';
@@ -52,6 +53,17 @@ export default function Contact() {
                       {PHONES.map((p) => (
                         <a key={p} href={`tel:${p.replace(/\s/g, '')}`} className="block font-serif-lux text-lg text-marble-100 transition-colors hover:text-gold-300">{p}</a>
                       ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold-500/30 bg-marble-950/50">
+                      <MessageCircle className="h-5 w-5 text-gold-400" />
+                    </div>
+                    <div>
+                      <div className="text-xs uppercase tracking-[0.2em] text-marble-400">Sales Head</div>
+                      <div className="block font-serif-lux text-lg text-marble-100">{SALES_HEAD.name}</div>
+                      <a href={`tel:${SALES_HEAD.phone.replace(/\s/g, '')}`} className="block text-sm text-gold-300 transition-colors hover:text-gold-200">{SALES_HEAD.phone}</a>
                     </div>
                   </div>
 

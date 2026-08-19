@@ -40,8 +40,8 @@ export default function About() {
               <Reveal>
                 <div className="relative overflow-hidden rounded-[2rem] shadow-soft">
                   <img
-                    src={pickImage(['our heritage', 'workshop', 'artisan'])}
-                    alt="Master artisan carving marble idol"
+                    src={pickImage(['Jugal jodi', 'White Marble Radha Krishna Under Ornate Arch', 'Vishnu and Lakshmi Murti', 'Marble Radha Krishna Statue', 'Radha Krishna'])}
+                    alt="Radha Krishna marble murti, handcrafted with devotion"
                     className="aspect-[4/5] w-full object-contain"
                     loading="lazy"
                     decoding="async"

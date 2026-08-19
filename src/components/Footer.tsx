@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, ArrowUp, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LogoImage from './LogoImage';
 import { RamMark } from './Logo';
@@ -99,10 +99,13 @@ export default function Footer() {
                 <Phone className="h-4 w-4 text-gold-600" />
                 <a href="tel:+919557463257" className="hover:text-gold-700">+91 95574 63257</a>
               </li>
-              {/* <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-gold-600" />
-                <a href="tel:+917733041922" className="hover:text-gold-700">+91 9557463257</a>
-              </li> */}
+              <li className="flex items-start gap-3">
+                <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-gold-600" />
+                <div>
+                  <div className="font-semibold text-marble-800">Ritik Sharma — Sales Head</div>
+                  <a href="tel:+917733041922" className="hover:text-gold-700">+91 77330 41922</a>
+                </div>
+              </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 text-gold-600" />
                 <a href="mailto:contact@ramyamarblemurti.in" className="hover:text-gold-700">Ramyamarblehandicraft@gmail.com</a>

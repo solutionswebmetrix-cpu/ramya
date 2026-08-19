@@ -33,11 +33,14 @@ export default function SearchResultsPage() {
                     className="group flex w-full flex-col overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/90 shadow-soft transition-transform duration-200 hover:-translate-y-1"
                   >
                     <div className="h-72 w-full overflow-hidden bg-marble-50">
-                      <img src={item.image} alt={item.name} className="h-full w-full object-contain" loading="lazy" decoding="async" />
+                      <img src={item.image} alt={item.name} className="h-full w-full object-contain p-2" loading="lazy" decoding="async" />
                     </div>
                     <div className="p-6 text-left">
                       <h3 className="font-serif-lux text-xl font-semibold text-marble-900">{item.name}</h3>
                       <p className="mt-3 text-sm uppercase tracking-[0.18em] text-marble-500">{getCategoryLabel(item.category)}</p>
+                      {item.price ? (
+                        <div className="mt-3 font-serif-lux text-2xl font-semibold gold-text">{item.price}</div>
+                      ) : null}
                       <p className="mt-4 text-sm text-marble-600 line-clamp-3">{item.description}</p>
                       <div className="mt-5 flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-gold-600">
                         <span>{item.subcategory ?? getCategoryLabel(item.category)}</span>
