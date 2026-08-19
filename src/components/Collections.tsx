@@ -2,19 +2,47 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
-import { getCollectionItemsByCategory, getProductRoute, type CollectionItem } from '../data/collections';
+import { COLLECTION_ITEMS, getCollectionItemsByCategory, getProductRoute, type CollectionItem } from '../data/collections';
+
+const HOME_EXPLICIT_NAMES = [
+  'Durga Mata Murti',
+  'Ivory Durga Murti — Colour',
+  'Ivory Durga Murti — Without Colour',
+  'Ornate Black Stone Krishna Murti',
+  'Polished Black Stone Krishna Murti',
+  'Marble Mother Handicraft',
+  'Khatu Shyam Ji',
+  'Jugal Jodi',
+  'Mahatma Statue',
+  'Shiv Parivar',
+  'Ganesh Murti',
+  'Buddha Statue',
+  'Brahma Ji',
+  'Bengali Durga',
+  'Sher Jodi',
+  'Mohan Ram Baba',
+  'Lossy Saffron Monk Bust',
+  'Dutt Bhagwan',
+  'Shani Dev',
+  'Vishnu and Lakshmi Murti',
+  'Marble Lord Rama Wall Clock',
+] as const;
 
 function getHomeShowcaseItems() {
   const murtiItems = getCollectionItemsByCategory('marble-murti');
   const templeItems = getCollectionItemsByCategory('temple');
   const handicraftItems = getCollectionItemsByCategory('handicraft');
 
-  const pickByName = (source: CollectionItem[], names: string[]) =>
+  const pickByName = (source: CollectionItem[], names: readonly string[]) =>
     names
       .map((name) => source.find((item) => item.name === name))
       .filter((item): item is CollectionItem => Boolean(item));
 
-  const selected = [
+  const explicitItems = HOME_EXPLICIT_NAMES
+    .map((name) => COLLECTION_ITEMS.find((item) => item.name === name))
+    .filter((item): item is CollectionItem => Boolean(item));
+
+  const variety = [
     ...pickByName(
       murtiItems.filter((item) => item.subcategory === 'Marble Murti'),
       [
@@ -40,7 +68,12 @@ function getHomeShowcaseItems() {
     ]),
   ];
 
-  return selected.filter((item, index, array) => array.findIndex((candidate) => candidate.image === item.image) === index);
+  const selected = [
+    ...explicitItems,
+    ...variety.filter((v) => !explicitItems.some((e) => e.id === v.id)),
+  ];
+
+  return selected.filter((item, index, array) => array.findIndex((candidate) => candidate.id === item.id) === index);
 }
 
 function ProductCard({ item, index }: { item: CollectionItem; index: number }) {
@@ -81,16 +114,28 @@ function ProductCard({ item, index }: { item: CollectionItem; index: number }) {
         {item.price ? (
           <div className="mt-4 font-serif-lux text-2xl font-semibold gold-text">{item.price}</div>
         ) : null}
-        <button
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation();
-            navigate('/contact');
-          }}
-          className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900 transition-colors hover:bg-gold-400"
-        >
-          <MessageCircle className="h-3.5 w-3.5" /> Inquiry Now
-        </button>
+        <div className="mt-auto flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              navigate(productRoute);
+            }}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-marble-900 transition-colors hover:bg-gold-400"
+          >
+            View Details
+          </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              navigate('/contact');
+            }}
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-marble-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-marble-700 transition-colors hover:border-gold-500 hover:text-gold-700"
+          >
+            <MessageCircle className="h-3.5 w-3.5" /> Inquiry
+          </button>
+        </div>
       </div>
     </motion.div>
   );
@@ -122,7 +167,7 @@ export default function Collections() {
               </div>
               <div className="grid gap-6 p-6 md:grid-cols-2 md:p-8 xl:grid-cols-3">
                 {homeShowcaseItems.map((item, itemIndex) => (
-                  <ProductCard key={item.image} item={item} index={itemIndex} />
+                  <ProductCard key={item.id} item={item} index={itemIndex} />
                 ))}
               </div>
             </div>

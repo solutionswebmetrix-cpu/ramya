@@ -87,6 +87,9 @@ export default function Hero() {
   const brandLine2 = 'MARBLE MURTI';
   const brandLine3 = '& HANDICRAFT';
 
+  const WORD_LOOP_DURATION = 9;
+  const WORD_KEY_TIMES = [0, 0.11, 0.22, 0.33, 0.67, 0.78, 1] as const;
+
   return (
     <section id="home" className="relative min-h-screen overflow-hidden vignette">
       {/* Cinematic marble temple backdrop */}
@@ -123,12 +126,12 @@ export default function Hero() {
       <TempleBells />
 
       {/* Foreground content */}
-      <div className="relative z-20 mx-auto flex min-h-screen items-center justify-center px-5 py-24 text-left md:justify-center md:text-center lg:justify-start lg:text-left">
+      <div className="relative z-20 mx-auto flex min-h-screen items-center justify-center px-5 py-20 text-left md:justify-center md:text-center lg:justify-start lg:text-left">
         <motion.div
           initial={{ opacity: 1, x: 0 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.2, ease: 'easeOut' }}
-          className="w-full max-w-[900px] lg:ml-[8vw] mt-8 md:mt-10 lg:mt-12"
+          className="w-full max-w-[900px] lg:ml-[8vw] mt-4 md:mt-6 lg:mt-8"
         >
           <div className="flex flex-col items-center lg:items-start gap-0">
             {/* Since 1989 */}
@@ -141,29 +144,29 @@ export default function Hero() {
               {textLines[0]}
             </motion.span>
 
-            {/* Brand Name */}
-            <motion.h1 className="mt-4 mb-5 font-serif-lux text-[clamp(3rem,5vw,5rem)] font-semibold leading-[0.95] text-gold-300 md:text-[clamp(3.25rem,4.5vw,5.25rem)] lg:text-[clamp(3.75rem,4vw,5.75rem)] min-h-[72px] md:min-h-[90px]">
+            {/* Brand Name — WORD-BY-WORD loop: RAMYA → MARBLE MURTI → & HANDICRAFT → reset → repeat */}
+            <motion.h1 className="mt-3 mb-4 font-serif-lux text-[clamp(3rem,5vw,5rem)] font-semibold leading-[0.95] text-gold-300 md:text-[clamp(3.25rem,4.5vw,5.25rem)] lg:text-[clamp(3.75rem,4vw,5.75rem)] min-h-[72px] md:min-h-[96px]">
               <motion.span
                 className="block break-words"
                 initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: [0, 1, 1, 1, 0], y: [10, 0, 0, 0, 10] }}
-                transition={{ duration: 6, ease: 'easeInOut', times: [0, 0.08, 0.83, 0.92, 1], repeat: Infinity, repeatType: 'loop' }}
+                animate={{ opacity: [0, 1, 1, 1, 1, 0, 0], y: [10, 0, 0, 0, 0, 10, 10] }}
+                transition={{ duration: WORD_LOOP_DURATION, ease: 'easeInOut', times: WORD_KEY_TIMES, repeat: Infinity, repeatType: 'loop' }}
               >
                 {brandLine1}
               </motion.span>
               <motion.span
                 className="block break-words"
                 initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: [0, 0, 1, 1, 1, 0], y: [10, 10, 0, 0, 0, 10] }}
-                transition={{ duration: 6, ease: 'easeInOut', times: [0, 0.08, 0.2, 0.83, 0.92, 1], repeat: Infinity, repeatType: 'loop' }}
+                animate={{ opacity: [0, 0, 1, 1, 1, 0, 0], y: [10, 10, 0, 0, 0, 10, 10] }}
+                transition={{ duration: WORD_LOOP_DURATION, ease: 'easeInOut', times: WORD_KEY_TIMES, repeat: Infinity, repeatType: 'loop' }}
               >
                 {brandLine2}
               </motion.span>
               <motion.span
                 className="block break-words"
                 initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: [0, 0, 0, 1, 1, 0], y: [10, 10, 10, 0, 0, 10] }}
-                transition={{ duration: 6, ease: 'easeInOut', times: [0, 0.08, 0.2, 0.4, 0.83, 0.92, 1], repeat: Infinity, repeatType: 'loop' }}
+                animate={{ opacity: [0, 0, 0, 1, 1, 0, 0], y: [10, 10, 10, 0, 0, 10, 10] }}
+                transition={{ duration: WORD_LOOP_DURATION, ease: 'easeInOut', times: WORD_KEY_TIMES, repeat: Infinity, repeatType: 'loop' }}
               >
                 {brandLine3}
               </motion.span>
@@ -174,7 +177,7 @@ export default function Hero() {
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
-              className="mt-8 flex flex-col items-center gap-3 text-center lg:flex-row lg:items-center lg:text-left w-full"
+              className="mt-4 flex flex-col items-center gap-3 text-center lg:flex-row lg:items-center lg:text-left w-full"
             >
               <span className="hidden lg:block h-px w-12 bg-gold-500/60" />
               <p className="font-serif-lux text-lg italic text-marble-200 md:text-xl leading-tight">
@@ -188,7 +191,7 @@ export default function Hero() {
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
-              className="mt-8 max-w-2xl text-sm leading-relaxed text-marble-300 md:text-base text-center lg:text-left"
+              className="mt-4 max-w-2xl text-sm leading-relaxed text-marble-300 md:text-base text-center lg:text-left"
             >
               {textLines[2]}
             </motion.p>
@@ -198,7 +201,7 @@ export default function Hero() {
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-              className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start w-full"
+              className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start w-full"
             >
               <Link
                 to="/collections"

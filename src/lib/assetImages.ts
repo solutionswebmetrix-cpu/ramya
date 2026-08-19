@@ -7,6 +7,22 @@ type AssetEntry = {
   publicId: string;
 };
 
+const LOCAL_ASSET_MODULES = import.meta.glob('../assets/*.{png,jpg,jpeg,webp,avif}', { eager: true, as: 'url' }) as Record<string, string>;
+
+const localAssetUrlByBasename: Map<string, string> = new Map();
+Object.entries(LOCAL_ASSET_MODULES).forEach(([modulePath, url]) => {
+  const segments = modulePath.split('/');
+  const basename = segments[segments.length - 1] ?? '';
+  localAssetUrlByBasename.set(basename, url);
+});
+
+const LOCAL_SRC_ASSET_MODULES = import.meta.glob('../*.{png,jpg,jpeg,webp,avif}', { eager: true, as: 'url' }) as Record<string, string>;
+Object.entries(LOCAL_SRC_ASSET_MODULES).forEach(([modulePath, url]) => {
+  const segments = modulePath.split('/');
+  const basename = segments[segments.length - 1] ?? '';
+  localAssetUrlByBasename.set(basename, url);
+});
+
 const ASSET_RELATIVE_PATHS: string[] = [
   'Bangali durga.png',
   'Bramahm Jii.png',
@@ -297,11 +313,18 @@ const assetEntries: AssetEntry[] = ASSET_RELATIVE_PATHS.map((relativePath) => {
   const segments = relativePath.split('/');
   const name = segments[segments.length - 1] ?? '';
   const publicId = toPublicId(relativePath);
+  const onlyBasename = segments.length === 1;
+  let src: string;
+  if (onlyBasename && localAssetUrlByBasename.has(name)) {
+    src = localAssetUrlByBasename.get(name) as string;
+  } else {
+    src = cloudinaryImage(publicId, pickWidthForPath(relativePath));
+  }
   return {
     publicId,
     path: `../assets/${relativePath}`,
     name,
-    src: cloudinaryImage(publicId, pickWidthForPath(relativePath)),
+    src,
   };
 })
   .filter((entry, index, list) => list.findIndex((candidate) => candidate.src === entry.src) === index)

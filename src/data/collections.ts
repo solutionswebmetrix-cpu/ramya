@@ -1,4 +1,5 @@
 import { pickImage } from '../lib/assetImages';
+import { cloudinaryImage } from '../lib/cloudinary';
 
 export type CollectionCategory = 'marble-murti' | 'temple' | 'handicraft';
 
@@ -78,6 +79,8 @@ const slugifyName = (name: string) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+
+const CLOCK_PUBLIC_ID = 'Marble_Lord_Rama_Wall_Clock';
 
 const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   {
@@ -331,6 +334,31 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
     sizeDetails: ['1 Foot'],
     marbleDetails: ['Black Stone', 'Makrana Marble', 'Rajnagar Marble'],
     price: '₹12,000',
+  },
+  {
+    id: slugifyName('Vishnu and Lakshmi Murti'),
+    name: 'Vishnu and Lakshmi Murti',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Vishnu and Lakshmi Murti'),
+    description: 'Divine Vishnu and Lakshmi Murti pair hand-carved from premium Makrana marble, depicting Lord Vishnu with Goddess Lakshmi in graceful poses with intricate ornamentation and lasting polish finish.',
+    marbleType: 'Makrana Marble',
+    size: '3.25 Feet',
+    sizeDetails: ['3.25 Feet'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+    price: '₹90,000',
+  },
+  {
+    id: slugifyName('Marble Lord Rama Wall Clock'),
+    name: 'Marble Lord Rama Wall Clock',
+    category: 'handicraft',
+    subcategory: 'Handicraft',
+    image: cloudinaryImage(CLOCK_PUBLIC_ID, 600),
+    description: 'Premium marble wall clock featuring Lord Rama artwork, handcrafted with fine inlay detailing and silent clock mechanism.',
+    marbleType: 'Makrana Marble',
+    size: 'Available on demand',
+    sizeDetails: ['Available on demand'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
   },
 ];
 

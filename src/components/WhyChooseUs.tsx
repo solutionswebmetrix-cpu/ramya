@@ -5,7 +5,7 @@ import { pickImage } from '../lib/assetImages';
 
 const REASONS = [
   { icon: Award, title: '37+ Years of Experience', desc: '37+ years of trust, experience and craftsmanship in marble murtis, handicrafts and temple art.' },
-  { icon: History, title: '39+ Years of Belief & Experience', desc: 'Decades of trusted craftsmanship and experience in Marble Murti, Handicrafts, Temples and Statues, built on trust, quality and traditional artistry.' },
+  { icon: History, title: '39+ Years of Trust & Experience', desc: 'Built on decades of trust and experience in marble murtis, handicrafts and temple craftsmanship.' },
   { icon: Sparkles, title: 'Rich Craftsmanship Legacy', desc: 'Three and a half decades of mastering the chisel and the soul of marble since 1989.' },
   { icon: Hand, title: '100% Handmade', desc: 'No machines finish our work — only the hands of devoted artisans.' },
   { icon: Gem, title: 'Premium Marble', desc: 'Sourced from the finest quarries, graded for purity and glow.' },

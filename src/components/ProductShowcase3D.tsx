@@ -1,54 +1,8 @@
-import { Suspense, lazy, useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, Float } from '@react-three/drei';
 import { motion } from 'framer-motion';
-import { RotateCw, ZoomIn, Move } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
-
-// Reuse the murti figure building blocks
-import { MurtiFigure, LotusBase } from './MarbleIdolScene';
-
-const ShowcaseScene = () => (
-  <>
-    <ambientLight intensity={0.6} />
-    <directionalLight position={[4, 6, 5]} intensity={1.5} castShadow color="#fff5e0" />
-    <directionalLight position={[-5, 3, -2]} intensity={0.7} color="#e2ad4f" />
-    <spotLight position={[0, 8, 4]} intensity={1.4} angle={0.5} penumbra={1} color="#faf2dc" />
-
-    <Suspense fallback={null}>
-      <group position={[0, -0.4, 0]}>
-        <MurtiFigure />
-        <LotusBase />
-      </group>
-      {/* floating accent chunks */}
-      <Float speed={1.2} rotationIntensity={0.8} floatIntensity={1.5}>
-        <mesh position={[2.4, 1.4, -1]} scale={0.18}>
-          <icosahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial color="#e2ad4f" metalness={0.6} roughness={0.3} flatShading />
-        </mesh>
-      </Float>
-      <Float speed={0.9} rotationIntensity={0.6} floatIntensity={1.2}>
-        <mesh position={[-2.6, 0.6, -0.5]} scale={0.14}>
-          <octahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial color="#ece3d6" metalness={0.2} roughness={0.4} flatShading />
-        </mesh>
-      </Float>
-
-      <ContactShadows position={[0, -2.4, 0]} opacity={0.5} scale={12} blur={2.4} far={4} color="#4a3d31" />
-      <Environment preset="studio" />
-    </Suspense>
-  </>
-);
-
-const TIPS = [
-  { icon: RotateCw, label: 'Drag to rotate' },
-  { icon: ZoomIn, label: 'Scroll to zoom' },
-  { icon: Move, label: 'Right-drag to pan' },
-];
+import { pickImage } from '../lib/assetImages';
 
 export default function ProductShowcase3D() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   return (
     <section className="relative overflow-hidden bg-marble-950 py-24 md:py-32" style={{ background: 'radial-gradient(ellipse at 50% 40%, #2a2218 0%, #14100b 70%, #0a0805 100%)' }}>
       {/* gold ambient glow */}
@@ -59,40 +13,24 @@ export default function ProductShowcase3D() {
           eyebrow="3D Atelier"
           light
           title={<>Inspect Every <span className="gold-text">Chisel Stroke</span></>}
-          intro="Rotate, zoom and examine our marble murti from every angle. The same precision you see here is what you receive."
+          intro="Every detail reflects the precision, craftsmanship and artistry behind our marble creations."
         />
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_320px]">
-          {/* 3D viewport */}
+          {/* Static image viewport */}
           <Reveal>
             <div
-              ref={containerRef}
               className="relative h-[60vh] overflow-hidden rounded-3xl border border-gold-500/20 bg-gradient-to-b from-marble-900/40 to-marble-950/60 backdrop-blur-sm md:h-[70vh]"
             >
-              <Canvas shadows dpr={[1, 1.8]} camera={{ position: [0, 1.2, 6], fov: 42 }} gl={{ antialias: true, alpha: true }}>
-                <ShowcaseScene />
-                <OrbitControls
-                  enablePan
-                  enableZoom
-                  enableRotate
-                  minDistance={3.5}
-                  maxDistance={9}
-                  minPolarAngle={Math.PI * 0.15}
-                  maxPolarAngle={Math.PI * 0.85}
-                  autoRotate
-                  autoRotateSpeed={0.6}
-                />
-              </Canvas>
-
-              {/* control hints */}
-              <div className="pointer-events-none absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-5 rounded-full bg-marble-950/60 px-5 py-2.5 backdrop-blur-md">
-                {TIPS.map((t) => (
-                  <div key={t.label} className="flex items-center gap-2 text-marble-300">
-                    <t.icon className="h-3.5 w-3.5 text-gold-400" />
-                    <span className="text-[0.6rem] uppercase tracking-[0.2em]">{t.label}</span>
-                  </div>
-                ))}
-              </div>
+              <img
+                src={pickImage(['Shiv Parivar', 'marble murti', 'marble carving', 'Marble Radha Krishna Statue', 'craftsmanship sculpture'])}
+                alt="Handcrafted marble murti showcasing the chisel strokes and masterful craftsmanship of Ramya atelier"
+                className="h-full w-full object-contain p-6 md:p-10"
+                loading="lazy"
+                decoding="async"
+              />
+              {/* soft edge vignette */}
+              <div className="pointer-events-none absolute inset-0 rounded-3xl" style={{ boxShadow: 'inset 0 0 120px 20px rgba(10,8,5,0.55)' }} />
             </div>
           </Reveal>
 
