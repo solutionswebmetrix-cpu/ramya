@@ -40,7 +40,7 @@ export default function CollectionsPage() {
                   </Link>
                 </div>
 
-                {category.slug === 'murtis' ? (
+                {category.slug === 'marble-murti' ? (
                   <div className="p-6 md:p-8">
                     <div className="mb-6 flex flex-wrap gap-2">
                       {subcategories.map((subcategory) => {
@@ -72,7 +72,7 @@ export default function CollectionsPage() {
                                   className="group flex w-full cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 shadow-sm transition-transform duration-200 hover:-translate-y-1"
                                 >
                                   <div className="h-[300px] w-full overflow-hidden bg-white">
-                                    <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+                                    <img src={item.image} alt={item.name} className="h-full w-full object-contain" loading="lazy" decoding="async" />
                                   </div>
                                   <div className="p-5 text-left">
                                     <h5 className="font-serif-lux text-lg font-semibold text-marble-900">{item.name}</h5>
@@ -96,7 +96,7 @@ export default function CollectionsPage() {
                         className="group flex w-full cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 shadow-sm transition-transform duration-200 hover:-translate-y-1"
                       >
                         <div className="h-[300px] w-full overflow-hidden bg-white">
-                          <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+                          <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" decoding="async" />
                         </div>
                         <div className="p-5 text-left">
                           <h5 className="font-serif-lux text-lg font-semibold text-marble-900">{item.name}</h5>

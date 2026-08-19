@@ -33,7 +33,7 @@ export default function SearchResultsPage() {
                     className="group flex w-full flex-col overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/90 shadow-soft transition-transform duration-200 hover:-translate-y-1"
                   >
                     <div className="h-72 w-full overflow-hidden bg-marble-50">
-                      <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+                      <img src={item.image} alt={item.name} className="h-full w-full object-contain" loading="lazy" decoding="async" />
                     </div>
                     <div className="p-6 text-left">
                       <h3 className="font-serif-lux text-xl font-semibold text-marble-900">{item.name}</h3>

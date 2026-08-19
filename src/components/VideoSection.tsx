@@ -13,6 +13,7 @@ export default function VideoSection() {
           alt="Marble carving workshop"
           className="h-full w-full object-cover"
           loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-marble-950/70 via-marble-950/50 to-marble-950/85" />
         <div className="absolute inset-0 bg-gradient-to-r from-marble-950/60 to-transparent" />

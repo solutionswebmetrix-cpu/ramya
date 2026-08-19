@@ -5,8 +5,8 @@ import { SectionHeading, Reveal } from './ui/Reveal';
 import { getCollectionItemsByCategory, getProductRoute, type CollectionItem } from '../data/collections';
 
 function getHomeShowcaseItems() {
-  const murtiItems = getCollectionItemsByCategory('murtis');
-  const templeItems = getCollectionItemsByCategory('temples');
+  const murtiItems = getCollectionItemsByCategory('marble-murti');
+  const templeItems = getCollectionItemsByCategory('temple');
   const handicraftItems = getCollectionItemsByCategory('handicraft');
 
   const pickByName = (source: CollectionItem[], names: string[]) =>
@@ -14,26 +14,30 @@ function getHomeShowcaseItems() {
       .map((name) => source.find((item) => item.name === name))
       .filter((item): item is CollectionItem => Boolean(item));
 
-  const featuredItem = pickByName(
-    [...murtiItems, ...templeItems, ...handicraftItems],
-    ['Marble Lord Rama Wall Clock'],
-  );
-
   const selected = [
-    ...featuredItem,
     ...pickByName(
       murtiItems.filter((item) => item.subcategory === 'Marble Murti'),
       [
-        'Blessing Saint with Floral Garland',
-        'Ganesha Idol in Ornate Splendor',
-        'Marble Ganesha in the Stone Workshop',
+        'Majestic Marble Durga on Lion',
+        'Gilded White Marble Ganesha Statue',
+        'Marble Krishna and Radha Statues',
         'Marble Goddess Lakshmi Idol',
       ],
     ),
-    ...pickByName(murtiItems.filter((item) => item.subcategory === 'Bust'), ['Ornate White Marble Deity Bust', 'Marble Statesman in the Stone Yard bust']),
-    ...pickByName(murtiItems.filter((item) => item.subcategory === 'Statue'), ['Brightly Painted Namaste Statue in Stone Workshop', 'Military Statue in Sculpture Workshop']),
-    ...pickByName(templeItems, ['Marble Mandir with Deities and Sages', 'White Marble Mandir with Floral Inlay', 'Marble Pavilion Under Blue Skies']),
-    ...pickByName(handicraftItems, ['Marble Peacock Decorative Wall Clock', 'Marble Decorative Lantern']),
+    ...pickByName(murtiItems.filter((item) => item.subcategory === 'Bust'), [
+      'Ornate White Marble Deity Bust',
+      'Marble Statesman in the Stone Yard bust',
+    ]),
+    ...pickByName(murtiItems.filter((item) => item.subcategory === 'Statue'), [
+      'Brightly Painted Namaste Statue in Stone Workshop',
+      'Uniformed Gentleman Portrait',
+    ]),
+    ...pickByName(templeItems, ['Marble Mandir with Deities and Sages']),
+    ...pickByName(handicraftItems, [
+      'Marble Peacock Decorative Wall Clock',
+      'Marble Decorative Lantern',
+      'Marble Lord Ganesha Idol on Decorative Chowki',
+    ]),
   ];
 
   return selected.filter((item, index, array) => array.findIndex((candidate) => candidate.image === item.image) === index);
@@ -64,14 +68,15 @@ function ProductCard({ item, index }: { item: CollectionItem; index: number }) {
         <img
           src={item.image}
           alt={item.name}
-          className={`h-72 w-full transition duration-700 group-hover:scale-105 ${item.name === 'Marble Lord Rama Wall Clock' ? 'object-contain' : 'object-cover'}`}
+          className="h-72 w-full object-contain"
           loading="lazy"
+          decoding="async"
         />
       </div>
       <div className="flex h-full flex-col p-6">
         <h3 className="font-serif-lux text-xl font-semibold text-marble-900">{item.name}</h3>
         <div className="mt-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">
-          <span>{item.category === 'murtis' ? 'Marble Murti' : item.category === 'temples' ? 'Temple' : 'Handicraft'}</span>
+          <span>{item.subcategory ?? (item.category === 'marble-murti' ? 'Marble Murti' : item.category === 'temple' ? 'Temple' : 'Handicraft')}</span>
         </div>
         <button
           type="button"
@@ -108,7 +113,7 @@ export default function Collections() {
                   <div>
                     <span className="section-eyebrow">Featured Home Showcase</span>
                     <h3 className="mt-3 font-serif-lux text-2xl font-semibold text-marble-900">A curated selection of unique products from every category.</h3>
-                    <p className="mt-3 max-w-2xl text-sm leading-relaxed text-marble-600">Only 13 carefully chosen images are shown here so the home page stays focused and uncluttered.</p>
+                    <p className="mt-3 max-w-2xl text-sm leading-relaxed text-marble-600">Marble Murti, Statues, Bust, Handicrafts and Temples — all crafted with devotion and premium marble.</p>
                   </div>
                 </div>
               </div>

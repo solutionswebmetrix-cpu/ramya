@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
 import { Phone, BookOpen, ArrowRight, Volume2, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import heroVideo from '../assets/logo/banner.mp4';
+import { cloudinaryHeroVideo } from '../lib/cloudinary';
 
 function GodRays() {
   return (
@@ -78,94 +77,15 @@ function TempleBells() {
 }
 
 export default function Hero() {
-  const brandText = 'RAMYA MARBLE MURTI & HANDICRAFT';
-  
   const textLines = [
-    'Since 1989',
+    'SINCE 1989',
     'Astha Ko Dijiye Murti Ka Roop',
-    'Handcrafting premium marble idols, temples, onyx and meenakari masterpieces for over three decades — where devotion meets artistry.',
+    'All types of Marble Murti, Temples, Busts, Statues and Handicrafts — with customization as per customer demand.',
   ];
 
-  const [displayedBrandText, setDisplayedBrandText] = useState('');
-  const [brandCharIndex, setBrandCharIndex] = useState(0);
-  const [displayedLines, setDisplayedLines] = useState<string[]>(() => textLines.map(() => ''));
-  const [currentLine, setCurrentLine] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [showButtons, setShowButtons] = useState(false);
-
-  // Brand Name - Infinite Loop Animation
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setBrandCharIndex((prev) => {
-        const nextIndex = prev + 1;
-        
-        // If reached end of text, go back to start (loop)
-        if (nextIndex > brandText.length) {
-          setDisplayedBrandText('');
-          return 0;
-        }
-        
-        setDisplayedBrandText(brandText.slice(0, nextIndex));
-        return nextIndex;
-      });
-    }, 100); // 100ms per character
-
-    return () => window.clearInterval(interval);
-  }, []);
-
-  // Other text animations
-  useEffect(() => {
-    if (currentLine >= textLines.length) {
-      return;
-    }
-
-    const line = textLines[currentLine];
-
-    // Line 0: "Since 1989" - Instant appearance
-    if (currentLine === 0) {
-      const timeout = window.setTimeout(() => {
-        setDisplayedLines((prev) => {
-          const next = [...prev];
-          next[0] = line;
-          return next;
-        });
-        setCurrentLine(1);
-      }, 500); // Wait 500ms before showing
-
-      return () => window.clearTimeout(timeout);
-    }
-
-    // Line 1: Tagline "Astha Ko Dijiye Murti Ka Roop" - Instant appearance
-    if (currentLine === 1) {
-      const timeout = window.setTimeout(() => {
-        setDisplayedLines((prev) => {
-          const next = [...prev];
-          next[1] = line;
-          return next;
-        });
-        setCurrentLine(2);
-      }, 3000); // Wait 3 seconds after brand name typing starts
-
-      return () => window.clearTimeout(timeout);
-    }
-
-    // Line 2: Description - Instant appearance
-    if (currentLine === 2) {
-      const timeout = window.setTimeout(() => {
-        setDisplayedLines((prev) => {
-          const next = [...prev];
-          next[2] = line;
-          return next;
-        });
-        setShowButtons(true);
-        setCurrentLine(3);
-      }, 500); // Wait 500ms after tagline
-
-      return () => window.clearTimeout(timeout);
-    }
-
-    return undefined;
-  }, [currentLine, textLines]);
+  const brandLine1 = 'RAMYA';
+  const brandLine2 = 'MARBLE MURTI';
+  const brandLine3 = '& HANDICRAFT';
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden vignette">
@@ -194,7 +114,7 @@ export default function Hero() {
         preload="metadata"
         className="absolute inset-0 h-full w-full object-cover"
       >
-        <source src={heroVideo} type="video/mp4" />
+        <source src={cloudinaryHeroVideo()} type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-black/45" aria-hidden="true" />
 
@@ -205,64 +125,79 @@ export default function Hero() {
       {/* Foreground content */}
       <div className="relative z-20 mx-auto flex min-h-screen items-center justify-center px-5 py-24 text-left md:justify-center md:text-center lg:justify-start lg:text-left">
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 1, x: 0 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
-          className="w-full max-w-[900px] lg:ml-[8vw]"
+          transition={{ duration: 0.2, ease: 'easeOut' }}
+          className="w-full max-w-[900px] lg:ml-[8vw] mt-8 md:mt-10 lg:mt-12"
         >
           <div className="flex flex-col items-center lg:items-start gap-0">
             {/* Since 1989 */}
             <motion.span
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: displayedLines[0] ? 1 : 0, x: displayedLines[0] ? 0 : -10 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
+              initial={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.2 }}
               className="section-eyebrow !text-gold-300 text-sm md:text-base"
             >
-              {displayedLines[0]}
+              {textLines[0]}
             </motion.span>
 
-            {/* Brand Name - Character by Character Infinite Loop */}
-            <motion.h1
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mt-4 font-serif-lux text-4xl font-semibold leading-[1.1] text-gold-300 md:text-5xl lg:text-7xl min-h-[90px] md:min-h-[120px]"
-            >
-              <span className="block break-words">
-                {displayedBrandText}
-                <span className="animate-pulse ml-1">|</span>
-              </span>
+            {/* Brand Name */}
+            <motion.h1 className="mt-4 mb-5 font-serif-lux text-[clamp(3rem,5vw,5rem)] font-semibold leading-[0.95] text-gold-300 md:text-[clamp(3.25rem,4.5vw,5.25rem)] lg:text-[clamp(3.75rem,4vw,5.75rem)] min-h-[72px] md:min-h-[90px]">
+              <motion.span
+                className="block break-words"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: [0, 1, 1, 1, 0], y: [10, 0, 0, 0, 10] }}
+                transition={{ duration: 6, ease: 'easeInOut', times: [0, 0.08, 0.83, 0.92, 1], repeat: Infinity, repeatType: 'loop' }}
+              >
+                {brandLine1}
+              </motion.span>
+              <motion.span
+                className="block break-words"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: [0, 0, 1, 1, 1, 0], y: [10, 10, 0, 0, 0, 10] }}
+                transition={{ duration: 6, ease: 'easeInOut', times: [0, 0.08, 0.2, 0.83, 0.92, 1], repeat: Infinity, repeatType: 'loop' }}
+              >
+                {brandLine2}
+              </motion.span>
+              <motion.span
+                className="block break-words"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: [0, 0, 0, 1, 1, 0], y: [10, 10, 10, 0, 0, 10] }}
+                transition={{ duration: 6, ease: 'easeInOut', times: [0, 0.08, 0.2, 0.4, 0.83, 0.92, 1], repeat: Infinity, repeatType: 'loop' }}
+              >
+                {brandLine3}
+              </motion.span>
             </motion.h1>
 
             {/* Tagline with dividers */}
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: displayedLines[1] ? 1 : 0, y: displayedLines[1] ? 0 : -10 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
               className="mt-8 flex flex-col items-center gap-3 text-center lg:flex-row lg:items-center lg:text-left w-full"
             >
               <span className="hidden lg:block h-px w-12 bg-gold-500/60" />
               <p className="font-serif-lux text-lg italic text-marble-200 md:text-xl leading-tight">
-                {displayedLines[1]}
+                {textLines[1]}
               </p>
               <span className="hidden lg:block h-px w-12 bg-gold-500/60" />
             </motion.div>
 
             {/* Description */}
             <motion.p
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: displayedLines[2] ? 1 : 0, y: displayedLines[2] ? 0 : -10 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
               className="mt-8 max-w-2xl text-sm leading-relaxed text-marble-300 md:text-base text-center lg:text-left"
             >
-              {displayedLines[2]}
+              {textLines[2]}
             </motion.p>
 
             {/* CTA Buttons */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showButtons ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
               className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start w-full"
             >
               <Link
@@ -308,7 +243,7 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 z-30 -translate-x-1/2 flex flex-col items-center gap-2 text-marble-400"
         aria-label="Learn more about us"
       >
-        <span className="text-[0.6rem] uppercase tracking-[0.4em]">Discover</span>
+        <span className="text-[0.6rem] uppercase tracking-[0.4em]">DISCOVER</span>
         <ChevronDown className="h-5 w-5 text-gold-400" />
       </Link>
     </section>

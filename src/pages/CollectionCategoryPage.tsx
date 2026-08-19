@@ -62,7 +62,7 @@ export default function CollectionCategoryPage() {
           </ul>
         </div>
 
-        {(category === 'murtis' || category === 'marble-murti') ? (
+        {(category === 'marble-murti' || category === 'murtis') ? (
           <div className="mt-14 space-y-8">
             {subcategories.map((subcategory) => {
               const products = items.filter((item) => item.subcategory === subcategory.title);
@@ -88,7 +88,7 @@ export default function CollectionCategoryPage() {
                           className="group flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-marble-200 bg-white/80 shadow-soft transition-transform duration-500 hover:-translate-y-1"
                         >
                           <div className="h-[320px] w-full overflow-hidden bg-white">
-                            <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+                            <img src={item.image} alt={item.name} className="h-full w-full object-contain" loading="lazy" decoding="async" />
                           </div>
                           <div className="flex flex-1 flex-col p-7">
                             <h4 className="font-serif-lux text-2xl font-semibold text-marble-900">{item.name}</h4>
@@ -144,7 +144,7 @@ export default function CollectionCategoryPage() {
                   className="group flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-marble-200 bg-white/80 shadow-soft transition-transform duration-500 hover:-translate-y-1"
                 >
                   <div className="h-[320px] w-full overflow-hidden bg-white">
-                    <img src={item.image} alt={item.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+                    <img src={item.image} alt={item.name} className="h-full w-full object-contain" loading="lazy" decoding="async" />
                   </div>
                   <div className="flex flex-1 flex-col p-7">
                     <h3 className="font-serif-lux text-2xl font-semibold text-marble-900">{item.name}</h3>

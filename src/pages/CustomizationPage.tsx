@@ -28,7 +28,7 @@ export default function CustomizationPage() {
         <div className="mt-16 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <Reveal>
             <div className="overflow-hidden rounded-[2rem] border border-marble-200 bg-white/80 shadow-soft">
-              <img src={pickImage(['our heritage', 'marble murtis'])} alt="Custom marble craftsmanship" className="h-72 w-full object-cover" loading="lazy" />
+              <img src={pickImage(['our heritage', 'marble murtis'])} alt="Custom marble craftsmanship" className="h-72 w-full object-contain" loading="lazy" decoding="async" />
               <div className="p-8">
                 <div className="grid gap-4 sm:grid-cols-2">
                   {FEATURES.map((feature) => {

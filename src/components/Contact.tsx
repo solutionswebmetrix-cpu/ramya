@@ -98,7 +98,7 @@ export default function Contact() {
             {/* Google Map */}
             <Reveal delay={0.1}>
               <div className="overflow-hidden rounded-3xl border border-gold-500/20 shadow-soft">
-                <img src={pickImage(['marble temple', 'our heritage'])} alt="Workshop and showroom setting" className="h-56 w-full object-cover" loading="lazy" />
+                <img src={pickImage(['marble temple', 'our heritage'])} alt="Workshop and showroom setting" className="h-56 w-full object-contain" loading="lazy" decoding="async" />
                 <iframe
                   title="Ramya Marble Murti & Handicraft location"
                   src={`https://www.google.com/maps?q=${MAP_QUERY}&output=embed`}

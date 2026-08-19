@@ -26,7 +26,7 @@ export default function WorkProcess() {
         />
 
         <div className="mt-10 overflow-hidden rounded-[2rem] border border-gold-500/20 bg-marble-900/50 shadow-soft">
-          <img src={pickImage(['our heritage', 'marble pooja mandir', 'marble temple'])} alt="Workshop process from stone to sanctum" className="h-72 w-full object-cover" loading="lazy" />
+          <img src={pickImage(['our heritage', 'marble pooja mandir', 'marble temple'])} alt="Workshop process from stone to sanctum" className="h-72 w-full object-contain" loading="lazy" decoding="async" />
         </div>
 
         <div className="mt-16 grid gap-6 md:grid-cols-3 lg:grid-cols-6">

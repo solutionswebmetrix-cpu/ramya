@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
-import { Award, Hand, Gem, PenTool, Globe, ShieldCheck } from 'lucide-react';
+import { Award, Hand, Gem, PenTool, Globe, ShieldCheck, Sparkles, History } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
 import { pickImage } from '../lib/assetImages';
 
 const REASONS = [
-  { icon: Award, title: '35+ Years Experience', desc: 'Three decades of mastering the chisel and the soul of marble.' },
+  { icon: Award, title: '37+ Years of Experience', desc: '37+ years of trust, experience and craftsmanship in marble murtis, handicrafts and temple art.' },
+  { icon: History, title: '39+ Years of Belief & Experience', desc: 'Decades of trusted craftsmanship and experience in Marble Murti, Handicrafts, Temples and Statues, built on trust, quality and traditional artistry.' },
+  { icon: Sparkles, title: 'Rich Craftsmanship Legacy', desc: 'Three and a half decades of mastering the chisel and the soul of marble since 1989.' },
   { icon: Hand, title: '100% Handmade', desc: 'No machines finish our work — only the hands of devoted artisans.' },
   { icon: Gem, title: 'Premium Marble', desc: 'Sourced from the finest quarries, graded for purity and glow.' },
   { icon: PenTool, title: 'Custom Orders', desc: 'Any deity, any size, any finish — shaped to your vision.' },
@@ -23,7 +25,7 @@ export default function WhyChooseUs() {
         />
 
         <div className="mt-10 overflow-hidden rounded-[2rem] border border-marble-200 bg-white/70 shadow-soft">
-          <img src={pickImage(['our heritage', 'marble murtis'])} alt="Premium craftsmanship detail" className="h-72 w-full object-cover" loading="lazy" />
+          <img src={pickImage(['workshop', 'carving', 'stone workshop', 'artisan', 'marble'])} alt="Ramya Marble workshop and premium craftsmanship" className="h-72 w-full object-contain" loading="lazy" decoding="async" />
         </div>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

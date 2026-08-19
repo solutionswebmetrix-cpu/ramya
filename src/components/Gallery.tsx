@@ -62,8 +62,7 @@ export default function Gallery() {
         <div className="mt-14 columns-2 gap-4 md:columns-3 lg:columns-4 [&>*]:mb-4">
           {TILES.map((t, i) => (
             <Reveal key={i} delay={(i % 4) * 0.05}>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
+              <button
                 onClick={() => setActive(i)}
                 className="group relative block w-full overflow-hidden rounded-2xl shadow-soft"
               >
@@ -71,7 +70,8 @@ export default function Gallery() {
                   src={t.src}
                   alt={t.alt}
                   loading="lazy"
-                  className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${t.tall ? 'aspect-[3/4]' : 'aspect-square'}`}
+                  decoding="async"
+                  className={`w-full object-contain ${t.tall ? 'aspect-[3/4]' : 'aspect-square'}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-marble-950/70 via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-90" />
                 {/* hover actions */}
@@ -81,7 +81,7 @@ export default function Gallery() {
                     <span className="text-[0.6rem] uppercase tracking-[0.2em] text-marble-50">{t.video ? 'Play' : 'View'}</span>
                   </div>
                 </div>
-              </motion.button>
+              </button>
             </Reveal>
           ))}
         </div>

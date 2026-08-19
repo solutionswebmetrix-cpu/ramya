@@ -3,7 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { Reveal } from './ui/Reveal';
 
 const STATS = [
-  { value: 35, suffix: '+', label: 'Years Experience' },
+  { value: 37, suffix: '+', label: 'Years Experience' },
   { value: 1000, suffix: '+', label: 'Happy Customers' },
   { value: 500, suffix: '+', label: 'Premium Products' },
   { value: 100, suffix: '%', label: 'Handcrafted' },
@@ -48,7 +48,7 @@ export default function CounterSection() {
       <div className="relative mx-auto max-w-6xl px-5 md:px-8">
         <Reveal>
           <p className="text-center font-serif-lux text-2xl italic text-marble-300 md:text-3xl">
-            Three decades of devotion, measured in numbers
+            37+ years of devotion, measured in numbers
           </p>
         </Reveal>
 

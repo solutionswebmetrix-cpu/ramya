@@ -17,15 +17,9 @@ const NAV = [
 ];
 
 const COLLECTION_LINKS = [
-  {
-    label: 'Marble Murti',
-    to: '/collections/marble-murti',
-    children: [
-      { label: 'Marble Murti', to: '/collections/marble-murti' },
-      { label: 'Bust', to: '/collections/marble-murti/bust' },
-      { label: 'Statue', to: '/collections/marble-murti/statue' },
-    ],
-  },
+  { label: 'Marble Murti', to: '/collections/marble-murti' },
+  { label: 'Bust', to: '/collections/marble-murti/bust' },
+  { label: 'Statue', to: '/collections/marble-murti/statue' },
   { label: 'Temple', to: '/collections/temple' },
   { label: 'Handicraft', to: '/collections/handicraft' },
 ];
@@ -35,12 +29,12 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [collectionsOpen, setCollectionsOpen] = useState(false);
-  const [marbleMurtiOpen, setMarbleMurtiOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
-  const [mobileMarbleMurtiOpen, setMobileMarbleMurtiOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
+  const isProductDetailPage = location.pathname.startsWith('/product/');
+  const navIsVisible = scrolled || isProductDetailPage;
 
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -68,7 +62,7 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed inset-x-0 top-0 z-[70] isolate pointer-events-auto transition-all duration-500 ${
-          scrolled
+          navIsVisible
             ? 'bg-marble-50/85 py-3 shadow-soft backdrop-blur-xl'
             : 'bg-transparent py-5'
         }`}
@@ -82,7 +76,7 @@ export default function Navbar() {
 
           <ul
             className={`hidden items-center gap-7 xl:flex ${
-              scrolled ? 'text-marble-700' : 'text-marble-100'
+              navIsVisible ? 'text-marble-700' : 'text-marble-100'
             }`}
           >
             {NAV.map((item) => {
@@ -94,7 +88,7 @@ export default function Navbar() {
                       onClick={() => {
                         setOpen(false);
                         setCollectionsOpen(false);
-                        setMarbleMurtiOpen(false);
+
                       }}
                       className={`group relative z-[71] pointer-events-auto text-[0.78rem] font-medium uppercase tracking-[0.2em] transition-colors hover:text-gold-600 ${
                         isActiveLink(item.to) ? 'text-gold-600' : ''
@@ -114,7 +108,6 @@ export default function Navbar() {
                   onMouseEnter={() => setCollectionsOpen(true)}
                   onMouseLeave={() => {
                     setCollectionsOpen(false);
-                    setMarbleMurtiOpen(false);
                   }}
                 >
                   <Link
@@ -122,7 +115,6 @@ export default function Navbar() {
                     onClick={() => {
                       setOpen(false);
                       setCollectionsOpen(false);
-                      setMarbleMurtiOpen(false);
                     }}
                     className={`group relative z-[71] pointer-events-auto text-[0.78rem] font-medium uppercase tracking-[0.2em] transition-colors hover:text-gold-600 ${
                       isActiveLink(item.to) ? 'text-gold-600' : ''
@@ -139,76 +131,31 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.2, ease: 'easeOut' }}
-                        className="absolute left-1/2 top-full mt-3 w-[26rem] -translate-x-1/2 rounded-[1.5rem] border border-gold-500/20 bg-white/95 p-3 shadow-[0_20px_70px_-20px_rgba(74,43,20,0.45)] backdrop-blur-xl"
+                        className="absolute left-1/2 top-full mt-3 w-[22rem] -translate-x-1/2 rounded-[1.5rem] border border-gold-500/20 bg-white/95 p-3 shadow-[0_20px_70px_-20px_rgba(74,43,20,0.45)] backdrop-blur-xl"
                       >
                         <div className="flex gap-3">
-                          <ul className="w-44 space-y-1 border-r border-marble-200/80 pr-2">
-                            {COLLECTION_LINKS.map((collection) => {
-                              const showSubmenu = collection.label === 'Marble Murti';
-
-                              return (
-                                <li
-                                  key={collection.label}
-                                  className="relative"
-                                  onMouseEnter={() => showSubmenu && setMarbleMurtiOpen(true)}
-                                  onMouseLeave={() => showSubmenu && setMarbleMurtiOpen(false)}
+                          <ul className="w-full space-y-1">
+                            {COLLECTION_LINKS.map((collection) => (
+                              <li
+                                key={collection.label}
+                              >
+                                <Link
+                                  to={collection.to}
+                                  onClick={() => {
+                                    setCollectionsOpen(false);
+            
+                                  }}
+                                  className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-left text-[0.72rem] font-medium uppercase tracking-[0.2em] transition-all duration-300 ${
+                                    isActiveLink(collection.to)
+                                      ? 'bg-gold-500/12 text-gold-700'
+                                      : 'text-marble-700 hover:bg-gold-500/10 hover:text-gold-700'
+                                  }`}
                                 >
-                                  <Link
-                                    to={collection.to}
-                                    onClick={() => {
-                                      setCollectionsOpen(false);
-                                      setMarbleMurtiOpen(false);
-                                    }}
-                                    className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-left text-[0.72rem] font-medium uppercase tracking-[0.2em] transition-all duration-300 ${
-                                      isActiveLink(collection.to)
-                                        ? 'bg-gold-500/12 text-gold-700'
-                                        : 'text-marble-700 hover:bg-gold-500/10 hover:text-gold-700'
-                                    }`}
-                                  >
-                                    <span>{collection.label}</span>
-                                    {showSubmenu && <span className="text-sm">›</span>}
-                                  </Link>
-                                  {showSubmenu && marbleMurtiOpen && (
-                                    <motion.div
-                                      initial={{ opacity: 0, x: 6 }}
-                                      animate={{ opacity: 1, x: 0 }}
-                                      exit={{ opacity: 0, x: 6 }}
-                                      transition={{ duration: 0.2 }}
-                                      className="absolute left-full top-0 ml-2 w-44 rounded-[1rem] border border-gold-500/20 bg-marble-50/95 p-2 shadow-[0_16px_40px_-20px_rgba(74,43,20,0.4)]"
-                                    >
-                                      <ul className="space-y-1">
-                                        {collection.children?.map((child) => (
-                                          <li key={child.label}>
-                                            <Link
-                                              to={child.to}
-                                              onClick={() => {
-                                                setCollectionsOpen(false);
-                                                setMarbleMurtiOpen(false);
-                                              }}
-                                              className={`block rounded-lg px-3 py-2 text-left text-[0.7rem] font-medium uppercase tracking-[0.2em] transition-all duration-300 ${
-                                                isActiveLink(child.to)
-                                                  ? 'bg-gold-500/12 text-gold-700'
-                                                  : 'text-marble-700 hover:bg-gold-500/10 hover:text-gold-700'
-                                              }`}
-                                            >
-                                              {child.label}
-                                            </Link>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </motion.div>
-                                  )}
-                                </li>
-                              );
-                            })}
+                                  <span>{collection.label}</span>
+                                </Link>
+                              </li>
+                            ))}
                           </ul>
-
-                          <div className="flex-1 rounded-[1rem] border border-marble-200/70 bg-marble-50/70 p-4">
-                            <p className="section-eyebrow">Collection highlights</p>
-                            <p className="mt-2 text-sm leading-relaxed text-marble-600">
-                              Explore marble murtis, refined temple forms, and elegant handicraft pieces in one premium menu.
-                            </p>
-                          </div>
                         </div>
                       </motion.div>
                     )}
@@ -222,7 +169,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setSearchOpen((value) => !value)}
-              className={`relative z-[71] inline-flex h-12 w-12 items-center justify-center rounded-full border border-marble-200 bg-white/90 text-marble-700 transition-colors hover:border-gold-500 hover:text-gold-700 ${scrolled ? 'shadow-sm' : ''}`}
+              className={`relative z-[71] inline-flex h-12 w-12 items-center justify-center rounded-full border border-marble-200 bg-white/90 text-marble-700 transition-colors hover:border-gold-500 hover:text-gold-700 ${navIsVisible ? 'shadow-sm' : ''}`}
               aria-label="Search products"
             >
               <Search className="h-5 w-5" />
@@ -271,7 +218,7 @@ export default function Navbar() {
                           >
                             <p className="font-medium text-marble-900">{item.name}</p>
                             <p className="mt-1 text-xs uppercase tracking-[0.2em] text-marble-500">
-                              {item.category === 'murtis' ? 'Marble Murti' : item.category === 'temples' ? 'Temple' : 'Handicraft'}
+                              {item.subcategory ?? (item.category === 'marble-murti' ? 'Marble Murti' : item.category === 'temple' ? 'Temple' : 'Handicraft')}
                             </p>
                           </Link>
                         ))}
@@ -287,7 +234,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setOpen((o) => !o)}
-            className={`xl:hidden ${scrolled ? 'text-marble-900' : 'text-marble-100'}`}
+            className={`xl:hidden ${navIsVisible ? 'text-marble-900' : 'text-marble-100'}`}
             aria-label="Toggle menu"
           >
             {open ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
@@ -359,56 +306,17 @@ export default function Navbar() {
                           >
                             {COLLECTION_LINKS.map((collection) => (
                               <div key={collection.label} className="space-y-2">
-                                {collection.children ? (
-                                  <>
-                                    <button
-                                      type="button"
-                                      onClick={() => setMobileMarbleMurtiOpen((v) => !v)}
-                                      className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm font-medium uppercase tracking-[0.2em] text-marble-700 transition-all duration-300 hover:bg-gold-500/10 hover:text-gold-700"
-                                    >
-                                      <span>{collection.label}</span>
-                                      <span className="text-base">{mobileMarbleMurtiOpen ? '−' : '+'}</span>
-                                    </button>
-                                    <AnimatePresence>
-                                      {mobileMarbleMurtiOpen && (
-                                        <motion.div
-                                          initial={{ opacity: 0, height: 0 }}
-                                          animate={{ opacity: 1, height: 'auto' }}
-                                          exit={{ opacity: 0, height: 0 }}
-                                          transition={{ duration: 0.2 }}
-                                          className="space-y-1 pl-3"
-                                        >
-                                          {collection.children.map((child) => (
-                                            <Link
-                                              key={child.label}
-                                              to={child.to}
-                                              onClick={() => setOpen(false)}
-                                              className={`block rounded-xl px-3 py-2 text-left text-sm font-medium uppercase tracking-[0.2em] transition-all duration-300 ${
-                                                isActiveLink(child.to)
-                                                  ? 'bg-gold-500/12 text-gold-700'
-                                                  : 'text-marble-700 hover:bg-gold-500/10 hover:text-gold-700'
-                                              }`}
-                                            >
-                                              {child.label}
-                                            </Link>
-                                          ))}
-                                        </motion.div>
-                                      )}
-                                    </AnimatePresence>
-                                  </>
-                                ) : (
-                                  <Link
-                                    to={collection.to}
-                                    onClick={() => setOpen(false)}
-                                    className={`block rounded-xl px-3 py-2 text-left text-sm font-medium uppercase tracking-[0.2em] transition-all duration-300 ${
-                                      isActiveLink(collection.to)
-                                        ? 'bg-gold-500/12 text-gold-700'
-                                        : 'text-marble-700 hover:bg-gold-500/10 hover:text-gold-700'
-                                    }`}
-                                  >
-                                    {collection.label}
-                                  </Link>
-                                )}
+                                <Link
+                                  to={collection.to}
+                                  onClick={() => setOpen(false)}
+                                  className={`block rounded-xl px-3 py-2 text-left text-sm font-medium uppercase tracking-[0.2em] transition-all duration-300 ${
+                                    isActiveLink(collection.to)
+                                      ? 'bg-gold-500/12 text-gold-700'
+                                      : 'text-marble-700 hover:bg-gold-500/10 hover:text-gold-700'
+                                  }`}
+                                >
+                                  {collection.label}
+                                </Link>
                               </div>
                             ))}
                           </motion.div>

@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useLenis } from './lib/smoothScroll';
-import Preloader from './components/Preloader';
-import CursorGlow from './components/CursorGlow';
 import GoldParticles from './components/GoldParticles';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -19,7 +17,6 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 
 function AppRoutes() {
-  const [loaded, setLoaded] = useState(false);
   const location = useLocation();
 
   useLenis();
@@ -30,8 +27,6 @@ function AppRoutes() {
 
   return (
     <>
-      {!loaded && <Preloader onDone={() => setLoaded(true)} />}
-      <CursorGlow />
       <GoldParticles density={70} />
       <Navbar />
       <main>
@@ -39,7 +34,9 @@ function AppRoutes() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/collections" element={<CollectionsPage />} />
-          <Route path="/collections/:category/:subcategory?" element={<CollectionCategoryPage />} />
+          <Route path="/collections/:category" element={<CollectionCategoryPage />} />
+          <Route path="/collections/:category/:subcategory" element={<CollectionCategoryPage />} />
+          <Route path="/collections/:category/:subcategory/:productName/:productId" element={<ProductDetailPage />} />
           <Route path="/product/:productId" element={<ProductDetailPage />} />
           <Route path="/product/:category/:productName" element={<ProductDetailPage />} />
           <Route path="/search" element={<SearchResultsPage />} />

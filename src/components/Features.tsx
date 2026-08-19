@@ -84,7 +84,7 @@ export default function Features() {
         />
 
         <div className="mt-10 overflow-hidden rounded-[2rem] border border-marble-200 bg-white/70 shadow-soft">
-          <img src={pickImage(['marble lamps', 'marble vases', 'decorative plates'])} alt="Featured marble craftsmanship" className="h-72 w-full object-cover" loading="lazy" />
+          <img src={pickImage(['marble lamps', 'marble vases', 'decorative plates'])} alt="Featured marble craftsmanship" className="h-72 w-full object-contain" loading="lazy" decoding="async" />
         </div>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

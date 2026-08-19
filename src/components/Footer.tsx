@@ -16,14 +16,16 @@ const LINKS = [
 ];
 
 const COLLECTION_LINKS = [
-  { label: 'Marble Murtis', to: '/collections/murtis' },
-  { label: 'Marble Temples', to: '/collections/temples' },
-  { label: 'Marble Handicraft', to: '/collections/handicraft' },
+  { label: 'Marble Murti', to: '/collections/marble-murti' },
+  { label: 'Bust', to: '/collections/marble-murti/bust' },
+  { label: 'Statue', to: '/collections/marble-murti/statue' },
+  { label: 'Temple', to: '/collections/temple' },
+  { label: 'Handicraft', to: '/collections/handicraft' },
 ];
 
 const SOCIAL_LINKS = [
-  { label: 'Facebook', href: 'https://www.facebook.com/', Icon: Facebook },
-  { label: 'Instagram', href: 'https://www.instagram.com/', Icon: Instagram },
+  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61593275424927', Icon: Facebook },
+  { label: 'Instagram', href: 'https://www.instagram.com/ramyamarblemurti/?hl=en', Icon: Instagram },
   { label: 'YouTube', href: 'https://www.youtube.com/', Icon: Youtube },
 ];
 
@@ -31,7 +33,7 @@ export default function Footer() {
   return (
     <footer className="relative z-[60] isolate overflow-hidden marble-veined border-t border-gold-500/30 pt-20">
       <div className="pointer-events-none absolute inset-0">
-        <img src={pickImage(['marble vases', 'marble murtis'])} alt="Marble texture background" className="h-full w-full object-cover opacity-10" loading="lazy" />
+        <img src={pickImage(['marble vases', 'marble murtis'])} alt="Marble texture background" className="h-full w-full object-cover opacity-10" loading="lazy" decoding="async" />
       </div>
       {/* golden top border glow */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-500 to-transparent" />

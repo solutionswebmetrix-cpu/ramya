@@ -7,7 +7,7 @@ function getCategoryInfo(category: string, subcategory?: string) {
   const normalized = category.toLowerCase();
   const normalizedSubcategory = subcategory?.toLowerCase();
 
-  if (normalized === 'murtis') {
+  if (normalized === 'marble-murti' || normalized === 'murtis') {
     if (normalizedSubcategory === 'bust') {
       return {
         sizes: ['2 Feet to 3 Feet'],
@@ -34,7 +34,7 @@ function getCategoryInfo(category: string, subcategory?: string) {
     };
   }
 
-  if (normalized === 'temples') {
+  if (normalized === 'temple' || normalized === 'temples') {
     return {
       sizes: ['Starts from 2 Feet'],
       marble: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
@@ -86,20 +86,21 @@ export default function ProductDetailPage() {
   const mainImage = product.image;
 
   return (
-    <section className="min-h-screen bg-marble-50 px-5 py-24 md:px-8">
+    <section className="relative min-h-screen bg-marble-50 px-5 pb-24 pt-32 md:px-8 md:pt-36">
       <div className="mx-auto max-w-7xl">
-        <Link to="/collections" className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-gold-600 transition-colors hover:text-gold-700">
+        <Link to="/collections" className="relative z-20 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-gold-600 transition-colors hover:text-gold-700">
           <ArrowLeft className="h-4 w-4" /> Back to Collections
         </Link>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[2rem] border border-marble-200 bg-white/90 p-5 shadow-soft md:p-8">
-            <div className="overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 p-4">
+            <div className="flex min-h-[320px] items-center justify-center overflow-hidden rounded-[1.5rem] border border-marble-200 bg-marble-50 p-3 md:p-4">
               <img
                 src={mainImage}
                 alt={product.name}
-                className="h-[480px] w-full object-contain transition duration-700 hover:scale-105"
+                className="max-h-[560px] w-full object-contain object-center"
                 loading="eager"
+                fetchPriority="high"
               />
             </div>
 
@@ -130,7 +131,7 @@ export default function ProductDetailPage() {
               ) : null}
               <div>
                 <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Marble</p>
-                <p className="mt-2 text-marble-900">{product.marble}</p>
+                <p className="mt-2 text-marble-900">{product.marbleType}</p>
               </div>
               <div>
                 <p className="font-semibold uppercase tracking-[0.16em] text-gold-700">Description</p>
@@ -223,7 +224,7 @@ export default function ProductDetailPage() {
           <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {relatedProducts.map((item) => (
               <Link key={item.image} to={getProductRoute(item)} className="overflow-hidden rounded-[1.5rem] border border-marble-200 bg-white/90 shadow-soft transition-transform hover:-translate-y-1">
-                <img src={item.image} alt={item.name} className="h-56 w-full object-contain p-3" loading="lazy" />
+                <img src={item.image} alt={item.name} className="h-56 w-full object-contain p-3" loading="lazy" decoding="async" />
                 <div className="p-5">
                   <h3 className="font-serif-lux text-lg font-semibold text-marble-900">{item.name}</h3>
                   <p className="mt-2 text-sm text-marble-600">{getCategoryLabel(item.category)}</p>

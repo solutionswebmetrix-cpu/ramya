@@ -86,7 +86,7 @@ export default function Customization() {
 
           {/* Options panel */}
           <div className="rounded-3xl border border-marble-200 bg-white/70 p-8 shadow-soft backdrop-blur-md">
-            <img src={pickImage(['our heritage', 'marble murtis'])} alt="Custom carving process" className="mb-6 h-56 w-full rounded-2xl object-cover" loading="lazy" />
+            <img src={pickImage(['our heritage', 'marble murtis'])} alt="Custom carving process" className="mb-6 h-56 w-full rounded-2xl object-contain" loading="lazy" decoding="async" />
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}

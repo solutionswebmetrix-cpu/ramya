@@ -9,7 +9,7 @@ import 'swiper/css/pagination';
 const TESTIMONIALS = [
   { name: 'Rajesh Sharma', place: 'Jaipur, Rajasthan', text: 'The Ram Darbar murti we ordered exceeded every expectation. The detail in the faces, the glow of the marble — it feels divinely alive in our home temple.', rating: 5 },
   { name: 'Anita Patel', place: 'London, UK', text: 'Shipping a marble temple internationally felt daunting, but Ramya Marble Murti & Handicraft crated it perfectly. It arrived flawless. Truly world-class craftsmanship.', rating: 5 },
-  { name: 'Vikram Singh', place: 'Delhi', text: 'I commissioned a custom Hanuman Ji in life size. The team understood the devotion behind it and delivered something breathtaking. 35 years of mastery shows.', rating: 5 },
+  { name: 'Vikram Singh', place: 'Delhi', text: 'I commissioned a custom Hanuman Ji in life size. The team understood the devotion behind it and delivered something breathtaking. 37+ years of mastery shows.', rating: 5 },
   { name: 'Meera Iyer', place: 'Bengaluru', text: 'The meenakari work on our decorative plates is museum quality. Guests cannot believe they are handmade. We will be customers for life.', rating: 5 },
   { name: 'Sanjay Gupta', place: 'Dubai, UAE', text: 'Our onyx chess set is a conversation piece in every gathering. The translucency of the stone under light is simply magical. Premium in every sense.', rating: 5 },
 ];
@@ -28,7 +28,7 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="relative overflow-hidden bg-marble-50 py-24 md:py-32">
       <div className="absolute inset-0">
-        <img src={pickImage(['our heritage', 'marble murtis'])} alt="Marble texture and craftsmanship" className="h-full w-full object-cover opacity-20" loading="lazy" />
+        <img src={pickImage(['our heritage', 'marble murtis'])} alt="Marble texture and craftsmanship" className="h-full w-full object-cover opacity-20" loading="lazy" decoding="async" />
       </div>
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <SectionHeading

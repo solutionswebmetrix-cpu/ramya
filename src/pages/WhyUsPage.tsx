@@ -24,7 +24,7 @@ export default function WhyUsPage() {
         <div className="mt-16 grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal>
             <div className="overflow-hidden rounded-[2rem] border border-marble-200 bg-white/80 shadow-soft">
-              <img src={pickImage(['our heritage', 'marble murtis'])} alt="Premium marble craftsmanship" className="h-72 w-full object-cover" loading="lazy" />
+              <img src={pickImage(['our heritage', 'marble murtis'])} alt="Premium marble craftsmanship" className="h-72 w-full object-contain" loading="lazy" decoding="async" />
             </div>
           </Reveal>
 
