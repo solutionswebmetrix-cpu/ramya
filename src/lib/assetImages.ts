@@ -53,6 +53,7 @@ const ASSET_RELATIVE_PATHS: string[] = [
   'White Marble Temple Altar Cutout.png',
   'Himani Sharma.jpeg',
   'Praveen Gaur.jpeg',
+  'Ritik Sharma.jpeg',
   'collections/handicraft/Carved White Lattice Panel in Workshop.webp',
   'collections/handicraft/Decorative Marble Incense Holder.webp',
   'collections/handicraft/Decorative Marble Kalash.webp',

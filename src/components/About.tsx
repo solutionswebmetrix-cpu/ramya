@@ -26,8 +26,8 @@ const TIMELINE = [
 
 const LEADERSHIP = [
   { icon: Crown, name: 'Himani Sharma', role: 'Owner', image: pickImage('Himani Sharma') },
-  { icon: Briefcase, name: 'Praveen Goor', role: 'Director', image: pickImage('Praveen Gaur') },
-  { icon: Users, name: 'Ritik Sharma', role: 'Sales Head', image: undefined },
+  { icon: Briefcase, name: 'Praveen Gaur', role: 'Director', image: pickImage('Praveen Gaur') },
+  { icon: Users, name: 'Ritik Sharma', role: 'Vice President', image: pickImage('Ritik Sharma') },
 ];
 
 export default function About() {
