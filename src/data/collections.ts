@@ -149,7 +149,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
     size: '2.5 Feet',
     sizeDetails: ['2.5 Feet'],
     marbleDetails: ['Black Stone', 'Makrana Marble', 'Rajnagar Marble'],
-    price: '₹5,00,000',
+    price: '₹5,0000',
   },
   {
     id: slugifyName('Polished Black Stone Krishna Murti'),
@@ -162,7 +162,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
     size: '3 Feet',
     sizeDetails: ['3 Feet'],
     marbleDetails: ['Black Stone', 'Makrana Marble', 'Rajnagar Marble'],
-    price: '₹7,00,000',
+    price: '₹7,0000',
   },
   {
     id: slugifyName('Marble Mother Handicraft'),
