@@ -11,7 +11,7 @@ export default function ProductShowcase3D() {
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <SectionHeading
           eyebrow="3D Atelier"
-          light
+          theme="light"
           title={<>Inspect Every <span className="gold-text">Chisel Stroke</span></>}
           intro="Every detail reflects the precision, craftsmanship and artistry behind our marble creations."
         />

@@ -4,28 +4,28 @@ import { MessageCircle } from 'lucide-react';
 import { SectionHeading, Reveal } from './ui/Reveal';
 import { COLLECTION_ITEMS, getCollectionItemsByCategory, getProductRoute, type CollectionItem } from '../data/collections';
 
-const HOME_EXPLICIT_NAMES = [
-  'Durga Mata Murti',
-  'Ivory Durga Murti — Colour',
-  'Ivory Durga Murti — Without Colour',
-  'Ornate Black Stone Krishna Murti',
-  'Polished Black Stone Krishna Murti',
-  'Marble Mother Handicraft',
-  'Khatu Shyam Ji',
-  'Jugal Jodi',
-  'Mahatma Statue',
-  'Shiv Parivar',
-  'Ganesh Murti',
-  'Buddha Statue',
-  'Brahma Ji',
-  'Bengali Durga',
-  'Sher Jodi',
-  'Mohan Ram Baba',
-  'Lossy Saffron Monk Bust',
-  'Dutt Bhagwan',
-  'Shani Dev',
-  'Vishnu and Lakshmi Murti',
-  'Marble Lord Rama Wall Clock',
+const HOME_EXPLICIT_IDS = [
+  'durga-mata-murti',
+  'ivory-durga-murti-colour',
+  'ivory-durga-murti-without-colour',
+  'ornate-black-stone-krishna-murti',
+  'polished-black-stone-krishna-murti',
+  'marble-mother-handicraft',
+  'khatu-shyam-ji',
+  'jugal-jodi',
+  'mahatma-statue',
+  'shiv-parivar',
+  'ganesh-murti',
+  'buddha-statue',
+  'brahma-ji',
+  'bengali-durga',
+  'sher-jodi',
+  'mohan-ram-baba',
+  'lossy-saffron-monk-bust',
+  'dutt-bhagwan',
+  'shani-dev',
+  'vishnu-and-lakshmi-murti',
+  'marble-lord-rama-wall-clock',
 ] as const;
 
 function getHomeShowcaseItems() {
@@ -38,8 +38,8 @@ function getHomeShowcaseItems() {
       .map((name) => source.find((item) => item.name === name))
       .filter((item): item is CollectionItem => Boolean(item));
 
-  const explicitItems = HOME_EXPLICIT_NAMES
-    .map((name) => COLLECTION_ITEMS.find((item) => item.name === name))
+  const explicitItems = HOME_EXPLICIT_IDS
+    .map((id) => COLLECTION_ITEMS.find((item) => item.id === id))
     .filter((item): item is CollectionItem => Boolean(item));
 
   const variety = [
@@ -53,7 +53,6 @@ function getHomeShowcaseItems() {
       ],
     ),
     ...pickByName(murtiItems.filter((item) => item.subcategory === 'Bust'), [
-      'Ornate White Marble Deity Bust',
       'Marble Statesman in the Stone Yard bust',
     ]),
     ...pickByName(murtiItems.filter((item) => item.subcategory === 'Statue'), [

@@ -9,25 +9,26 @@ type AssetEntry = {
 
 const LOCAL_ASSET_MODULES = import.meta.glob('../assets/*.{png,jpg,jpeg,webp,avif}', { eager: true, as: 'url' }) as Record<string, string>;
 
+const LOCAL_LEADERSHIP_MODULES = import.meta.glob('../assets/Leadership/*.{png,jpg,jpeg,webp,avif}', { eager: true, as: 'url' }) as Record<string, string>;
+
 const localAssetUrlByBasename: Map<string, string> = new Map();
-Object.entries(LOCAL_ASSET_MODULES).forEach(([modulePath, url]) => {
-  const segments = modulePath.split('/');
-  const basename = segments[segments.length - 1] ?? '';
-  localAssetUrlByBasename.set(basename, url);
-});
+const registerLocalAssets = (modules: Record<string, string>) => {
+  Object.entries(modules).forEach(([modulePath, url]) => {
+    const segments = modulePath.split('/');
+    const basename = segments[segments.length - 1] ?? '';
+    localAssetUrlByBasename.set(basename, url);
+  });
+};
+registerLocalAssets(LOCAL_ASSET_MODULES);
+registerLocalAssets(LOCAL_LEADERSHIP_MODULES);
 
 const LOCAL_SRC_ASSET_MODULES = import.meta.glob('../*.{png,jpg,jpeg,webp,avif}', { eager: true, as: 'url' }) as Record<string, string>;
-Object.entries(LOCAL_SRC_ASSET_MODULES).forEach(([modulePath, url]) => {
-  const segments = modulePath.split('/');
-  const basename = segments[segments.length - 1] ?? '';
-  localAssetUrlByBasename.set(basename, url);
-});
+registerLocalAssets(LOCAL_SRC_ASSET_MODULES);
 
 const ASSET_RELATIVE_PATHS: string[] = [
   'Bangali durga.png',
   'Bramahm Jii.png',
   'Budh statue.png',
-  'Bust Marble Statesman in the Stone Yard bust.webp',
   'Dutt Bhagwan.png',
   'Durga Devi Murti.png',
   'Ganesh Murti.png',
@@ -50,6 +51,8 @@ const ASSET_RELATIVE_PATHS: string[] = [
   'Shiv Parivar.png',
   'Vishnu and Lakshmi Murti.png',
   'White Marble Temple Altar Cutout.png',
+  'Himani Sharma.jpeg',
+  'Praveen Gaur.jpeg',
   'collections/handicraft/Carved White Lattice Panel in Workshop.webp',
   'collections/handicraft/Decorative Marble Incense Holder.webp',
   'collections/handicraft/Decorative Marble Kalash.webp',

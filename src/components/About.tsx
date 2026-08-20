@@ -11,9 +11,9 @@ const PILLARS = [
 ];
 
 const VENTURES = [
-  { icon: Store, name: 'Khatu Shyam Murti Bhandar', desc: 'Our foundational venture, rooted in traditional marble murti craftsmanship.' },
-  { icon: Store, name: 'Ritik Marble Murti Arts', desc: 'An evolved chapter of artistry, refining our sculpting techniques and creative vision.' },
-  { icon: Award, name: 'Ramya Marble Murti & Handicraft', desc: 'The present flagship brand, carrying forward a legacy of trust and masterful marble creations.' },
+  { icon: Store, name: 'Khatu Shyam Murti Bhandar — 1989', desc: 'Founded in 1989 by Naresh Sharma, father of Praveen Gaur. Our foundational venture, rooted in traditional marble murti craftsmanship.' },
+  { icon: Store, name: 'Ritik Marble Murti Arts — 2018', desc: 'An evolved chapter of artistry from 2018, refining our sculpting techniques and creative vision.' },
+  { icon: Award, name: 'Ramya Marble Murti & Handicraft — 2026', desc: 'The present flagship brand since 2026, carrying forward a legacy of trust and masterful marble creations.' },
 ];
 
 const TIMELINE = [
@@ -25,9 +25,9 @@ const TIMELINE = [
 ];
 
 const LEADERSHIP = [
-  { icon: Crown, name: 'Himani Sharma', role: 'Owner' },
-  { icon: Briefcase, name: 'Praveen Goor', role: 'Director' },
-  { icon: Users, name: 'Ritik Sharma', role: 'Sales Head' },
+  { icon: Crown, name: 'Himani Sharma', role: 'Owner', image: pickImage('Himani Sharma') },
+  { icon: Briefcase, name: 'Praveen Goor', role: 'Director', image: pickImage('Praveen Gaur') },
+  { icon: Users, name: 'Ritik Sharma', role: 'Sales Head', image: undefined },
 ];
 
 export default function About() {
@@ -190,8 +190,18 @@ export default function About() {
                   <div className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ background: 'linear-gradient(120deg, transparent 30%, rgba(226,173,79,0.3) 50%, transparent 70%)', backgroundSize: '200% 100%' }} />
 
                   <div className="relative">
-                    <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border-2 border-gold-500/40 bg-gradient-to-br from-marble-50 to-marble-100 transition-all duration-500 group-hover:border-gold-400 group-hover:shadow-gold">
-                      <l.icon className="h-12 w-12 text-gold-600 transition-transform duration-500 group-hover:scale-110" />
+                    <div className="mx-auto flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-gold-500/40 bg-gradient-to-br from-marble-50 to-marble-100 transition-all duration-500 group-hover:border-gold-400 group-hover:shadow-gold">
+                      {l.image ? (
+                        <img
+                          src={l.image}
+                          alt={l.name}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : (
+                        <l.icon className="h-12 w-12 text-gold-600 transition-transform duration-500 group-hover:scale-110" />
+                      )}
                     </div>
 
                     <div className="lux-divider mt-8" />

@@ -82,10 +82,21 @@ const slugifyName = (name: string) =>
 
 const CLOCK_PUBLIC_ID = 'Marble_Lord_Rama_Wall_Clock';
 
+function formatMarbleMurtiName(rawName: string): string {
+  const suffixesToStrip = [/ Murti$/i];
+  let base = rawName;
+  for (const re of suffixesToStrip) {
+    base = base.replace(re, '');
+  }
+  if (base === 'Vishnu and Lakshmi') base = 'Vishnu & Lakshmi';
+  if (base === 'Khatu Shyam Ji') base = 'Khatu Shyam';
+  return `${base} Marble Murti`;
+}
+
 const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   {
     id: slugifyName('Durga Mata Murti'),
-    name: 'Durga Mata Murti',
+    name: formatMarbleMurtiName('Durga Mata Murti'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Durga Devi Murti'),
@@ -96,14 +107,14 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
     marbleDetails: ['Raj Nagar Marble', 'Makrana Marble', 'Vietnam Marble'],
     price: '₹60,000',
     variants: [
-      { name: 'Ivory Durga Murti — Colour', label: 'Colour' },
-      { name: 'Ivory Durga Murti — Without Colour', label: 'Without Colour' },
+      { name: formatMarbleMurtiName('Ivory Durga Murti') + ' — Colour', label: 'Colour' },
+      { name: formatMarbleMurtiName('Ivory Durga Murti') + ' — Without Colour', label: 'Without Colour' },
     ],
     gallery: [pickImage('Durga Devi Murti'), pickImage('Ivory Durga Murti')],
   },
   {
     id: slugifyName('Ivory Durga Murti — Colour'),
-    name: 'Ivory Durga Murti — Colour',
+    name: formatMarbleMurtiName('Ivory Durga Murti') + ' — Colour',
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Ivory Durga Murti'),
@@ -116,7 +127,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Ivory Durga Murti — Without Colour'),
-    name: 'Ivory Durga Murti — Without Colour',
+    name: formatMarbleMurtiName('Ivory Durga Murti') + ' — Without Colour',
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Ivory Durga Murti'),
@@ -129,7 +140,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Ornate Black Stone Krishna Murti'),
-    name: 'Ornate Black Stone Krishna Murti',
+    name: formatMarbleMurtiName('Krishna Murti'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Ornate Black Stone Krishna Murti'),
@@ -138,20 +149,20 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
     size: '2.5 Feet',
     sizeDetails: ['2.5 Feet'],
     marbleDetails: ['Black Stone', 'Makrana Marble', 'Rajnagar Marble'],
-    price: '₹50,000',
+    price: '₹5,00,000',
   },
   {
     id: slugifyName('Polished Black Stone Krishna Murti'),
-    name: 'Polished Black Stone Krishna Murti',
+    name: formatMarbleMurtiName('Krishna Murti'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Polished Black Stone Krishna Murti'),
     description: 'Highly polished black stone Krishna Murti with a glossy finish, chiselled with devotion and precision.',
     marbleType: 'Black Stone',
-    size: '2.5 Feet',
-    sizeDetails: ['2.5 Feet'],
+    size: '3 Feet',
+    sizeDetails: ['3 Feet'],
     marbleDetails: ['Black Stone', 'Makrana Marble', 'Rajnagar Marble'],
-    price: '₹50,000',
+    price: '₹7,00,000',
   },
   {
     id: slugifyName('Marble Mother Handicraft'),
@@ -168,7 +179,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Khatu Shyam Ji'),
-    name: 'Khatu Shyam Ji',
+    name: formatMarbleMurtiName('Khatu Shyam Ji'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Khatu Shaym Jii Murti'),
@@ -181,7 +192,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Jugal Jodi'),
-    name: 'Jugal Jodi',
+    name: formatMarbleMurtiName('Jugal Jodi'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Jugal jodi'),
@@ -196,7 +207,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
     id: slugifyName('Mahatma Statue'),
     name: 'Mahatma Statue',
     category: 'marble-murti',
-    subcategory: 'Statue',
+    subcategory: 'Marble Murti',
     image: pickImage('Mahatma statue'),
     description: 'Commemorative Mahatma statue hand-sculpted from Makrana marble, ideal for public spaces, offices and memorials.',
     marbleType: 'Makrana Marble',
@@ -207,7 +218,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Shiv Parivar'),
-    name: 'Shiv Parivar',
+    name: formatMarbleMurtiName('Shiv Parivar'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Shiv Parivar'),
@@ -220,7 +231,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Ganesh Murti'),
-    name: 'Ganesh Murti',
+    name: formatMarbleMurtiName('Ganesh Murti'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Ganesh Murti'),
@@ -235,7 +246,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
     id: slugifyName('Buddha Statue'),
     name: 'Buddha Statue',
     category: 'marble-murti',
-    subcategory: 'Statue',
+    subcategory: 'Marble Murti',
     image: pickImage('Budh statue'),
     description: 'Meditative Buddha statue handcrafted in Makrana marble with a peaceful meditative posture and polished finish.',
     marbleType: 'Makrana Marble',
@@ -246,7 +257,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Brahma Ji'),
-    name: 'Brahma Ji',
+    name: formatMarbleMurtiName('Brahma Ji'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Bramahm Jii'),
@@ -259,7 +270,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Bengali Durga'),
-    name: 'Bengali Durga',
+    name: formatMarbleMurtiName('Bengali Durga'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Bangali durga'),
@@ -273,8 +284,8 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   {
     id: slugifyName('Sher Jodi'),
     name: 'Sher Jodi',
-    category: 'marble-murti',
-    subcategory: 'Statue',
+    category: 'handicraft',
+    subcategory: 'Handicraft',
     image: pickImage('Sher jodi'),
     description: 'Pair of hand-carved marble lion statues (Sher Jodi) in Raj Nagar marble, typically placed at mandir entrances and gates.',
     marbleType: 'Raj Nagar Marble',
@@ -285,7 +296,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Mohan Ram Baba'),
-    name: 'Mohan Ram Baba',
+    name: formatMarbleMurtiName('Mohan Ram Baba'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Mohan ram baba'),
@@ -298,11 +309,11 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Lossy Saffron Monk Bust'),
-    name: 'Lossy Saffron Monk Bust',
+    name: 'Swami Vivekananda Bust',
     category: 'marble-murti',
     subcategory: 'Bust',
     image: pickImage('lossy Saffron Monk Bust'),
-    description: 'Hand-carved portrait bust of a Saffron Monk in Makrana marble, offering a meditative expression and refined contours.',
+    description: 'Hand-carved portrait bust of Swami Vivekananda in Makrana marble, offering a meditative expression and refined contours.',
     marbleType: 'Makrana Marble',
     size: '1 Foot',
     sizeDetails: ['1 Foot', '2 Feet to 3 Feet'],
@@ -310,8 +321,44 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
     price: '₹15,000',
   },
   {
+    id: slugifyName('Ornate White Marble Deity Bust'),
+    name: 'Ornate White Marble Deity Bust',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Ornate White Marble Deity Bust'),
+    description: 'Ornate white marble deity bust sculpted from premium marble with fine detailing and long-lasting polish finish.',
+    marbleType: 'Makrana Marble',
+    size: '12 Inches to 36 Inches',
+    sizeDetails: ['12 Inches to 36 Inches'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+  },
+  {
+    id: slugifyName('Marble Nataraja Against Purple Backdrop'),
+    name: 'Marble Nataraja Against Purple Backdrop',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('Marble Nataraja Against Purple Backdrop'),
+    description: 'Marble Murti sculpted from premium marble with fine detailing and long-lasting polish finish.',
+    marbleType: 'Makrana Marble',
+    size: '12 Inches to 36 Inches',
+    sizeDetails: ['12 Inches to 36 Inches'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+  },
+  {
+    id: slugifyName('White Saint Statue with Sacred Garlands'),
+    name: 'White Saint Statue with Sacred Garlands',
+    category: 'marble-murti',
+    subcategory: 'Marble Murti',
+    image: pickImage('White Saint Statue with Sacred Garlands'),
+    description: 'Marble Murti sculpted from premium marble with fine detailing and long-lasting polish finish.',
+    marbleType: 'Makrana Marble',
+    size: '12 Inches to 36 Inches',
+    sizeDetails: ['12 Inches to 36 Inches'],
+    marbleDetails: ['Makrana Marble', 'Vietnam Marble', 'Rajnagar Marble'],
+  },
+  {
     id: slugifyName('Dutt Bhagwan'),
-    name: 'Dutt Bhagwan',
+    name: formatMarbleMurtiName('Dutt Bhagwan'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Dutt Bhagwan'),
@@ -324,7 +371,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Shani Dev'),
-    name: 'Shani Dev',
+    name: formatMarbleMurtiName('Shani Dev'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Shani dev'),
@@ -337,7 +384,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
   },
   {
     id: slugifyName('Vishnu and Lakshmi Murti'),
-    name: 'Vishnu and Lakshmi Murti',
+    name: formatMarbleMurtiName('Vishnu and Lakshmi Murti'),
     category: 'marble-murti',
     subcategory: 'Marble Murti',
     image: pickImage('Vishnu and Lakshmi Murti'),
@@ -363,13 +410,7 @@ const EXPLICIT_NEW_PRODUCTS: CollectionItem[] = [
 ];
 
 const BUST_PRODUCT_NAMES = [
-  'Ornate White Marble Deity Bust',
   'Marble Statesman in the Stone Yard bust',
-  'Marble Deity Portrait with Serene Smile bust',
-  'Marble Deity Relief Under Construction',
-  'Ornate Hindu Deity Shrine Statue',
-  'Ornate Indian Bridal Bust Statue',
-  'Ornate White Marble Deity Shrine',
 ] as const;
 
 const STATUE_PRODUCT_NAMES = [
@@ -471,7 +512,6 @@ const buildMurtiItems = (): CollectionItem[] => {
 const buildTempleItems = (): CollectionItem[] => {
   const names = [
     'Marble Mandir with Deities and Sages',
-    'Marble Nataraja Against Purple Backdrop',
     'Marble Pavilion Under Blue Skies',
     'Marble Shrine with Figurines and Herds',
     'Marble Shrine with Three Deities',
@@ -480,9 +520,13 @@ const buildTempleItems = (): CollectionItem[] => {
     'White Marble Pavilion in Sunlit Courtyard',
     'White Marble Shrine Against Blue Wall',
     'White Marble Shrine with Seated Saint',
-    'White Saint Statue with Sacred Garlands',
-    'White Stone Deity Relief in a Workshop',
     'White Stone Temple Spire Against Blue Sky',
+    'Ornate Marble Hindu Mandir Shrine',
+    'Ornate Painted Hindu Mandir Shrine',
+    'Ornate Painted Marble Mandir Shrine',
+    'Ornate Ram Sita Lakshman Shrine Diorama',
+    'Ornate White Marble Hindu Mandir Shrine',
+    'White Marble Temple Altar Cutout',
   ];
 
   return names.map((name) => ({
