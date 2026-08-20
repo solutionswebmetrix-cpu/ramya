@@ -61,7 +61,7 @@ export default function Contact() {
                       <MessageCircle className="h-5 w-5 text-gold-400" />
                     </div>
                     <div>
-                      <div className="text-xs uppercase tracking-[0.2em] text-marble-400">Sales Head</div>
+                      <div className="text-xs uppercase tracking-[0.2em] text-marble-400">Vice President</div>
                       <div className="block font-serif-lux text-lg text-marble-100">{SALES_HEAD.name}</div>
                       <a href={`tel:${SALES_HEAD.phone.replace(/\s/g, '')}`} className="block text-sm text-gold-300 transition-colors hover:text-gold-200">{SALES_HEAD.phone}</a>
                     </div>
