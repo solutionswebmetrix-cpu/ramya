@@ -11,7 +11,7 @@ const PILLARS = [
 ];
 
 const VENTURES = [
-  { icon: Store, name: 'Khatu Shyam Murti Bhandar — 1989', desc: 'Founded in 1989 by Naresh Sharma, father of Praveen Gaur. Our foundational venture, rooted in traditional marble murti craftsmanship.' },
+  { icon: Store, name: 'Khatu Shyam Murti Bhandar — 1989', desc: 'Founded in 1989 by Naresh Sharma, father of Himani Sharma. Our foundational venture, rooted in traditional marble murti craftsmanship.' },
   { icon: Store, name: 'Ritik Marble Murti Arts — 2018', desc: 'An evolved chapter of artistry from 2018, refining our sculpting techniques and creative vision.' },
   { icon: Award, name: 'Ramya Marble Murti & Handicraft — 2026', desc: 'The present flagship brand since 2026, carrying forward a legacy of trust and masterful marble creations.' },
 ];
