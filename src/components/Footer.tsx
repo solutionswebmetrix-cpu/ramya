@@ -102,7 +102,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-gold-600" />
                 <div>
-                  <div className="font-semibold text-marble-800">Ritik Sharma — Sales Head</div>
+                  <div className="font-semibold text-marble-800">Ritik Sharma — Vice President</div>
                   <a href="tel:+917733041922" className="hover:text-gold-700">+91 77330 41922</a>
                 </div>
               </li>
